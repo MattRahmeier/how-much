@@ -289,7 +289,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   <div class="wrap">
     <header>
       <div class="mark">
-        <h1>HOW <span>Much!?</span></h1>
+        <h1 id="brand">HOW <span>Much!?</span></h1>
         <span class="sale" id="saleName">Daily Sale</span>
       </div>
       <div class="tools">
@@ -314,7 +314,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 
       <section class="stage" id="stage">
         <button class="lot" id="lot0" type="button"></button>
-        <div class="vs" aria-hidden="true">or</div>
+        <div class="vs" id="vsWord" aria-hidden="true">or</div>
         <button class="lot" id="lot1" type="button"></button>
       </section>
 
@@ -325,7 +325,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 
     <section class="results" id="results" hidden></section>
 
-    <p class="foot">Prices from the internet based on trading sites, auction houses and publicly available information.</p>
+    <p class="foot" id="foot">Prices from the internet based on trading sites, auction houses and publicly available information.</p>
   </div>
 </div>
 
@@ -371,6 +371,119 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     blueeyes:  { name: "Blue-Eyes White Dragon", detail: "Yu-Gi-Oh! Legend of Blue Eyes, 2002 · Ungraded, near mint", price: 125.94, sold: "TCGplayer market", kind: "market" },
     dmg:       { name: "Dark Magician Girl", detail: "Yu-Gi-Oh! Magician's Force, 2003 · Secret rare, near mint", price: 277.35, sold: "TCGplayer market", kind: "market" },
   };
+  // ---------- Language: Brazilian Portuguese ("QUANTO Custa!?") for Brazilian browsers ----------
+  // pt-BR as the browser's first language, or any Portuguese with a Brazilian time zone.
+  // #pt / #en in the link forces one or the other.
+  const PT = (() => {
+    try {
+      const hash = (location.hash || "").toLowerCase();
+      if (hash === "#pt") return true;
+      if (hash === "#en") return false;
+      const langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""]).map(l => String(l).toLowerCase());
+      const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || "");
+      const brTz = /^America\/(Sao_Paulo|Rio_Branco|Manaus|Cuiaba|Campo_Grande|Belem|Fortaleza|Recife|Maceio|Bahia|Araguaina|Porto_Velho|Boa_Vista|Santarem|Noronha|Eirunepe)$|^Brazil\//.test(tz);
+      if (langs[0] === "pt-br") return true;
+      return langs[0].startsWith("pt") && brTz;
+    } catch (e) { return false; }
+  })();
+  const BRL_PER_USD = 5.21; // Banco Central PTAX (venda), 28 Sep 2026: R$ 5.2132
+
+  // pt-BR name · details · where it sold, per lot
+  const LOTS_PT = {
+    pikachu:   ["Pikachu Ilustrador", "Carta promocional Pokémon, 1998 · Gem Mint 10", "Goldin, fev 2026"],
+    superman:  ["Superman #1", "DC Comics, 1939 · Nota 9.0", "Heritage Auctions, nov 2025"],
+    action1:   ["Action Comics #1", "DC Comics, 1938 · Nota 8.5", "Heritage Auctions, abr 2024"],
+    slippers:  ["Sapatinhos de Rubi da Dorothy", "O Mágico de Oz, 1939 · Usados no filme", "Heritage Auctions, dez 2024"],
+    lotus:     ["Black Lotus", "Magic: The Gathering Alpha, 1993 · Pristine 10", "Venda privada, 2024"],
+    sm64:      ["Super Mario 64", "Nintendo 64, 1996 · Lacrado de fábrica", "Heritage Auctions, jul 2021"],
+    smb:       ["Super Mario Bros.", "NES, 1985 · Lacrado de fábrica", "Venda privada via Rally, ago 2021"],
+    zelda:     ["The Legend of Zelda", "NES, 1987 · Lacrado de fábrica", "Heritage Auctions, jul 2021"],
+    nintendops:["Nintendo PlayStation", "SNES CD-ROM, c. 1992 · Console protótipo", "Heritage Auctions, mar 2020"],
+    bobafett:  ["Boba Fett Lança-Míssil", "Kenner, 1979 · Protótipo pintado à mão", "Heritage Auctions, mai 2024"],
+    charizard: ["Charizard, 1ª Edição", "Pokémon Base Set, 1999 · Gem Mint 10", "Heritage Auctions, 2025"],
+    dracula:   ["Pôster de Drácula", "Universal Pictures, 1931 · One-sheet original", "Heritage Auctions, 2017"],
+    metropolis:["Pôster de Metrópolis", "UFA, 1927 · Pôster original de lançamento", "Reel Poster Gallery, 2005"],
+    kingkong:  ["Pôster de King Kong", "RKO, 1933 · Pôster original de lançamento", "Recorde em leilão (reportado)"],
+    casablanca:["Pôster de Casablanca", "Warner Bros., 1942 · Pôster original de lançamento", "Recorde em leilão (reportado)"],
+    mummy:     ["Pôster de A Múmia", "Universal Pictures, 1932 · Pôster original de lançamento", "Recorde em leilão (reportado)"],
+    beachbomb: ["Beach Bomb Rosa", "Hot Wheels, 1969 · Protótipo de carga traseira", "Venda privada, 1999"],
+    af15:      ["Amazing Fantasy #15", "Marvel, 1962 · Nota 9.6", "Heritage Auctions, set 2021"],
+    batman1:   ["Batman #1", "DC Comics, 1940 · Nota 9.4", "Heritage Auctions, jan 2021"],
+    onering:   ["O Um Anel, 1 de 1", "Magic: The Gathering, 2023 · Exemplar único numerado", "Venda privada, 2023"],
+    hulk181:   ["Incredible Hulk #181", "Marvel, 1974 · Nota 9.8", "ComicLink, out 2022"],
+    stadium:   ["Stadium Events", "NES, 1987 · Só o cartucho", "PriceCharting, só cartucho"],
+    samson:    ["Little Samson", "NES, 1992 · Só o cartucho", "PriceCharting, só cartucho"],
+    earthbound:["EarthBound", "SNES, 1995 · Completo na caixa grande", "PriceCharting, completo"],
+    pds:       ["Panzer Dragoon Saga", "Sega Saturn, 1998 · Completo na caixa", "PriceCharting, completo"],
+    chrono:    ["Chrono Trigger", "SNES, 1995 · Completo na caixa", "PriceCharting, completo"],
+    charbase:  ["Charizard", "Pokémon Base Set, 1999 · Unlimited, quase nova", "TCGplayer, mercado"],
+    umbreon:   ["Umbreon VMAX Arte Alternativa", "Pokémon Evolving Skies, 2021 · Sem nota, quase nova", "TCGplayer, mercado"],
+    greyfelt:  ["Pikachu com Chapéu de Feltro Cinza", "Promo Pokémon × Van Gogh, 2023 · Sem nota, quase nova", "TCGplayer, mercado"],
+    lugia:     ["Lugia", "Pokémon Neo Genesis, 2000 · Sem nota, quase nova", "TCGplayer, mercado"],
+    giratina:  ["Giratina V Arte Alternativa", "Pokémon Lost Origin, 2022 · Sem nota, quase nova", "TCGplayer, mercado"],
+    ringposter:["O Um Anel, Arte Pôster", "Magic: The Gathering, 2023 · Sem borda, quase nova", "TCGplayer, mercado"],
+    blueeyes:  ["Dragão Branco de Olhos Azuis", "Yu-Gi-Oh! Legend of Blue Eyes, 2002 · Sem nota, quase nova", "TCGplayer, mercado"],
+    dmg:       ["Garota Maga Negra", "Yu-Gi-Oh! Magician's Force, 2003 · Secret rare, quase nova", "TCGplayer, mercado"],
+  };
+  if (PT) Object.entries(LOTS_PT).forEach(([id, [name, detail, sold]]) => Object.assign(LOTS[id], { name, detail, sold }));
+
+  // Interface text
+  const T = PT ? {
+    brand: `QUANTO <span>Custa!?</span>`, docTitle: "QUANTO Custa!?", lang: "pt-BR", locale: "pt-BR",
+    foot: `Preços da internet, com base em sites de negociação, casas de leilão e informações públicas. Valores em reais convertidos do dólar (US$ 1 = R$ ${BRL_PER_USD.toFixed(2).replace(".", ",")}, PTAX do Banco Central).`,
+    vs: "ou", hint: "Toque em um lote · ou use ← / →",
+    sale: (no, date) => `Leilão do Dia · Nº ${no} · ${date}`, saleTitle: no => `Catálogo do Dia Nº ${no}`,
+    streak: (c, b) => `Sequência ${c} · Recorde ${b}`, soundOn: "Som ligado", soundOff: "Som desligado",
+    lotOf: (i, n) => `Lote ${i} de ${n}`,
+    q: { saleMore: "Qual foi vendido por <em>MAIS</em>?", saleLess: "Qual saiu por <em>MENOS</em>?", marketMore: "Qual vale <em>MAIS</em>?", marketLess: "Qual vale <em>MENOS</em>?" },
+    ruleLess: "Mudança de regra · agora encontre o lote mais barato", ruleMore: "Mudança de regra · agora encontre o lote mais caro",
+    iconMore: "Mais dinheiro", iconLess: "Menos dinheiro",
+    price: "Preço", placeholder: "R$ ? ? ?", soldFor: "Vendido por", marketValue: "Valor de mercado",
+    correct: "Acertou", wrong: "Errou",
+    headOk: "Arrematado pelo licitante de olho afiado.", headNo: "Superado no lance.",
+    more: "MAIS", less: "MENOS", worth: (name, amt, word) => `${name} vale <b>${amt}</b> ${word}`,
+    buy: (n, noun) => `Com ISSO tudo você poderia comprar <b>${n} ${noun}</b>`, buyNone: "ISSO tudo não compraria nem um peso argentino",
+    nextIn: last => last ? "Resultado em" : "Próximo lote em", nextBtn: last => last ? "Ver resultado" : "Próximo leilão",
+    closed: "Leilão encerrado", gridLabel: (s, n) => `${s} acertos de ${n}`,
+    box: ["Dias seguidos", "Melhor sequência", "Leilões disputados", "Próximo catálogo"],
+    copy: "Copiar resultado", copied: "Copiado. Cole onde quiser.", ledger: "Resultados do leilão",
+    beat: "superou", under: "saiu abaixo de", shareStreak: c => ` · Sequência ${c}`,
+    ranks: [
+      [10, "Avaliador Mestre", "Nenhum lote mal avaliado. A casa gostaria de te oferecer um emprego."],
+      [8, "Colecionador Experiente", "Você reconhece uma raridade quando vê uma."],
+      [6, "Licitante de Plaquinha", "Bons instintos, algumas surpresas caras."],
+      [4, "Licitante Esperançoso", "O mercado tinha outros planos para alguns destes."],
+      [0, "Só Olhando a Vitrine", "Colecionáveis são estranhos. Volte amanhã para um novo catálogo."],
+    ],
+  } : {
+    brand: `HOW <span>Much!?</span>`, docTitle: "HOW Much!?", lang: "en", locale: "en-US",
+    foot: "Prices from the internet based on trading sites, auction houses and publicly available information.",
+    vs: "or", hint: "Tap a lot · or press ← / →",
+    sale: (no, date) => `Daily Sale · No. ${no} · ${date}`, saleTitle: no => `Daily Catalogue No. ${no}`,
+    streak: (c, b) => `Streak ${c} · Best ${b}`, soundOn: "Sound on", soundOff: "Sound off",
+    lotOf: (i, n) => `Lot ${i} of ${n}`,
+    q: { saleMore: "Which sold for <em>MORE</em>?", saleLess: "Which went for <em>LESS</em>?", marketMore: "Which is worth <em>MORE</em>?", marketLess: "Which is worth <em>LESS</em>?" },
+    ruleLess: "Rules change · now find the cheaper lot", ruleMore: "Rules change · now find the pricier lot",
+    iconMore: "More money", iconLess: "Less money",
+    price: "Price", placeholder: "$ ? ? ?", soldFor: "Sold for", marketValue: "Market value",
+    correct: "Correct", wrong: "Wrong",
+    headOk: "Sold, to the sharp-eyed bidder.", headNo: "Outbid.",
+    more: "MORE", less: "LESS", worth: (name, amt, word) => `${name} is worth <b>${amt}</b> ${word}`,
+    buy: (n, noun) => `With THAT much you could buy <b>${n} ${noun}</b>`, buyNone: "THAT much wouldn't even buy an Argentine peso",
+    nextIn: last => last ? "Results in" : "Next lot in", nextBtn: last => last ? "See results" : "Next auction",
+    closed: "Sale closed", gridLabel: (s, n) => `${s} correct of ${n}`,
+    box: ["Day streak", "Best streak", "Sales attended", "Next catalogue"],
+    copy: "Copy result", copied: "Copied. Paste it anywhere.", ledger: "Sale results",
+    beat: "beat", under: "came in under", shareStreak: c => ` · Streak ${c}`,
+    ranks: [
+      [10, "Master Appraiser", "Not a single misread lot. The house would like to offer you a job."],
+      [8, "Seasoned Collector", "You know a grail when you see one."],
+      [6, "Paddle Holder", "Solid instincts, a few costly surprises."],
+      [4, "Hopeful Bidder", "The market had other plans for a few of these."],
+      [0, "Window Shopper", "Collectibles are strange. Come back tomorrow for a fresh catalogue."],
+    ],
+  };
+
   const PNG = new Set(["batman1", "sm64", "smb", "zelda"]);
   const imgSrc = id => `img/${id}.${PNG.has(id) ? "png" : "jpg"}`;
 
@@ -425,7 +538,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   }
   function prettyDay(key) {
     const [y, m, d] = key.split("-").map(Number);
-    return new Date(y, m - 1, d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+    return new Date(y, m - 1, d).toLocaleDateString(T.locale, { month: "short", day: "numeric", year: "numeric" });
   }
   function seededRandom(str) {
     let h = 2166136261;
@@ -471,14 +584,30 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 
   // ---------- Helpers ----------
   const $ = id => document.getElementById(id);
-  const full = n => "$" + (n < 1000 && n % 1 ? n.toFixed(2) : Math.round(n).toLocaleString("en-US"));
-  const short = n => n >= 1e6 ? "$" + (n / 1e6).toFixed(n >= 1e7 ? 1 : 2).replace(/\.?0+$/, "") + "M"
+  // Prices are stored in USD; the Brazilian version shows them in reais.
+  const fullUSD = n => "$" + (n < 1000 && n % 1 ? n.toFixed(2) : Math.round(n).toLocaleString("en-US"));
+  const shortUSD = n => n >= 1e6 ? "$" + (n / 1e6).toFixed(n >= 1e7 ? 1 : 2).replace(/\.?0+$/, "") + "M"
                     : n >= 1e4 ? "$" + Math.round(n / 1e3) + "K"
                     : "$" + Math.round(n).toLocaleString("en-US");
-  const valueLabel = L => L.kind === "market" ? "Market value" : "Sold for";
+  const fullBRL = usd => {
+    const v = usd * BRL_PER_USD;
+    return "R$ " + v.toLocaleString("pt-BR", v < 1000 ? { minimumFractionDigits: 2, maximumFractionDigits: 2 } : { maximumFractionDigits: 0 });
+  };
+  const shortBRL = usd => {
+    const v = usd * BRL_PER_USD;
+    const dec = (x, d) => x.toLocaleString("pt-BR", { maximumFractionDigits: d });
+    return v >= 1e9 ? `R$ ${dec(v / 1e9, 2)} bi`
+         : v >= 1e6 ? `R$ ${dec(v / 1e6, v >= 1e7 ? 1 : 2)} mi`
+         : v >= 1e4 ? `R$ ${Math.round(v / 1e3)} mil`
+         : "R$ " + Math.round(v).toLocaleString("pt-BR");
+  };
+  const full = PT ? fullBRL : fullUSD;
+  const short = PT ? shortBRL : shortUSD;
+  const num = (n, d = 0) => n.toLocaleString(T.locale, { maximumFractionDigits: d, minimumFractionDigits: d });
+  const valueLabel = L => L.kind === "market" ? T.marketValue : T.soldFor;
   // A banknote with an arrow: up for "more money", down for "less money".
   const moneyIcon = q => `
-    <svg class="qicon ${q}" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="${q === "more" ? "More money" : "Less money"}">
+    <svg class="qicon ${q}" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="${q === "more" ? T.iconMore : T.iconLess}">
       <rect x="3" y="13" width="24" height="15" rx="2"/>
       <circle cx="15" cy="20.5" r="3.6"/>
       <path d="M7 17v7M23 17v7" stroke-width="1.6"/>
@@ -520,8 +649,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   };
   function paintSound() {
     $("soundBtn").setAttribute("aria-pressed", String(soundOn));
-    $("soundBtn").setAttribute("aria-label", soundOn ? "Sound on" : "Sound off");
-    $("soundBtn").title = soundOn ? "Sound on" : "Sound off";
+    $("soundBtn").setAttribute("aria-label", soundOn ? T.soundOn : T.soundOff);
+    $("soundBtn").title = soundOn ? T.soundOn : T.soundOff;
   }
 
   // ---------- State ----------
@@ -552,19 +681,19 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
         <span class="column">
           <span class="lotname">${L.name}</span>
           <span class="lotdetail">${L.detail.split(" · ").map((t, k) => `<span class="${k ? "cond" : "made"}">${t}</span>`).join("")}</span>
-          <span class="plaque"><span class="k" id="k${n}">Price</span><span class="v" id="v${n}">$ ? ? ?</span></span>
+          <span class="plaque"><span class="k" id="k${n}">${T.price}</span><span class="v" id="v${n}">${T.placeholder}</span></span>
         </span>
         <span class="base"></span>
       </span>
       <span class="shadow"></span>`;
   }
 
-  const saleTitle = () => S.mode === "daily" ? `Daily Catalogue No. ${S.catNo}` : `Catalogue No. ${S.catNo}`;
+  const saleTitle = () => T.saleTitle(S.catNo);
   let countdownTimer = null;
   function updateChrome() {
-    $("saleName").textContent = S.mode === "daily" ? `Daily Sale · No. ${S.catNo} · ${prettyDay(S.day)}` : `Evening Sale · Catalogue No. ${S.catNo}`;
+    $("saleName").textContent = T.sale(S.catNo, prettyDay(S.day || dayKey(0)));
     const st = loadStore();
-    $("streak").textContent = `Streak ${currentStreak(st)} · Best ${st.best || 0}`;
+    $("streak").textContent = T.streak(currentStreak(st), st.best || 0);
     clearInterval(countdownTimer);
   }
 
@@ -572,18 +701,18 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     S.revealed = false;
     const [a, b, q] = S.rounds[S.i];
     updateChrome();
-    $("lotNo").textContent = `Lot ${S.i + 1} of ${S.rounds.length}`;
+    $("lotNo").textContent = T.lotOf(S.i + 1, S.rounds.length);
     const anyMarket = LOTS[a].kind === "market" || LOTS[b].kind === "market";
     const text = anyMarket
-      ? (q === "more" ? `Which is worth <em>MORE</em>?` : `Which is worth <em>LESS</em>?`)
-      : (q === "more" ? `Which sold for <em>MORE</em>?` : `Which went for <em>LESS</em>?`);
+      ? (q === "more" ? T.q.marketMore : T.q.marketLess)
+      : (q === "more" ? T.q.saleMore : T.q.saleLess);
     const Qel = $("question");
     Qel.innerHTML = `${moneyIcon(q)}<span class="qtext">${text}</span>`;
     const flipped = S.i > 0 && S.rounds[S.i - 1][2] !== q;
     Qel.classList.remove("flip");
     $("ruleNote").hidden = !flipped;
     if (flipped) {
-      $("ruleNote").textContent = q === "less" ? "Rules change · now find the cheaper lot" : "Rules change · now find the pricier lot";
+      $("ruleNote").textContent = q === "less" ? T.ruleLess : T.ruleMore;
       void Qel.offsetWidth; // restart the highlight animation
       Qel.classList.add("flip");
     }
@@ -594,7 +723,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       el.innerHTML = lotMarkup(id, n);
       el.setAttribute("aria-label", `${LOTS[id].name}, ${LOTS[id].detail}`);
     });
-    $("verdict").innerHTML = `<p class="hint">Tap a lot · or press ← / →</p>`;
+    $("verdict").innerHTML = `<p class="hint">${T.hint}</p>`;
     renderPips();
     $("game").hidden = false;
     $("results").hidden = true;
@@ -631,7 +760,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     const call = () => {
       [0, 1].forEach(k => $("lot" + k).classList.add(k === answer ? "won" : "dim"));
       const st = $("stamp" + n);
-      st.textContent = ok ? "Correct" : "Wrong";
+      st.textContent = ok ? T.correct : T.wrong;
       st.classList.toggle("bad", !ok);
       st.classList.add("show");
       (ok ? sfx.right : sfx.wrong)();
@@ -659,16 +788,16 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     const winName = LOTS[ids[answer]].name;
     const times = hi / lo;
     const last = S.i === S.rounds.length - 1;
-    const word = q === "more" ? "MORE" : "LESS";
-    const timesTxt = times.toFixed(times >= 10 ? 0 : times >= 2 ? 1 : 2);
+    const word = q === "more" ? T.more : T.less;
+    const timesTxt = num(times, times >= 10 ? 0 : times >= 2 ? 1 : 2);
     const relLines = [
-      `${winName} is worth <b>${timesTxt}×</b> ${word}`,
-      `${winName} is worth <b>${full(hi - lo)}</b> ${word}`,
+      T.worth(winName, `${timesTxt}×`, word),
+      T.worth(winName, full(hi - lo), word),
     ];
     const buyLines = buyWith(prices[answer]); // what the winning lot's full price could buy
     function showVerdict() {
       $("verdict").innerHTML = `
-        <div class="head ${ok ? "ok" : "no"}">${ok ? "Sold, to the sharp-eyed bidder." : "Outbid."}</div>
+        <div class="head ${ok ? "ok" : "no"}">${ok ? T.headOk : T.headNo}</div>
         <p class="rel swap" id="relLine">${relLines[0]}</p>
         <p class="buy swap" id="buyLine">${buyLines[0]}</p>
         <div class="countdown" aria-live="off">
@@ -676,9 +805,9 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
             <circle cx="17" cy="17" r="15" stroke="rgba(244,236,220,.15)" stroke-width="2.5" fill="none"/>
             <circle id="cdArc" cx="17" cy="17" r="15" stroke="var(--brass-hi)" stroke-width="2.5" fill="none" stroke-dasharray="94.25" stroke-dashoffset="0" stroke-linecap="round"/>
           </svg><b id="cdNum">${AUTO_SECONDS}</b></span>
-          <span>${last ? "Results" : "Next lot"} in <span id="cdText">${AUTO_SECONDS}</span>s</span>
+          <span>${T.nextIn(last)} <span id="cdText">${AUTO_SECONDS}</span>s</span>
         </div>
-        <button class="cta" id="nextBtn" type="button">${last ? "See results" : "Next auction"}</button>`;
+        <button class="cta" id="nextBtn" type="button">${T.nextBtn(last)}</button>`;
       renderPips();
       $("nextBtn").addEventListener("click", next);
       $("nextBtn").focus({ preventScroll: true });
@@ -695,34 +824,36 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 
   // What the price gap buys at current prices in USD (Oct 2026). One is picked at random each answer.
   const GOODS = [
-    { one: "median US home", many: "median US homes", price: 417500 },                         // NAR, Sep 2026
-    { one: "new car", many: "new cars", price: 50562 },                                        // Kelley Blue Book average, Sep 2026
-    { one: "Big Mac", many: "Big Macs", price: 6.12 },                                         // Economist Big Mac Index, 2026
-    { one: "round-the-world flight", many: "round-the-world flights", price: 6000 },          // alliance economy RTW fares, $3K–10K
-    { one: "superyacht", many: "superyachts", price: 14400000 },                               // avg asking price, Palm Beach show 2026
-    { one: "Bayliner bowrider boat", many: "Bayliner bowrider boats", price: 53160 },          // Boat Trader average, VR6
-    { one: "pair of Nike Air Force 1s", many: "pairs of Nike Air Force 1s", price: 115 },      // Nike US retail
-    { one: "pair of Air Jordan 1 Highs", many: "pairs of Air Jordan 1 Highs", price: 185 },    // retail, 2026 releases
-    { one: "ounce of gold", many: "ounces of gold", price: 4014 },                             // spot, Oct 25 2026
-    { one: "ounce of silver", many: "ounces of silver", price: 54.88 },                        // spot, Oct 25 2026
-    { one: "pound of copper", many: "pounds of copper", price: 6.48 },                         // Oct 23 2026
-    { one: "tonne of iron ore", many: "tonnes of iron ore", price: 95.84 },                    // 62% Fe spot, Aug 2026
-    { one: "pound of uranium", many: "pounds of uranium", price: 89.63 },                      // U3O8 spot, Sep 2026
-    { one: "gram of plutonium", many: "grams of plutonium", price: 10990 },                    // DOE certified 1 g reference standard
-    { one: "gallon of printer ink", many: "gallons of printer ink", price: 12400 },            // median cartridge ink, 2026
-    { one: "gram of saffron", many: "grams of saffron", price: 9 },                            // typical US retail
-    { one: "AK-47 rifle", many: "AK-47 rifles", price: 1000 },                                 // typical US retail, $800–1,200
-    { one: "Glock 19 pistol", many: "Glock 19 pistols", price: 621 },                          // Gen 6 street price, 2026
-    { one: "Argentine peso", many: "Argentine pesos", price: 1 / 1510 },                       // ~1,510 ARS per USD, Sep 2026
+    { pt: ["casa de preço mediano nos EUA", "casas de preço mediano nos EUA"], one: "median US home", many: "median US homes", price: 417500 },                         // NAR, Sep 2026
+    { pt: ["carro zero", "carros zero"], one: "new car", many: "new cars", price: 50562 },                                        // Kelley Blue Book average, Sep 2026
+    { pt: ["Big Mac", "Big Macs"], one: "Big Mac", many: "Big Macs", price: 6.12 },                                         // Economist Big Mac Index, 2026
+    { pt: ["volta ao mundo de avião", "voltas ao mundo de avião"], one: "round-the-world flight", many: "round-the-world flights", price: 6000 },          // alliance economy RTW fares, $3K–10K
+    { pt: ["superiate", "superiates"], one: "superyacht", many: "superyachts", price: 14400000 },                               // avg asking price, Palm Beach show 2026
+    { pt: ["lancha Bayliner", "lanchas Bayliner"], one: "Bayliner bowrider boat", many: "Bayliner bowrider boats", price: 53160 },          // Boat Trader average, VR6
+    { pt: ["par de Nike Air Force 1", "pares de Nike Air Force 1"], one: "pair of Nike Air Force 1s", many: "pairs of Nike Air Force 1s", price: 115 },      // Nike US retail
+    { pt: ["par de Air Jordan 1 High", "pares de Air Jordan 1 High"], one: "pair of Air Jordan 1 Highs", many: "pairs of Air Jordan 1 Highs", price: 185 },    // retail, 2026 releases
+    { pt: ["grama de ouro", "gramas de ouro", 4014 / 31.1035], one: "ounce of gold", many: "ounces of gold", price: 4014 },                             // spot, Oct 25 2026
+    { pt: ["grama de prata", "gramas de prata", 54.88 / 31.1035], one: "ounce of silver", many: "ounces of silver", price: 54.88 },                        // spot, Oct 25 2026
+    { pt: ["quilo de cobre", "quilos de cobre", 6.48 / 0.45359], one: "pound of copper", many: "pounds of copper", price: 6.48 },                         // Oct 23 2026
+    { pt: ["tonelada de minério de ferro", "toneladas de minério de ferro"], one: "tonne of iron ore", many: "tonnes of iron ore", price: 95.84 },                    // 62% Fe spot, Aug 2026
+    { pt: ["quilo de urânio", "quilos de urânio", 89.63 / 0.45359], one: "pound of uranium", many: "pounds of uranium", price: 89.63 },                      // U3O8 spot, Sep 2026
+    { pt: ["grama de plutônio", "gramas de plutônio"], one: "gram of plutonium", many: "grams of plutonium", price: 10990 },                    // DOE certified 1 g reference standard
+    { pt: ["litro de tinta de impressora", "litros de tinta de impressora", 12400 / 3.78541], one: "gallon of printer ink", many: "gallons of printer ink", price: 12400 },            // median cartridge ink, 2026
+    { pt: ["grama de açafrão", "gramas de açafrão"], one: "gram of saffron", many: "grams of saffron", price: 9 },                            // typical US retail
+    { pt: ["fuzil AK-47", "fuzis AK-47"], one: "AK-47 rifle", many: "AK-47 rifles", price: 1000 },                                 // typical US retail, $800–1,200
+    { pt: ["pistola Glock 19", "pistolas Glock 19"], one: "Glock 19 pistol", many: "Glock 19 pistols", price: 621 },                          // Gen 6 street price, 2026
+    { pt: ["peso argentino", "pesos argentinos"], one: "Argentine peso", many: "Argentine pesos", price: 1 / 1510 },                       // ~1,510 ARS per USD, Sep 2026
   ];
   function buyWith(gap) {
-    const fits = GOODS.filter(g => gap >= g.price);
+    // pt entries may swap in a metric unit with its own USD price (grams, kilos, litres)
+    const goods = GOODS.map(g => PT ? { one: g.pt[0], many: g.pt[1], price: g.pt[2] ?? g.price } : g);
+    const fits = goods.filter(g => gap >= g.price);
     for (let k = fits.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [fits[k], fits[j]] = [fits[j], fits[k]]; }
     const lines = fits.slice(0, 1).map(g => { // one random comparison per answer
       const n = Math.floor(gap / g.price);
-      return `With THAT much you could buy <b>${n.toLocaleString("en-US")} ${n === 1 ? g.one : g.many}</b>`;
+      return T.buy(num(n), n === 1 ? g.one : g.many);
     });
-    return lines.length ? lines : [`THAT much wouldn't even buy an Argentine peso`];
+    return lines.length ? lines : [T.buyNone];
   }
   let flipTimer = null;
   function swapText(el, html) {
@@ -754,18 +885,12 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     else { showResults(); sfx.done(); }
   }
 
-  const RANKS = [
-    [10, "Master Appraiser", "Not a single misread lot. The house would like to offer you a job."],
-    [8, "Seasoned Collector", "You know a grail when you see one."],
-    [6, "Paddle Holder", "Solid instincts, a few costly surprises."],
-    [4, "Hopeful Bidder", "The market had other plans for a few of these."],
-    [0, "Window Shopper", "Collectibles are strange. Try a fresh catalogue."],
-  ];
+  const RANKS = T.ranks;
 
   function shareText() {
     const score = S.results.filter(r => r.ok).length;
-    const streak = S.mode === "daily" ? ` · Streak ${currentStreak(loadStore())}` : "";
-    return `HOW Much!? · ${saleTitle()}\n${S.results.map(r => r.ok ? "🟩" : "🟥").join("")}\n${score}/${S.rounds.length}${streak}`;
+    const streak = S.mode === "daily" ? T.shareStreak(currentStreak(loadStore())) : "";
+    return `${T.docTitle} · ${saleTitle()}\n${S.results.map(r => r.ok ? "🟩" : "🟥").join("")}\n${score}/${S.rounds.length}${streak}`;
   }
 
   function untilMidnight() {
@@ -785,30 +910,30 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     R.hidden = false;
     const dailyBox = st ? `
       <div class="dailybox">
-        <div><b>${currentStreak(st)}</b><span>Day streak</span></div>
-        <div><b>${st.best || 0}</b><span>Best streak</span></div>
-        <div><b>${Object.keys(st.days || {}).length}</b><span>Sales attended</span></div>
-        <div><b id="countdown">${untilMidnight()}</b><span>Next catalogue</span></div>
+        <div><b>${currentStreak(st)}</b><span>${T.box[0]}</span></div>
+        <div><b>${st.best || 0}</b><span>${T.box[1]}</span></div>
+        <div><b>${Object.keys(st.days || {}).length}</b><span>${T.box[2]}</span></div>
+        <div><b id="countdown">${untilMidnight()}</b><span>${T.box[3]}</span></div>
       </div>` : "";
     R.innerHTML = `
-      <div class="lotno">${saleTitle()} · Sale closed</div>
+      <div class="lotno">${saleTitle()} · ${T.closed}</div>
       <div class="score">${score}<small>/${S.rounds.length}</small></div>
       <h2 class="rank">${rank}</h2>
       <p class="rankline">${line}</p>
-      <div class="grid" aria-label="${score} correct of ${S.rounds.length}">${S.results.map(r => r.ok ? "🟩" : "🟥").join("")}</div>
+      <div class="grid" aria-label="${T.gridLabel(score, S.rounds.length)}">${S.results.map(r => r.ok ? "🟩" : "🟥").join("")}</div>
       ${dailyBox}
       <div class="actions">
-        <button class="cta" id="shareBtn" type="button">Copy result</button>
+        <button class="cta" id="shareBtn" type="button">${T.copy}</button>
       </div>
       <div class="toast" id="toast" aria-live="polite"></div>
       <div class="ledger">
-        <h2>Sale results</h2>
+        <h2>${T.ledger}</h2>
         ${S.rounds.map(([a, b, q], k) => {
           const r = S.results[k];
           const w = LOTS[[a, b][r.answer]], l = LOTS[[a, b][1 - r.answer]];
           return `<div class="row">
             <span class="mk ${r.ok ? "ok" : "no"}">${r.ok ? "✓" : "✕"}</span>
-            <span class="pair"><b>${w.name}</b> <span>${q === "more" ? "beat" : "came in under"} ${l.name}</span>
+            <span class="pair"><b>${w.name}</b> <span>${q === "more" ? T.beat : T.under} ${l.name}</span>
               <span class="s">${w.sold} · ${l.sold}</span></span>
             <span class="amt">${short(w.price)}<br><span style="color:var(--muted)">${short(l.price)}</span></span>
           </div>`;
@@ -816,7 +941,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       </div>`;
     $("shareBtn").addEventListener("click", () => {
       const txt = shareText();
-      const done = () => { $("toast").textContent = "Copied. Paste it anywhere."; };
+      const done = () => { $("toast").textContent = T.copied; };
       try {
         navigator.clipboard.writeText(txt).then(done, () => { $("toast").textContent = txt.replace(/\n/g, "  "); });
       } catch (e) { $("toast").textContent = txt.replace(/\n/g, "  "); }
@@ -854,6 +979,11 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   }
 
   // ---------- Wiring ----------
+  document.documentElement.lang = T.lang;
+  document.title = T.docTitle;
+  $("brand").innerHTML = T.brand;
+  $("vsWord").textContent = T.vs;
+  $("foot").textContent = T.foot;
   $("lot0").addEventListener("click", () => pick(0));
   $("lot1").addEventListener("click", () => pick(1));
   $("soundBtn").addEventListener("click", () => {

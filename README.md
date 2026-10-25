@@ -4,4 +4,6 @@ A daily auction-house guessing game: two pop-culture collectibles go up on pedes
 
 Play: https://mattrahmeier.github.io/how-much/
 
+Brazilian browsers get the Portuguese version, **QUANTO Custa!?**, with prices in reais. Force a language with `#pt` or `#en` at the end of the link.
+
 Prices from the internet based on trading sites, auction houses and publicly available information. Item photos are from Wikipedia/Wikimedia Commons, TCGplayer and news coverage of the sales, and belong to their respective owners.
