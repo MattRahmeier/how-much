@@ -88,6 +88,24 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   border: 1px solid rgba(201,163,92,.45); border-radius: 2px; background: rgba(0,0,0,.2); color: var(--brass-hi);
 }
 .iconbtn:hover { background: rgba(201,163,92,.14); }
+.langpick { position: relative; order: 3; } /* last item: the top-right corner */
+.langbtn, .langmenu button {
+  appearance: none; display: flex; align-items: center; gap: 7px; cursor: pointer; white-space: nowrap;
+  font: 500 12px/1 var(--f-mono); letter-spacing: .08em; color: var(--brass-hi);
+}
+.langbtn { height: 32px; padding: 0 9px; border: 1px solid rgba(201,163,92,.45); border-radius: 2px; background: rgba(0,0,0,.2); }
+.langbtn:hover, .langbtn[aria-expanded="true"] { background: rgba(201,163,92,.14); }
+.langcur { display: flex; align-items: center; gap: 7px; }
+.chev { width: 12px; height: 12px; color: var(--muted); }
+.flag { width: 20px; height: 14px; flex: none; border-radius: 1px; box-shadow: 0 0 0 1px rgba(0,0,0,.35); display: block; }
+.langmenu {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 20; min-width: 100%;
+  display: flex; flex-direction: column; padding: 4px; border-radius: 2px;
+  background: var(--velvet-deep); border: 1px solid rgba(201,163,92,.45); box-shadow: 0 10px 24px rgba(0,0,0,.5);
+}
+.langmenu button { border: 0; background: transparent; padding: 8px 10px; border-radius: 2px; color: var(--ivory); }
+.langmenu button:hover, .langmenu button:focus-visible { background: rgba(201,163,92,.16); }
+.langmenu button[aria-selected="true"] { color: var(--brass-hi); }
 .iconbtn svg { width: 16px; height: 16px; }
 .iconbtn[aria-pressed="false"] { color: var(--muted); }
 .iconbtn[aria-pressed="false"] .waves, .iconbtn[aria-pressed="true"] .mute { display: none; }
@@ -294,6 +312,16 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       </div>
       <div class="tools">
         <span class="streak" id="streak">Streak 0 · Best 0</span>
+        <div class="langpick" id="langPick">
+          <button class="langbtn" id="langBtn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="langMenu">
+            <span class="langcur" id="langCur"></span>
+            <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="langmenu" id="langMenu" role="listbox" hidden>
+            <button type="button" role="option" data-lang="pt"></button>
+            <button type="button" role="option" data-lang="en"></button>
+          </div>
+        </div>
         <button class="iconbtn" id="soundBtn" type="button" aria-pressed="true" aria-label="Sound">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M11 5 6 9H2v6h4l5 4V5z" fill="currentColor" stroke="none"/>
@@ -373,12 +401,17 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   };
   // ---------- Language: Brazilian Portuguese ("QUANTO Custa!?") for Brazilian browsers ----------
   // pt-BR as the browser's first language, or any Portuguese with a Brazilian time zone.
-  // #pt / #en in the link forces one or the other.
+  // #pt / #en in the link forces one or the other; otherwise the viewer's pick from the language menu wins.
+  const LANG_KEY = "howmuch.lang";
   const PT = (() => {
     try {
       const hash = (location.hash || "").toLowerCase();
       if (hash === "#pt") return true;
       if (hash === "#en") return false;
+      let saved = null;
+      try { saved = localStorage.getItem(LANG_KEY); } catch (e) { /* storage blocked */ }
+      if (saved === "pt") return true;
+      if (saved === "en") return false;
       const langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""]).map(l => String(l).toLowerCase());
       const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || "");
       const brTz = /^America\/(Sao_Paulo|Rio_Branco|Manaus|Cuiaba|Campo_Grande|Belem|Fortaleza|Recife|Maceio|Bahia|Araguaina|Porto_Velho|Boa_Vista|Santarem|Noronha|Eirunepe)$|^Brazil\//.test(tz);
@@ -984,6 +1017,38 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   $("brand").innerHTML = T.brand;
   $("vsWord").textContent = T.vs;
   $("foot").textContent = T.foot;
+
+  // Language menu: flag + PT-BR / EN. Picking one saves it and reloads in that language.
+  const FLAGS = {
+    pt: `<svg class="flag" viewBox="0 0 20 14" aria-hidden="true"><rect width="20" height="14" fill="#009c3b"/><path d="M10 1.6 18.2 7 10 12.4 1.8 7Z" fill="#ffdf00"/><circle cx="10" cy="7" r="3.1" fill="#002776"/><path d="M7.1 6.3q2.9-.9 5.8.6" stroke="#fff" stroke-width=".6" fill="none"/></svg>`,
+    en: `<svg class="flag" viewBox="0 0 20 14" aria-hidden="true"><rect width="20" height="14" fill="#fff"/><g fill="#b22234">${[0, 2, 4, 6, 8, 10, 12].map(k => `<rect y="${k * 14 / 13}" width="20" height="${14 / 13}"/>`).join("")}</g><rect width="8.6" height="${7 * 14 / 13}" fill="#3c3b6e"/></svg>`,
+  };
+  const LANG_LABEL = { pt: "PT-BR", en: "EN" };
+  const cur = PT ? "pt" : "en";
+  $("langCur").innerHTML = `${FLAGS[cur]}<span>${LANG_LABEL[cur]}</span>`;
+  $("langBtn").setAttribute("aria-label", PT ? "Idioma: Português (Brasil)" : "Language: English");
+  document.querySelectorAll("#langMenu [data-lang]").forEach(b => {
+    const l = b.dataset.lang;
+    b.innerHTML = `${FLAGS[l]}<span>${LANG_LABEL[l]}</span>`;
+    b.setAttribute("aria-selected", String(l === cur));
+    b.addEventListener("click", () => {
+      closeLangMenu();
+      if (l === cur) return;
+      try { localStorage.setItem(LANG_KEY, l); } catch (e) { /* storage blocked */ }
+      if (/^#(pt|en)$/i.test(location.hash)) location.hash = "#" + l; // keep a forced link from overriding the pick
+      location.reload();
+    });
+  });
+  function closeLangMenu() { $("langMenu").hidden = true; $("langBtn").setAttribute("aria-expanded", "false"); }
+  $("langBtn").addEventListener("click", e => {
+    e.stopPropagation();
+    const open = $("langMenu").hidden;
+    $("langMenu").hidden = !open;
+    $("langBtn").setAttribute("aria-expanded", String(open));
+    if (open) $("langMenu").querySelector('[aria-selected="true"]').focus();
+  });
+  document.addEventListener("click", e => { if (!$("langPick").contains(e.target)) closeLangMenu(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { closeLangMenu(); } });
   $("lot0").addEventListener("click", () => pick(0));
   $("lot1").addEventListener("click", () => pick(1));
   $("soundBtn").addEventListener("click", () => {
