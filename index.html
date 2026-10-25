@@ -1,0 +1,885 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HOW Much!?</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;1,6..96,500;1,6..96,700&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: an evening sale room. Velvet back wall, two lots on marble plinths under spotlights, the auctioneer's question on a brass rail above. */
+:root {
+  --wall: #160910;
+  --velvet: #3a0f1b;
+  --velvet-deep: #24070f;
+  --brass: #c9a35c;
+  --brass-hi: #f0d79f;
+  --brass-lo: #7d5f2c;
+  --ivory: #f4ecdc;
+  --muted: #bca595;
+  --marble: #e7e0d2;
+  --marble-shade: #b9ae9b;
+  --win: #7cc79a;
+  --lose: #e07a66;
+  --ink: #1d1014;
+  --f-display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --f-body: "Hanken Grotesk", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  margin: 0;
+  background: var(--wall);
+  color: var(--ivory);
+  font-family: var(--f-body);
+  font-size: 15px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+.hall {
+  position: relative;
+  min-height: 100vh;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 40px;
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 0%, rgba(240,215,159,.10), transparent 70%),
+    repeating-linear-gradient(90deg, rgba(0,0,0,.28) 0 6px, transparent 6px 34px, rgba(255,255,255,.035) 34px 40px, transparent 40px 62px),
+    linear-gradient(180deg, var(--velvet) 0%, var(--velvet-deep) 62%, var(--wall) 100%);
+  isolation: isolate;
+}
+.hall::after { /* floor */
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 26%;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,.55));
+  z-index: -1; pointer-events: none;
+}
+.wrap { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+
+/* Header */
+header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.mark { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+h1 {
+  margin: 0; font-family: var(--f-display); font-weight: 700; font-style: italic;
+  font-size: clamp(30px, 6vw, 46px); line-height: 1; letter-spacing: -.01em;
+  color: var(--brass-hi);
+  text-shadow: 0 1px 0 var(--brass-lo), 0 0 28px rgba(240,215,159,.25);
+}
+h1 span { font-style: normal; }
+.sale { font-family: var(--f-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.tools { display: flex; gap: 8px; align-items: center; }
+.ghost {
+  appearance: none; border: 1px solid rgba(201,163,92,.45); background: rgba(0,0,0,.2); color: var(--brass-hi);
+  font: 500 12px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase;
+  padding: 9px 12px; border-radius: 2px; cursor: pointer;
+}
+.ghost:hover { background: rgba(201,163,92,.14); }
+button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; }
+.streak {
+  font: 500 12px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--brass-hi);
+  padding: 9px 12px; border: 1px solid rgba(201,163,92,.45); border-radius: 2px; background: rgba(201,163,92,.10);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.iconbtn {
+  appearance: none; width: 32px; height: 32px; display: grid; place-items: center; padding: 0; cursor: pointer;
+  border: 1px solid rgba(201,163,92,.45); border-radius: 2px; background: rgba(0,0,0,.2); color: var(--brass-hi);
+}
+.iconbtn:hover { background: rgba(201,163,92,.14); }
+.iconbtn svg { width: 16px; height: 16px; }
+.iconbtn[aria-pressed="false"] { color: var(--muted); }
+.iconbtn[aria-pressed="false"] .waves, .iconbtn[aria-pressed="true"] .mute { display: none; }
+
+/* Rail: progress + question */
+.rail { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+.pips { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+.pip { width: 22px; height: 6px; border-radius: 1px; background: rgba(244,236,220,.14); transition: background .3s; }
+.pip.now { background: var(--brass); box-shadow: 0 0 10px rgba(201,163,92,.6); }
+.pip.ok { background: var(--win); }
+.pip.no { background: var(--lose); }
+.lotno { font-family: var(--f-mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--brass); }
+.question {
+  margin: 0; font-family: var(--f-display); font-weight: 500; font-size: clamp(22px, 4.4vw, 34px); line-height: 1.15;
+  display: flex; align-items: center; justify-content: center; gap: 12px; padding: 4px 14px; border-radius: 2px;
+}
+.question .qtext { text-wrap: balance; min-width: 0; }
+.question em { font-style: italic; color: var(--brass-hi); }
+.qicon { flex: none; width: clamp(30px, 5vw, 40px); height: clamp(30px, 5vw, 40px); }
+.qicon.more { color: var(--win); }
+.qicon.less { color: var(--lose); }
+.question.flip { animation: flip 1.8s ease-out; }
+@keyframes flip {
+  0%, 20% { background: rgba(240,215,159,.32); box-shadow: 0 0 0 1px var(--brass-hi), 0 0 40px rgba(240,215,159,.35); transform: scale(1.06); }
+  100% { background: transparent; box-shadow: 0 0 0 1px transparent; transform: none; }
+}
+.rulechange {
+  font: 500 12px/1.3 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink);
+  background: linear-gradient(180deg, var(--brass-hi), var(--brass)); padding: 6px 12px; border-radius: 2px;
+  animation: flip 1.8s ease-out;
+}
+
+/* Stage */
+#game { display: flex; flex-direction: column; gap: 18px; }
+.stage { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: clamp(6px, 2vw, 22px); margin-top: 34px; }
+.vs {
+  align-self: center; font-family: var(--f-display); font-style: italic; font-size: clamp(18px, 3vw, 26px);
+  color: var(--brass); padding-bottom: 140px;
+}
+.lot {
+  position: relative; appearance: none; border: 0; background: none; color: inherit; font: inherit; text-align: center;
+  padding: 0; cursor: pointer; min-width: 0; display: flex; flex-direction: column; align-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.lot[disabled] { cursor: default; }
+.cap, .base, .shadow, .lotname, .plaque, .lotdetail span { display: block; }
+.beam { /* spotlight behind the lot */
+  position: absolute; left: 50%; top: -40px; width: 150%; height: 120%; transform: translateX(-50%);
+  background:
+    radial-gradient(ellipse 45% 30% at 50% 42%, rgba(255,236,190,.30), transparent 72%),
+    conic-gradient(from 180deg at 50% 0%, transparent 157deg, rgba(255,236,190,.10) 168deg, rgba(255,236,190,.16) 180deg, rgba(255,236,190,.10) 192deg, transparent 203deg);
+  pointer-events: none; z-index: -1; transition: opacity .4s; opacity: .85;
+}
+.lot:hover:not([disabled]) .beam, .lot:focus-visible .beam { opacity: 1; }
+.vitrine {
+  position: relative; width: min(100%, 280px); aspect-ratio: 4 / 5; max-width: 100%;
+  border: 1px solid rgba(255,255,255,.22); border-bottom: 0;
+  background: linear-gradient(115deg, rgba(255,255,255,.10), rgba(255,255,255,.02) 38%, rgba(255,255,255,.06) 60%, rgba(255,255,255,.01));
+  display: grid; place-items: center; padding: 12%; overflow: hidden;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1);
+}
+.vitrine::after { /* glass glare over the photo */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, rgba(255,255,255,.14), transparent 30%, transparent 70%, rgba(255,255,255,.05));
+}
+.photo { /* sits inside the case's padding, never cropped */
+  display: block; width: 100%; height: 100%; min-height: 0; object-fit: contain;
+  filter: drop-shadow(0 3px 4px rgba(0,0,0,.45)) drop-shadow(0 14px 16px rgba(0,0,0,.5));
+}
+.nophoto { font-family: var(--f-display); font-style: italic; color: var(--brass-hi); font-size: 15px; }
+.lot:hover:not([disabled]) .vitrine { transform: translateY(-4px); }
+.plinth { width: min(100%, 300px); display: flex; flex-direction: column; align-items: center; }
+.cap {
+  width: 100%; height: 14px;
+  background: linear-gradient(180deg, #f6f1e7, var(--marble) 50%, var(--marble-shade));
+  box-shadow: 0 4px 10px rgba(0,0,0,.45);
+}
+.column {
+  width: 88%; padding: 14px 8px 18px;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.28), transparent 18%, transparent 80%, rgba(0,0,0,.35)),
+    linear-gradient(160deg, rgba(255,255,255,.3) 0 2%, transparent 2% 30%, rgba(120,110,95,.12) 30% 31%, transparent 31%),
+    linear-gradient(180deg, var(--marble), var(--marble-shade));
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  min-height: 150px;
+}
+.lotname { /* engraved name plaquette, slightly see-through over the marble */
+  margin: 0; max-width: 100%; padding: 6px 10px 7px; border-radius: 2px;
+  font-family: var(--f-display); font-weight: 700; color: var(--ink);
+  font-size: clamp(14px, 2.6vw, 18px); line-height: 1.15; text-wrap: balance;
+  background: linear-gradient(180deg, rgba(240,215,159,.55), rgba(201,163,92,.42));
+  border: 1px solid rgba(125,95,44,.45);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 1px 2px rgba(0,0,0,.18);
+}
+.lotdetail { display: flex; flex-direction: column; align-items: center; gap: 5px; width: 100%; }
+.lotdetail .made { color: #4a3a34; font-size: clamp(11px, 2vw, 13px); line-height: 1.3; text-wrap: balance; }
+.lotdetail .cond {
+  padding-top: 5px; border-top: 1px solid rgba(29,16,20,.18); min-width: 60%;
+  font: 500 clamp(9.5px, 1.7vw, 11px)/1.3 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: #6b564c;
+}
+.plaque {
+  margin-top: auto; width: 100%; max-width: 190px; padding: 8px 6px 7px; border-radius: 2px;
+  background: linear-gradient(180deg, var(--brass-hi), var(--brass) 45%, var(--brass-lo));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 2px 4px rgba(0,0,0,.35);
+  color: var(--ink);
+}
+.plaque .k { display: block; font: 500 9px/1 var(--f-mono); letter-spacing: .18em; text-transform: uppercase; opacity: .7; }
+.plaque .v { display: block; font: 500 clamp(15px, 3vw, 21px)/1.2 var(--f-mono); font-variant-numeric: tabular-nums; margin-top: 3px; }
+.base { width: 100%; height: 12px; background: linear-gradient(180deg, var(--marble-shade), #8c826f); }
+.shadow { width: 120%; height: 18px; background: radial-gradient(ellipse at center, rgba(0,0,0,.6), transparent 70%); }
+
+.lot.settled .plaque { animation: settle .35s ease-out; }
+@keyframes settle { 40% { transform: scale(1.07); } }
+.countdown { display: flex; align-items: center; gap: 10px; font: 400 13px/1 var(--f-mono); color: var(--muted); letter-spacing: .04em; }
+.ring { position: relative; width: 34px; height: 34px; display: grid; place-items: center; }
+.ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+.ring b { font: 500 13px/1 var(--f-mono); color: var(--brass-hi); font-variant-numeric: tabular-nums; }
+.lot.chosen .vitrine { border-color: var(--brass-hi); box-shadow: 0 0 0 1px var(--brass-hi), 0 0 30px rgba(240,215,159,.25); }
+.lot.won .plaque { background: linear-gradient(180deg, #d9f3e2, var(--win) 50%, #3e8a5f); }
+.lot.dim { opacity: .62; transition: opacity .4s; }
+.stamp {
+  position: absolute; top: 14%; left: 50%; transform: translateX(-50%) rotate(-9deg) scale(1.6); opacity: 0; z-index: 2;
+  font: 700 clamp(12px, 2.4vw, 15px)/1 var(--f-mono); letter-spacing: .2em; text-transform: uppercase;
+  padding: 6px 10px; border: 2px solid currentColor; border-radius: 2px; color: var(--win);
+  background: rgba(22,9,16,.8); pointer-events: none; white-space: nowrap;
+}
+.stamp.show { animation: stamp .38s cubic-bezier(.3,1.6,.5,1) forwards; }
+.stamp.bad { color: var(--lose); }
+@keyframes stamp { to { opacity: 1; transform: translateX(-50%) rotate(-9deg) scale(1); } }
+
+/* Verdict */
+.verdict {
+  display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; min-height: 112px;
+}
+.verdict p { margin: 0; max-width: 60ch; color: var(--muted); }
+.verdict .head { font-family: var(--f-display); font-size: clamp(20px, 3.6vw, 26px); color: var(--ivory); font-style: italic; }
+.verdict .head.ok { color: var(--win); }
+.verdict .head.no { color: var(--lose); }
+.verdict .rel { font-family: var(--f-display); font-size: clamp(17px, 3vw, 21px); color: var(--ivory); }
+.verdict .rel b { color: var(--brass-hi); font-weight: 700; font-variant-numeric: tabular-nums; }
+.verdict .buy { font-size: 14px; }
+.verdict .buy b { color: var(--ivory); font-weight: 600; }
+.swap { transition: opacity .28s ease; }
+.swap.out { opacity: 0; }
+.cta {
+  appearance: none; border: 0; cursor: pointer; border-radius: 2px;
+  padding: 12px 26px; font: 600 14px/1 var(--f-body); letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink); background: linear-gradient(180deg, var(--brass-hi), var(--brass));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 6px 18px rgba(0,0,0,.4);
+}
+.cta:hover { filter: brightness(1.06); }
+.hint { font: 400 12px/1 var(--f-mono); color: rgba(188,165,149,.7); letter-spacing: .06em; }
+
+/* Results */
+.results { display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+.score { font-family: var(--f-display); font-weight: 700; font-size: clamp(64px, 14vw, 104px); line-height: 1; color: var(--brass-hi); }
+.score small { font-size: .4em; color: var(--muted); font-weight: 500; }
+.rank { margin: 0; font-family: var(--f-display); font-style: italic; font-size: clamp(22px, 4vw, 30px); }
+.rankline { margin: -10px 0 0; color: var(--muted); max-width: 52ch; }
+.grid { font-size: 22px; letter-spacing: 3px; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.dailybox {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; width: 100%; max-width: 560px;
+  background: rgba(201,163,92,.35); border: 1px solid rgba(201,163,92,.35);
+}
+.dailybox div { background: var(--velvet-deep); padding: 12px 6px; display: flex; flex-direction: column; gap: 4px; }
+.dailybox b { font: 500 clamp(18px, 4vw, 24px)/1 var(--f-mono); color: var(--brass-hi); font-variant-numeric: tabular-nums; }
+.dailybox span { font: 400 10px/1.3 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.ledger {
+  width: 100%; max-width: 720px; border-top: 1px solid rgba(201,163,92,.35); padding-top: 14px;
+  display: flex; flex-direction: column; gap: 0; text-align: left;
+}
+.ledger h2 { margin: 0 0 6px; font: 500 12px/1 var(--f-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--brass); }
+.row { display: grid; grid-template-columns: 22px 1fr auto; gap: 10px; align-items: baseline; padding: 9px 0; border-bottom: 1px solid rgba(244,236,220,.08); }
+.row .mk { font-size: 13px; }
+.row .mk.ok { color: var(--win); } .row .mk.no { color: var(--lose); }
+.row .pair { min-width: 0; }
+.row .pair b { font-weight: 600; }
+.row .pair span { color: var(--muted); }
+.row .pair .s { display: block; font: 400 11px/1.4 var(--f-mono); color: rgba(188,165,149,.75); }
+.row .amt { font: 500 13px/1.3 var(--f-mono); font-variant-numeric: tabular-nums; text-align: right; color: var(--ivory); white-space: nowrap; }
+.toast { min-height: 18px; font: 400 12px/1.4 var(--f-mono); color: var(--win); }
+.foot { text-align: center; font: 400 11px/1.5 var(--f-mono); color: rgba(188,165,149,.6); max-width: 70ch; margin: 6px auto 0; }
+
+@media (max-width: 560px) {
+  .vs { padding-bottom: 150px; }
+  .column { min-height: 168px; padding: 10px 5px 12px; gap: 8px; }
+  .vitrine { padding: 10%; }
+  .stage { margin-top: 24px; }
+  .beam { width: 130%; }
+}
+@media (max-width: 480px) { .dailybox { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+</style>
+
+<div class="hall">
+  <div class="wrap">
+    <header>
+      <div class="mark">
+        <h1>HOW <span>Much!?</span></h1>
+        <span class="sale" id="saleName">Daily Sale</span>
+      </div>
+      <div class="tools">
+        <span class="streak" id="streak">Streak 0 · Best 0</span>
+        <button class="iconbtn" id="soundBtn" type="button" aria-pressed="true" aria-label="Sound">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M11 5 6 9H2v6h4l5 4V5z" fill="currentColor" stroke="none"/>
+            <path class="waves" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>
+            <path class="mute" d="M16 9l6 6M22 9l-6 6"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="game">
+      <section class="rail">
+        <div class="pips" id="pips" aria-hidden="true"></div>
+        <div class="lotno" id="lotNo">Lot 1 of 10</div>
+        <div class="rulechange" id="ruleNote" hidden>Rules change · now find the cheaper lot</div>
+        <h2 class="question" id="question"><span class="qtext">Which sold for <em>MORE</em>?</span></h2>
+      </section>
+
+      <section class="stage" id="stage">
+        <button class="lot" id="lot0" type="button"></button>
+        <div class="vs" aria-hidden="true">or</div>
+        <button class="lot" id="lot1" type="button"></button>
+      </section>
+
+      <section class="verdict" id="verdict" aria-live="polite">
+        <p class="hint">Tap a lot · or press ← / →</p>
+      </section>
+    </main>
+
+    <section class="results" id="results" hidden></section>
+
+    <p class="foot">Prices from the internet based on trading sites, auction houses and publicly available information.</p>
+  </div>
+</div>
+
+<script>
+(() => {
+  // ---------- Lots, USD ----------
+  // kind "sale" = a specific recorded sale; kind "market" = current price-guide value.
+  // Photos live in img/<id>.jpg (or .png).
+  const LOTS = {
+    pikachu:   { name: "Pikachu Illustrator", detail: "Pokémon promo card, 1998 · Gem Mint 10", price: 16492000, sold: "Goldin, Feb 2026", kind: "sale" },
+    superman:  { name: "Superman #1", detail: "DC Comics, 1939 · Graded 9.0", price: 9120000, sold: "Heritage Auctions, Nov 2025", kind: "sale" },
+    action1:   { name: "Action Comics #1", detail: "DC Comics, 1938 · Graded 8.5", price: 6000000, sold: "Heritage Auctions, Apr 2024", kind: "sale" },
+    slippers:  { name: "Dorothy's Ruby Slippers", detail: "The Wizard of Oz, 1939 · Screen-worn", price: 32500000, sold: "Heritage Auctions, Dec 2024", kind: "sale" },
+    lotus:     { name: "Black Lotus", detail: "Magic: The Gathering Alpha, 1993 · Pristine 10", price: 3000000, sold: "Private sale, 2024", kind: "sale" },
+    sm64:      { name: "Super Mario 64", detail: "Nintendo 64, 1996 · Factory-sealed", price: 1560000, sold: "Heritage Auctions, Jul 2021", kind: "sale" },
+    smb:       { name: "Super Mario Bros.", detail: "NES, 1985 · Factory-sealed", price: 2000000, sold: "Private sale via Rally, Aug 2021", kind: "sale" },
+    zelda:     { name: "The Legend of Zelda", detail: "NES, 1987 · Factory-sealed", price: 870000, sold: "Heritage Auctions, Jul 2021", kind: "sale" },
+    nintendops:{ name: "Nintendo PlayStation", detail: "SNES CD-ROM, c. 1992 · Prototype console", price: 360000, sold: "Heritage Auctions, Mar 2020", kind: "sale" },
+    bobafett:  { name: "Rocket-Firing Boba Fett", detail: "Kenner, 1979 · Hand-painted prototype", price: 525000, sold: "Heritage Auctions, May 2024", kind: "sale" },
+    charizard: { name: "Charizard, 1st Edition", detail: "Pokémon Base Set, 1999 · Gem Mint 10", price: 550000, sold: "Heritage Auctions, 2025", kind: "sale" },
+    dracula:   { name: "Dracula One-Sheet", detail: "Universal Pictures, 1931 · Original one-sheet", price: 525800, sold: "Heritage Auctions, 2017", kind: "sale" },
+    metropolis:{ name: "Metropolis Poster", detail: "UFA, 1927 · Original release poster", price: 690000, sold: "Reel Poster Gallery, 2005", kind: "sale" },
+    kingkong:  { name: "King Kong Poster", detail: "RKO, 1933 · Original release poster", price: 388375, sold: "Auction record (reported)", kind: "sale" },
+    casablanca:{ name: "Casablanca Poster", detail: "Warner Bros., 1942 · Original release poster", price: 478000, sold: "Auction record (reported)", kind: "sale" },
+    mummy:     { name: "The Mummy Poster", detail: "Universal Pictures, 1932 · Original release poster", price: 435500, sold: "Auction record (reported)", kind: "sale" },
+    beachbomb: { name: "Pink Beach Bomb", detail: "Hot Wheels, 1969 · Rear-loading prototype", price: 72000, sold: "Private sale, 1999", kind: "sale" },
+    af15:      { name: "Amazing Fantasy #15", detail: "Marvel, 1962 · Graded 9.6", price: 3600000, sold: "Heritage Auctions, Sep 2021", kind: "sale" },
+    batman1:   { name: "Batman #1", detail: "DC Comics, 1940 · Graded 9.4", price: 2220000, sold: "Heritage Auctions, Jan 2021", kind: "sale" },
+    onering:   { name: "The One Ring, 1 of 1", detail: "Magic: The Gathering, 2023 · Serialized 1 of 1", price: 2000000, sold: "Private sale, 2023", kind: "sale" },
+    hulk181:   { name: "Incredible Hulk #181", detail: "Marvel, 1974 · Graded 9.8", price: 146000, sold: "ComicLink, Oct 2022", kind: "sale" },
+    // Everyday market
+    stadium:   { name: "Stadium Events", detail: "NES, 1987 · Loose cartridge", price: 16100, sold: "PriceCharting, loose", kind: "market" },
+    samson:    { name: "Little Samson", detail: "NES, 1992 · Loose cartridge", price: 1756.25, sold: "PriceCharting, loose", kind: "market" },
+    earthbound:{ name: "EarthBound", detail: "SNES, 1995 · Complete in big box", price: 2601, sold: "PriceCharting, complete", kind: "market" },
+    pds:       { name: "Panzer Dragoon Saga", detail: "Sega Saturn, 1998 · Complete in box", price: 1280.59, sold: "PriceCharting, complete", kind: "market" },
+    chrono:    { name: "Chrono Trigger", detail: "SNES, 1995 · Complete in box", price: 856.72, sold: "PriceCharting, complete", kind: "market" },
+    charbase:  { name: "Charizard", detail: "Pokémon Base Set, 1999 · Unlimited, near mint", price: 954.65, sold: "TCGplayer market", kind: "market" },
+    umbreon:   { name: "Umbreon VMAX Alt Art", detail: "Pokémon Evolving Skies, 2021 · Ungraded, near mint", price: 2298.95, sold: "TCGplayer market", kind: "market" },
+    greyfelt:  { name: "Pikachu with Grey Felt Hat", detail: "Pokémon × Van Gogh promo, 2023 · Ungraded, near mint", price: 990.42, sold: "TCGplayer market", kind: "market" },
+    lugia:     { name: "Lugia", detail: "Pokémon Neo Genesis, 2000 · Ungraded, near mint", price: 901.20, sold: "TCGplayer market", kind: "market" },
+    giratina:  { name: "Giratina V Alt Art", detail: "Pokémon Lost Origin, 2022 · Ungraded, near mint", price: 855.17, sold: "TCGplayer market", kind: "market" },
+    ringposter:{ name: "The One Ring, Poster Art", detail: "Magic: The Gathering, 2023 · Borderless, near mint", price: 950.10, sold: "TCGplayer market", kind: "market" },
+    blueeyes:  { name: "Blue-Eyes White Dragon", detail: "Yu-Gi-Oh! Legend of Blue Eyes, 2002 · Ungraded, near mint", price: 125.94, sold: "TCGplayer market", kind: "market" },
+    dmg:       { name: "Dark Magician Girl", detail: "Yu-Gi-Oh! Magician's Force, 2003 · Secret rare, near mint", price: 277.35, sold: "TCGplayer market", kind: "market" },
+  };
+  const PNG = new Set(["batman1", "sm64", "smb", "zelda"]);
+  const imgSrc = id => `img/${id}.${PNG.has(id) ? "png" : "jpg"}`;
+
+  // Every catalogue: lots 1-5 ask for the pricier lot ("more"), lots 6-10 for the cheaper one ("less").
+  const HALF = 5;
+  const CATALOGUE = [
+    ["sm64", "zelda", "more"],
+    ["nintendops", "dracula", "more"],
+    ["superman", "pikachu", "more"],
+    ["lugia", "charbase", "more"],
+    ["beachbomb", "hulk181", "more"],
+    ["bobafett", "charizard", "less"],
+    ["lotus", "af15", "less"],
+    ["smb", "action1", "less"],
+    ["earthbound", "umbreon", "less"],
+    ["action1", "slippers", "less"],
+  ];
+
+  const gapOk = (a, b) => Math.abs(LOTS[a].price - LOTS[b].price) / Math.max(LOTS[a].price, LOTS[b].price) >= 0.03;
+  const ratio = (a, b) => Math.max(LOTS[a].price, LOTS[b].price) / Math.min(LOTS[a].price, LOTS[b].price);
+
+  // Pairs lots off without repeats, preferring rivals within 8x of each other so rounds stay close.
+  function buildRounds(rnd) {
+    const ids = Object.keys(LOTS).sort();
+    for (let k = ids.length - 1; k > 0; k--) { const j = Math.floor(rnd() * (k + 1)); [ids[k], ids[j]] = [ids[j], ids[k]]; }
+    const rounds = [];
+    const pool = ids.slice();
+    while (rounds.length < 10 && pool.length >= 2) {
+      const a = pool.shift();
+      let cands = pool.filter(b => gapOk(a, b) && ratio(a, b) <= 8);
+      if (!cands.length) cands = pool.filter(b => gapOk(a, b));
+      if (!cands.length) continue;
+      const b = cands[Math.floor(rnd() * cands.length)];
+      pool.splice(pool.indexOf(b), 1);
+      const q = rounds.length < HALF ? "more" : "less";
+      rounds.push(rnd() < 0.5 ? [a, b, q] : [b, a, q]);
+    }
+    return rounds;
+  }
+
+  // ---------- Daily catalogue: seeded by the calendar date, so everyone gets the same 10 lots ----------
+  const LAUNCH = Date.UTC(2026, 9, 25); // Daily No. 1
+  const pad2 = n => String(n).padStart(2, "0");
+  function dayKey(offset = 0) {
+    const t = new Date();
+    t.setDate(t.getDate() + offset);
+    return `${t.getFullYear()}-${pad2(t.getMonth() + 1)}-${pad2(t.getDate())}`;
+  }
+  function dayNumber(key) {
+    const [y, m, d] = key.split("-").map(Number);
+    return Math.round((Date.UTC(y, m - 1, d) - LAUNCH) / 864e5) + 1;
+  }
+  function prettyDay(key) {
+    const [y, m, d] = key.split("-").map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  }
+  function seededRandom(str) {
+    let h = 2166136261;
+    for (let k = 0; k < str.length; k++) { h ^= str.charCodeAt(k); h = Math.imul(h, 16777619); }
+    return () => { // mulberry32
+      h = (h + 0x6D2B79F5) | 0;
+      let t = Math.imul(h ^ (h >>> 15), 1 | h);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  const dailyCatalogue = key => buildRounds(seededRandom("howmuch:" + key));
+
+  // Streaks live in this browser only.
+  const STORE_KEY = "howmuch.daily.v2"; // v2 reset everyone's daily progress and streaks
+  function loadStore() {
+    try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { return {}; }
+  }
+  function saveStore(st) {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(st)); } catch (e) { /* storage blocked */ }
+  }
+  function currentStreak(st) {
+    return st.last === dayKey(0) || st.last === dayKey(-1) ? (st.streak || 0) : 0;
+  }
+  function recordDaily() {
+    const st = loadStore();
+    st.days = st.days || {};
+    if (!st.days[S.day]) {
+      st.streak = st.last === dayKey(-1) ? (st.streak || 0) + 1 : (st.last === S.day ? st.streak : 1);
+      st.best = Math.max(st.best || 0, st.streak);
+      st.last = S.day;
+      st.days[S.day] = { rounds: S.rounds, results: S.results };
+    }
+    delete st.progress;
+    saveStore(st);
+    return st;
+  }
+  function saveProgress() {
+    const st = loadStore();
+    st.progress = { day: S.day, rounds: S.rounds, results: S.results };
+    saveStore(st);
+  }
+
+  // ---------- Helpers ----------
+  const $ = id => document.getElementById(id);
+  const full = n => "$" + (n < 1000 && n % 1 ? n.toFixed(2) : Math.round(n).toLocaleString("en-US"));
+  const short = n => n >= 1e6 ? "$" + (n / 1e6).toFixed(n >= 1e7 ? 1 : 2).replace(/\.?0+$/, "") + "M"
+                    : n >= 1e4 ? "$" + Math.round(n / 1e3) + "K"
+                    : "$" + Math.round(n).toLocaleString("en-US");
+  const valueLabel = L => L.kind === "market" ? "Market value" : "Sold for";
+  // A banknote with an arrow: up for "more money", down for "less money".
+  const moneyIcon = q => `
+    <svg class="qicon ${q}" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="${q === "more" ? "More money" : "Less money"}">
+      <rect x="3" y="13" width="24" height="15" rx="2"/>
+      <circle cx="15" cy="20.5" r="3.6"/>
+      <path d="M7 17v7M23 17v7" stroke-width="1.6"/>
+      ${q === "more" ? `<path d="M34 30V8M29 13l5-5 5 5"/>` : `<path d="M34 8v22M29 25l5 5 5-5"/>`}
+    </svg>`;
+
+  function photoFor(id) {
+    const L = LOTS[id];
+    const alt = `${L.name}, ${L.detail}`.replace(/"/g, "&quot;");
+    return `<img class="photo" src="${imgSrc(id)}" alt="${alt}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'nophoto',textContent:this.alt}))">`;
+  }
+
+  // Soft tones in place of a gavel; off with the speaker button.
+  let soundOn = true;
+  try { soundOn = localStorage.getItem("howmuch.sound") !== "off"; } catch (e) { /* storage blocked */ }
+  let actx = null;
+  function tones(notes) {
+    if (!soundOn) return;
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      notes.forEach(([freq, at, dur]) => {
+        const t = actx.currentTime + at;
+        const o = actx.createOscillator(), g = actx.createGain();
+        o.type = "sine";
+        o.frequency.setValueAtTime(freq, t);
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.07, t + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+        o.connect(g).connect(actx.destination);
+        o.start(t); o.stop(t + dur + 0.02);
+      });
+    } catch (e) { /* audio unavailable */ }
+  }
+  const sfx = {
+    tick:  () => tones([[2637, 0, 0.05]]),
+    right: () => tones([[1568, 0, 0.12], [2349.3, 0.08, 0.2]]),
+    wrong: () => tones([[659.3, 0, 0.16], [523.3, 0.09, 0.22]]),
+    done:  () => tones([[1318.5, 0, 0.14], [1760, 0.1, 0.14], [2637, 0.2, 0.28]]),
+  };
+  function paintSound() {
+    $("soundBtn").setAttribute("aria-pressed", String(soundOn));
+    $("soundBtn").setAttribute("aria-label", soundOn ? "Sound on" : "Sound off");
+    $("soundBtn").title = soundOn ? "Sound on" : "Sound off";
+  }
+
+  // ---------- State ----------
+  let S;
+  function fresh(mode) {
+    if (mode === "daily") {
+      const day = dayKey(0);
+      return { mode, day, store: STORE_KEY, rounds: dailyCatalogue(day), i: 0, results: [], revealed: false, catNo: dayNumber(day) };
+    }
+    return { mode, rounds: mode === "shuffle" ? buildRounds(Math.random) : CATALOGUE.map(r => r.slice()), i: 0, results: [], revealed: false, catNo: mode === "shuffle" ? 2 + Math.floor(Math.random() * 97) : 1 };
+  }
+
+  function renderPips() {
+    $("pips").innerHTML = S.rounds.map((_, k) => {
+      const r = S.results[k];
+      const cls = r === undefined ? (k === S.i ? "now" : "") : (r.ok ? "ok" : "no");
+      return `<span class="pip ${cls}"></span>`;
+    }).join("");
+  }
+
+  function lotMarkup(id, n) {
+    const L = LOTS[id];
+    return `
+      <span class="beam"></span>
+      <span class="vitrine">${photoFor(id)}<span class="stamp" id="stamp${n}"></span></span>
+      <span class="plinth">
+        <span class="cap"></span>
+        <span class="column">
+          <span class="lotname">${L.name}</span>
+          <span class="lotdetail">${L.detail.split(" · ").map((t, k) => `<span class="${k ? "cond" : "made"}">${t}</span>`).join("")}</span>
+          <span class="plaque"><span class="k" id="k${n}">Price</span><span class="v" id="v${n}">$ ? ? ?</span></span>
+        </span>
+        <span class="base"></span>
+      </span>
+      <span class="shadow"></span>`;
+  }
+
+  const saleTitle = () => S.mode === "daily" ? `Daily Catalogue No. ${S.catNo}` : `Catalogue No. ${S.catNo}`;
+  let countdownTimer = null;
+  function updateChrome() {
+    $("saleName").textContent = S.mode === "daily" ? `Daily Sale · No. ${S.catNo} · ${prettyDay(S.day)}` : `Evening Sale · Catalogue No. ${S.catNo}`;
+    const st = loadStore();
+    $("streak").textContent = `Streak ${currentStreak(st)} · Best ${st.best || 0}`;
+    clearInterval(countdownTimer);
+  }
+
+  function renderRound() {
+    S.revealed = false;
+    const [a, b, q] = S.rounds[S.i];
+    updateChrome();
+    $("lotNo").textContent = `Lot ${S.i + 1} of ${S.rounds.length}`;
+    const anyMarket = LOTS[a].kind === "market" || LOTS[b].kind === "market";
+    const text = anyMarket
+      ? (q === "more" ? `Which is worth <em>MORE</em>?` : `Which is worth <em>LESS</em>?`)
+      : (q === "more" ? `Which sold for <em>MORE</em>?` : `Which went for <em>LESS</em>?`);
+    const Qel = $("question");
+    Qel.innerHTML = `${moneyIcon(q)}<span class="qtext">${text}</span>`;
+    const flipped = S.i > 0 && S.rounds[S.i - 1][2] !== q;
+    Qel.classList.remove("flip");
+    $("ruleNote").hidden = !flipped;
+    if (flipped) {
+      $("ruleNote").textContent = q === "less" ? "Rules change · now find the cheaper lot" : "Rules change · now find the pricier lot";
+      void Qel.offsetWidth; // restart the highlight animation
+      Qel.classList.add("flip");
+    }
+    [a, b].forEach((id, n) => {
+      const el = $("lot" + n);
+      el.className = "lot";
+      el.disabled = false;
+      el.innerHTML = lotMarkup(id, n);
+      el.setAttribute("aria-label", `${LOTS[id].name}, ${LOTS[id].detail}`);
+    });
+    $("verdict").innerHTML = `<p class="hint">Tap a lot · or press ← / →</p>`;
+    renderPips();
+    $("game").hidden = false;
+    $("results").hidden = true;
+    // warm the next pair's photos
+    const nx = S.rounds[S.i + 1];
+    if (nx) [nx[0], nx[1]].forEach(id => { const im = new Image(); im.src = imgSrc(id); });
+  }
+
+  function pick(n) {
+    if (S.revealed) return;
+    S.revealed = true;
+    const [a, b, q] = S.rounds[S.i];
+    const ids = [a, b];
+    const prices = ids.map(id => LOTS[id].price);
+    const answer = q === "more" ? (prices[0] > prices[1] ? 0 : 1) : (prices[0] < prices[1] ? 0 : 1);
+    const ok = n === answer;
+    S.results[S.i] = { ok, pick: n, answer };
+    if (S.mode === "daily" && S.results.length < S.rounds.length) saveProgress();
+
+    [0, 1].forEach(k => {
+      const el = $("lot" + k);
+      el.disabled = true;
+      if (k === n) el.classList.add("chosen");
+      $("k" + k).textContent = valueLabel(LOTS[ids[k]]);
+    });
+
+    // Both plaques climb together on one shared (log-scale) bid; the cheaper lot stops at its price,
+    // the pricier keeps climbing until it reaches its own. Then the winner is called.
+    const top = Math.max(...prices);
+    const from = Math.max(1, Math.min(...prices) / 25);
+    const D = 2200;
+    const stopped = [false, false];
+    const t0 = performance.now();
+    const call = () => {
+      [0, 1].forEach(k => $("lot" + k).classList.add(k === answer ? "won" : "dim"));
+      const st = $("stamp" + n);
+      st.textContent = ok ? "Correct" : "Wrong";
+      st.classList.toggle("bad", !ok);
+      st.classList.add("show");
+      (ok ? sfx.right : sfx.wrong)();
+      showVerdict();
+    };
+    const step = now => {
+      if (!S.revealed || S.rounds[S.i] !== round) return; // round changed mid-animation
+      const p = Math.min(1, (now - t0) / D);
+      const bid = from * Math.pow(top / from, 1 - Math.pow(1 - p, 2.2));
+      [0, 1].forEach(k => {
+        const shown = Math.min(bid, prices[k]);
+        $("v" + k).textContent = short(p === 1 ? prices[k] : shown);
+        if (!stopped[k] && (bid >= prices[k] || p === 1)) {
+          stopped[k] = true;
+          $("lot" + k).classList.add("settled");
+          if (p < 1) sfx.tick();
+        }
+      });
+      if (p < 1) requestAnimationFrame(step); else call();
+    };
+    const round = S.rounds[S.i];
+    requestAnimationFrame(step);
+
+    const hi = Math.max(...prices), lo = Math.min(...prices);
+    const winName = LOTS[ids[answer]].name;
+    const times = hi / lo;
+    const last = S.i === S.rounds.length - 1;
+    const word = q === "more" ? "MORE" : "LESS";
+    const timesTxt = times.toFixed(times >= 10 ? 0 : times >= 2 ? 1 : 2);
+    const relLines = [
+      `${winName} is worth <b>${timesTxt}×</b> ${word}`,
+      `${winName} is worth <b>${full(hi - lo)}</b> ${word}`,
+    ];
+    const buyLines = buyWith(prices[answer]); // what the winning lot's full price could buy
+    function showVerdict() {
+      $("verdict").innerHTML = `
+        <div class="head ${ok ? "ok" : "no"}">${ok ? "Sold, to the sharp-eyed bidder." : "Outbid."}</div>
+        <p class="rel swap" id="relLine">${relLines[0]}</p>
+        <p class="buy swap" id="buyLine">${buyLines[0]}</p>
+        <div class="countdown" aria-live="off">
+          <span class="ring"><svg viewBox="0 0 34 34" aria-hidden="true">
+            <circle cx="17" cy="17" r="15" stroke="rgba(244,236,220,.15)" stroke-width="2.5" fill="none"/>
+            <circle id="cdArc" cx="17" cy="17" r="15" stroke="var(--brass-hi)" stroke-width="2.5" fill="none" stroke-dasharray="94.25" stroke-dashoffset="0" stroke-linecap="round"/>
+          </svg><b id="cdNum">${AUTO_SECONDS}</b></span>
+          <span>${last ? "Results" : "Next lot"} in <span id="cdText">${AUTO_SECONDS}</span>s</span>
+        </div>
+        <button class="cta" id="nextBtn" type="button">${last ? "See results" : "Next auction"}</button>`;
+      renderPips();
+      $("nextBtn").addEventListener("click", next);
+      $("nextBtn").focus({ preventScroll: true });
+      startAutoNext();
+      // Alternate the multiple with the dollar gap.
+      let tick = 0;
+      clearInterval(flipTimer);
+      flipTimer = setInterval(() => {
+        tick++;
+        swapText($("relLine"), relLines[tick % relLines.length]);
+      }, 2600);
+    }
+  }
+
+  // What the price gap buys at current prices in USD (Oct 2026). One is picked at random each answer.
+  const GOODS = [
+    { one: "median US home", many: "median US homes", price: 417500 },                         // NAR, Sep 2026
+    { one: "new car", many: "new cars", price: 50562 },                                        // Kelley Blue Book average, Sep 2026
+    { one: "Big Mac", many: "Big Macs", price: 6.12 },                                         // Economist Big Mac Index, 2026
+    { one: "round-the-world flight", many: "round-the-world flights", price: 6000 },          // alliance economy RTW fares, $3K–10K
+    { one: "superyacht", many: "superyachts", price: 14400000 },                               // avg asking price, Palm Beach show 2026
+    { one: "Bayliner bowrider boat", many: "Bayliner bowrider boats", price: 53160 },          // Boat Trader average, VR6
+    { one: "pair of Nike Air Force 1s", many: "pairs of Nike Air Force 1s", price: 115 },      // Nike US retail
+    { one: "pair of Air Jordan 1 Highs", many: "pairs of Air Jordan 1 Highs", price: 185 },    // retail, 2026 releases
+    { one: "ounce of gold", many: "ounces of gold", price: 4014 },                             // spot, Oct 25 2026
+    { one: "ounce of silver", many: "ounces of silver", price: 54.88 },                        // spot, Oct 25 2026
+    { one: "pound of copper", many: "pounds of copper", price: 6.48 },                         // Oct 23 2026
+    { one: "tonne of iron ore", many: "tonnes of iron ore", price: 95.84 },                    // 62% Fe spot, Aug 2026
+    { one: "pound of uranium", many: "pounds of uranium", price: 89.63 },                      // U3O8 spot, Sep 2026
+    { one: "gram of plutonium", many: "grams of plutonium", price: 10990 },                    // DOE certified 1 g reference standard
+    { one: "gallon of printer ink", many: "gallons of printer ink", price: 12400 },            // median cartridge ink, 2026
+    { one: "gram of saffron", many: "grams of saffron", price: 9 },                            // typical US retail
+    { one: "AK-47 rifle", many: "AK-47 rifles", price: 1000 },                                 // typical US retail, $800–1,200
+    { one: "Glock 19 pistol", many: "Glock 19 pistols", price: 621 },                          // Gen 6 street price, 2026
+    { one: "Argentine peso", many: "Argentine pesos", price: 1 / 1510 },                       // ~1,510 ARS per USD, Sep 2026
+  ];
+  function buyWith(gap) {
+    const fits = GOODS.filter(g => gap >= g.price);
+    for (let k = fits.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [fits[k], fits[j]] = [fits[j], fits[k]]; }
+    const lines = fits.slice(0, 1).map(g => { // one random comparison per answer
+      const n = Math.floor(gap / g.price);
+      return `With THAT much you could buy <b>${n.toLocaleString("en-US")} ${n === 1 ? g.one : g.many}</b>`;
+    });
+    return lines.length ? lines : [`THAT much wouldn't even buy an Argentine peso`];
+  }
+  let flipTimer = null;
+  function swapText(el, html) {
+    if (!el) return;
+    el.classList.add("out");
+    setTimeout(() => { el.innerHTML = html; el.classList.remove("out"); }, 280);
+  }
+
+  // 15-second countdown to the next lot after each answer.
+  const AUTO_SECONDS = 15;
+  let autoTimer = null;
+  function stopAutoNext() { clearInterval(autoTimer); autoTimer = null; clearInterval(flipTimer); }
+  function startAutoNext() {
+    stopAutoNext();
+    const end = performance.now() + AUTO_SECONDS * 1000;
+    autoTimer = setInterval(() => {
+      const left = Math.max(0, end - performance.now());
+      const secs = Math.ceil(left / 1000);
+      if ($("cdNum")) { $("cdNum").textContent = secs; $("cdText").textContent = secs; }
+      if ($("cdArc")) $("cdArc").setAttribute("stroke-dashoffset", String(94.25 * (1 - left / (AUTO_SECONDS * 1000))));
+      if (left <= 0) next();
+    }, 200);
+  }
+
+  function next() {
+    stopAutoNext();
+    if (!S.revealed) return;
+    if (S.i < S.rounds.length - 1) { S.i++; renderRound(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+    else { showResults(); sfx.done(); }
+  }
+
+  const RANKS = [
+    [10, "Master Appraiser", "Not a single misread lot. The house would like to offer you a job."],
+    [8, "Seasoned Collector", "You know a grail when you see one."],
+    [6, "Paddle Holder", "Solid instincts, a few costly surprises."],
+    [4, "Hopeful Bidder", "The market had other plans for a few of these."],
+    [0, "Window Shopper", "Collectibles are strange. Try a fresh catalogue."],
+  ];
+
+  function shareText() {
+    const score = S.results.filter(r => r.ok).length;
+    const streak = S.mode === "daily" ? ` · Streak ${currentStreak(loadStore())}` : "";
+    return `HOW Much!? · ${saleTitle()}\n${S.results.map(r => r.ok ? "🟩" : "🟥").join("")}\n${score}/${S.rounds.length}${streak}`;
+  }
+
+  function untilMidnight() {
+    const now = new Date(), mid = new Date(now);
+    mid.setHours(24, 0, 0, 0);
+    const s = Math.max(0, Math.floor((mid - now) / 1000));
+    return `${pad2(Math.floor(s / 3600))}:${pad2(Math.floor(s / 60) % 60)}:${pad2(s % 60)}`;
+  }
+
+  function showResults() {
+    const score = S.results.filter(r => r.ok).length;
+    const [, rank, line] = RANKS.find(r => score >= r[0]);
+    const st = S.mode === "daily" ? recordDaily() : null;
+    updateChrome();
+    $("game").hidden = true;
+    const R = $("results");
+    R.hidden = false;
+    const dailyBox = st ? `
+      <div class="dailybox">
+        <div><b>${currentStreak(st)}</b><span>Day streak</span></div>
+        <div><b>${st.best || 0}</b><span>Best streak</span></div>
+        <div><b>${Object.keys(st.days || {}).length}</b><span>Sales attended</span></div>
+        <div><b id="countdown">${untilMidnight()}</b><span>Next catalogue</span></div>
+      </div>` : "";
+    R.innerHTML = `
+      <div class="lotno">${saleTitle()} · Sale closed</div>
+      <div class="score">${score}<small>/${S.rounds.length}</small></div>
+      <h2 class="rank">${rank}</h2>
+      <p class="rankline">${line}</p>
+      <div class="grid" aria-label="${score} correct of ${S.rounds.length}">${S.results.map(r => r.ok ? "🟩" : "🟥").join("")}</div>
+      ${dailyBox}
+      <div class="actions">
+        <button class="cta" id="shareBtn" type="button">Copy result</button>
+      </div>
+      <div class="toast" id="toast" aria-live="polite"></div>
+      <div class="ledger">
+        <h2>Sale results</h2>
+        ${S.rounds.map(([a, b, q], k) => {
+          const r = S.results[k];
+          const w = LOTS[[a, b][r.answer]], l = LOTS[[a, b][1 - r.answer]];
+          return `<div class="row">
+            <span class="mk ${r.ok ? "ok" : "no"}">${r.ok ? "✓" : "✕"}</span>
+            <span class="pair"><b>${w.name}</b> <span>${q === "more" ? "beat" : "came in under"} ${l.name}</span>
+              <span class="s">${w.sold} · ${l.sold}</span></span>
+            <span class="amt">${short(w.price)}<br><span style="color:var(--muted)">${short(l.price)}</span></span>
+          </div>`;
+        }).join("")}
+      </div>`;
+    $("shareBtn").addEventListener("click", () => {
+      const txt = shareText();
+      const done = () => { $("toast").textContent = "Copied. Paste it anywhere."; };
+      try {
+        navigator.clipboard.writeText(txt).then(done, () => { $("toast").textContent = txt.replace(/\n/g, "  "); });
+      } catch (e) { $("toast").textContent = txt.replace(/\n/g, "  "); }
+    });
+    if (st) {
+      const today = S.day;
+      countdownTimer = setInterval(() => {
+        if (dayKey(0) !== today && S.mode === "daily") { startDaily(); return; }
+        const c = $("countdown");
+        if (c) c.textContent = untilMidnight();
+      }, 1000);
+    }
+  }
+
+  const validRounds = rounds => Array.isArray(rounds) && rounds.every(r => LOTS[r[0]] && LOTS[r[1]]);
+  function startDaily() {
+    S = fresh("daily");
+    const st = loadStore();
+    const done = st.days && st.days[S.day];
+    if (done && validRounds(done.rounds || S.rounds)) {
+      if (done.rounds) S.rounds = done.rounds;
+      S.results = done.results; S.i = S.rounds.length - 1; showResults(); return;
+    }
+    const pr = st.progress;
+    if (pr && pr.day === S.day && validRounds(pr.rounds || S.rounds)) {
+      if (pr.rounds) S.rounds = pr.rounds;
+      S.results = pr.results; S.i = S.results.length;
+    }
+    renderRound();
+  }
+  function setMode(m) {
+    stopAutoNext();
+    if (m === "daily") startDaily(); else { S = fresh(m); renderRound(); }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // ---------- Wiring ----------
+  $("lot0").addEventListener("click", () => pick(0));
+  $("lot1").addEventListener("click", () => pick(1));
+  $("soundBtn").addEventListener("click", () => {
+    soundOn = !soundOn;
+    try { localStorage.setItem("howmuch.sound", soundOn ? "on" : "off"); } catch (e) { /* storage blocked */ }
+    paintSound();
+    if (soundOn) sfx.right();
+  });
+  paintSound();
+  document.addEventListener("keydown", e => {
+    if ($("game").hidden) return;
+    if (!S.revealed && (e.key === "ArrowLeft" || e.key === "1")) pick(0);
+    else if (!S.revealed && (e.key === "ArrowRight" || e.key === "2")) pick(1);
+    else if (S.revealed && e.key === "Enter" && $("nextBtn") && document.activeElement !== $("nextBtn")) next();
+  });
+
+  window.claude?.hot?.snapshot?.(() => ({ S }));
+  const start = data => {
+    const old = data && data.S;
+    if (!(old && validRounds(old.rounds)) || old.mode !== "daily" || old.day !== dayKey(0) || old.store !== STORE_KEY) { startDaily(); return; }
+    S = old;
+    if (S.results.length === S.rounds.length) showResults();
+    else { if (S.results[S.i]) S.i = Math.min(S.i + 1, S.rounds.length - 1); renderRound(); }
+  };
+  window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
+})();
+</script>
+
+</html>
