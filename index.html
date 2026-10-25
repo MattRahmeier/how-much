@@ -496,7 +496,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     correct: "Acertou", wrong: "Errou",
     headOk: "Vendido para o espertinho!", headNo: "Superado no lance.",
     more: "MAIS", less: "MENOS", worth: (name, amt, word) => `${name} vale <b>${amt}</b> ${word}`,
-    buy: (n, noun) => `Com ISSO tudo você poderia comprar <b>${n} ${noun}</b>`, buyNone: "ISSO tudo não compraria nem um peso argentino",
+    buy: (item, n, noun) => `Com o preço de <i>${item}</i> você poderia comprar <b>${n} ${noun}</b>`, buyNone: item => `O preço de <i>${item}</i> não compraria nem um peso argentino`,
     nextIn: last => last ? "Resultado em" : "Próximo lote em", nextBtn: last => last ? "Ver resultado" : "Próximo leilão",
     closed: "Leilão encerrado", gridLabel: (s, n) => `${s} acertos de ${n}`,
     box: ["Dias seguidos", "Melhor sequência", "Leilões disputados", "Próximo catálogo"],
@@ -523,7 +523,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     correct: "Correct", wrong: "Wrong",
     headOk: "Sold, to the sharp-eyed bidder.", headNo: "Outbid.",
     more: "MORE", less: "LESS", worth: (name, amt, word) => `${name} is worth <b>${amt}</b> ${word}`,
-    buy: (n, noun) => `With THAT much you could buy <b>${n} ${noun}</b>`, buyNone: "THAT much wouldn't even buy an Argentine peso",
+    buy: (item, n, noun) => `With the price of <i>${item}</i> you could buy <b>${n} ${noun}</b>`, buyNone: item => `The price of <i>${item}</i> wouldn't even buy an Argentine peso`,
     nextIn: last => last ? "Results in" : "Next lot in", nextBtn: last => last ? "See results" : "Next auction",
     closed: "Sale closed", gridLabel: (s, n) => `${s} correct of ${n}`,
     box: ["Day streak", "Best streak", "Sales attended", "Next catalogue"],
@@ -848,7 +848,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       T.worth(winName, `${timesTxt}×`, word),
       T.worth(winName, full(hi - lo), word),
     ];
-    const buyLines = buyWith(prices[answer]); // what the winning lot's full price could buy
+    const buyLines = buyWith(prices[answer], winName); // what the winning lot's full price could buy
     function showVerdict() {
       $("verdict").innerHTML = `
         <div class="head ${ok ? "ok" : "no"}">${ok ? T.headOk : T.headNo}</div>
@@ -898,16 +898,16 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     { pt: ["pistola Glock 19", "pistolas Glock 19"], one: "Glock 19 pistol", many: "Glock 19 pistols", price: 621 },                          // Gen 6 street price, 2026
     { pt: ["peso argentino", "pesos argentinos"], one: "Argentine peso", many: "Argentine pesos", price: 1 / 1510 },                       // ~1,510 ARS per USD, Sep 2026
   ];
-  function buyWith(gap) {
+  function buyWith(gap, item) {
     // pt entries may swap in a metric unit with its own USD price (grams, kilos, litres)
     const goods = GOODS.map(g => PT ? { one: g.pt[0], many: g.pt[1], price: g.pt[2] ?? g.price } : g);
     const fits = goods.filter(g => gap >= g.price);
     for (let k = fits.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [fits[k], fits[j]] = [fits[j], fits[k]]; }
     const lines = fits.slice(0, 1).map(g => { // one random comparison per answer
       const n = Math.floor(gap / g.price);
-      return T.buy(num(n), n === 1 ? g.one : g.many);
+      return T.buy(item, num(n), n === 1 ? g.one : g.many);
     });
-    return lines.length ? lines : [T.buyNone];
+    return lines.length ? lines : [T.buyNone(item)];
   }
   let flipTimer = null;
   function swapText(el, html) {
