@@ -424,12 +424,21 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   color: var(--ivory); background: rgba(0,0,0,.3); border: 1px solid rgba(244,236,220,.18); font-variant-numeric: tabular-nums;
 }
 
-@media (max-width: 560px) {
-  .vs { padding-bottom: 150px; }
-  .column { min-height: 200px; padding: 10px 5px 12px; gap: 8px; }
-  .vitrine { --pad: 6%; }
-  .stage { margin-top: 6px; }
+@media (max-width: 560px) { /* phones: keep question, lots, bids and the next button as close as possible */
+  .vs { padding-bottom: 130px; }
+  .column { min-height: 172px; padding: 8px 5px 10px; gap: 6px; }
+  .vitrine { --pad: 5%; aspect-ratio: 1 / 1; }
+  .vitrine.slab { --label: 32px; }
+  .stage { margin-top: 4px; }
   .beam { width: 130%; }
+  #game { gap: 12px; }
+  .rail { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 6px 10px; }
+  .rail > * { flex-basis: 100%; }
+  .rail .streak, .rail .lotno { flex-basis: auto; align-self: center; } /* streak and "Lot 3 of 10" share a line */
+  .verdict { min-height: 0; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 14px; }
+  .verdict > * { flex-basis: 100%; }
+  .verdict .countdown, .verdict .cta { flex-basis: auto; } /* countdown beside the button */
+  .verdict .cta { padding: 11px 18px; }
 }
 @media (max-width: 480px) { .dailybox { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (prefers-reduced-motion: reduce) {
@@ -1433,10 +1442,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       renderPips();
       $("nextBtn").addEventListener("click", next);
       $("nextBtn").focus({ preventScroll: true });
-      // if the screen is short, nudge just enough to show the button, keeping the bids (price plaques) on screen
-      const nb = $("nextBtn").getBoundingClientRect();
-      const bids = document.querySelector(".plaque").getBoundingClientRect();
-      if (nb.bottom > innerHeight) window.scrollBy({ top: Math.min(nb.bottom - innerHeight + 12, bids.top - 10), behavior: "smooth" });
+      fitPlay(); // re-fit now that the verdict and the next button are on the board
       startAutoNext();
       // Alternate the multiple with the dollar gap.
       let tick = 0;
@@ -1507,13 +1513,31 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   // Keep the question and both lots in view while playing; the page sizes the cases to fit the screen.
   // Bring the question to the top of the screen so the two lots, their bids and (on a phone) the
   // verdict below all fit without the player scrolling. Pages that already fit don't move.
-  function focusPlay() {
+  // After an answer, scroll on only as far as the next button needs, and never past the bids.
+  // Positions are absolute, so a scroll still in progress can't throw the target off.
+  function fitPlay() {
     if ($("game").hidden) return;
-    const target = Math.max(0, $("question").getBoundingClientRect().top + scrollY - 10);
-    const max = document.documentElement.scrollHeight - innerHeight;
-    const top = Math.min(target, Math.max(0, max));
-    if (Math.abs(top - scrollY) > 4) window.scrollTo({ top, behavior: "smooth" });
+    const y = scrollY, top = el => el.getBoundingClientRect().top + y;
+    let target = top($("question")) - 10;
+    const nb = $("nextBtn");
+    if (nb) {
+      const need = nb.getBoundingClientRect().bottom + y + 12 - innerHeight;
+      const keep = top(document.querySelector(".plaque")) - 10;
+      target = Math.max(target, Math.min(need, keep));
+    }
+    const max = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+    target = Math.min(Math.max(0, target), max);
+    if (Math.abs(target - y) > 2) window.scrollTo({ top: target, behavior: "smooth" });
   }
+  const focusPlay = fitPlay;
+  // Re-fit when the phone rotates. Only width changes count: the address bar sliding in and out while
+  // the player scrolls changes the height, and re-fitting then would fight their finger.
+  let fitWidth = innerWidth;
+  window.addEventListener("resize", () => {
+    if (innerWidth === fitWidth) return;
+    fitWidth = innerWidth;
+    clearTimeout(fitPlay.t); fitPlay.t = setTimeout(fitPlay, 150);
+  });
 
   function next() {
     stopAutoNext();
