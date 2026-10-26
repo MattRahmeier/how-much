@@ -355,7 +355,11 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 .menuhead { margin: 0; font: italic 600 clamp(24px, 6vw, 30px)/1.1 var(--f-display); color: var(--brass-hi); }
 .menufoot {
   margin: 0 calc(-1 * clamp(14px, 4vw, 26px)); padding: 10px 12px; border-top: 1px solid rgba(201,163,92,.25);
-  background: rgba(0,0,0,.25); display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+  background: rgba(0,0,0,.25); display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px;
+}
+.menunote { /* small brass tag next to the social links */
+  margin-right: auto; padding: 0 2px; text-align: left;
+  font: italic 600 15px/1.2 var(--f-display); color: var(--brass-hi);
 }
 .social {
   display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 10px; border-radius: 2px; text-decoration: none;
@@ -902,7 +906,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     mPacks: "Pacotes Temáticos", mPacksSub: "Jogos, cartas e mais",
     packsHead: "Escolha um pacote", packsIntro: "Dez lotes aleatórios de uma prateleira do catálogo.",
     packs: { games: ["Jogos", n => `${n} lotes · lacrados, raros e completos`], cards: ["Cartas", n => `${n} lotes · Pokémon, Magic, Yu-Gi-Oh! e esportes`] },
-    back: "Voltar", menu: "Menu", again: "Jogar de novo",
+    back: "Voltar", menu: "Menu", again: "Jogar de novo", newLots: "Lotes novos todos os dias!",
     randomSale: "Leilão Aleatório · Jogo livre", randomTitle: "Leilão Aleatório",
     packSale: name => `Pacote Temático · ${name}`, packTitle: name => `Pacote ${name}`,
     streak: (c, b) => `Sequência ${c} · Recorde ${b}`, soundOn: "Som ligado", soundOff: "Som desligado",
@@ -944,7 +948,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     mPacks: "Theme Packs", mPacksSub: "Games, cards and more",
     packsHead: "Choose a pack", packsIntro: "Ten random lots from one shelf of the catalogue.",
     packs: { games: ["Games", n => `${n} lots · sealed, rare and complete`], cards: ["Cards", n => `${n} lots · Pokémon, Magic, Yu-Gi-Oh! and sports`] },
-    back: "Back", menu: "Menu", again: "Play again",
+    back: "Back", menu: "Menu", again: "Play again", newLots: "New lots every day!",
     randomSale: "Random Sale · Free play", randomTitle: "Random Sale",
     packSale: name => `Theme Pack · ${name}`, packTitle: name => `${name} Pack`,
     streak: (c, b) => `Streak ${c} · Best ${b}`, soundOn: "Sound on", soundOff: "Sound off",
@@ -1582,6 +1586,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       <p class="menusub">${T.subtitle}</p>
       ${body}
       <div class="menufoot">
+        <span class="menunote">${T.newLots}</span>
         <a class="social" href="${GITHUB_URL}" target="_blank" rel="noopener noreferrer">${ICONS.github}<span>GitHub</span></a>
         <a class="social" href="${INSTAGRAM_URL}" target="_blank" rel="noopener noreferrer">${ICONS.instagram}<span>Instagram</span></a>
       </div>
