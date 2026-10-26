@@ -383,41 +383,65 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   // kind "sale" = a specific recorded sale; kind "market" = current price-guide value.
   // Photos live in img/<id>.jpg (or .png).
   const LOTS = {
-    pikachu:   { name: "Pikachu Illustrator", detail: "Pokémon promo card, 1998 · Gem Mint 10", price: 16492000, sold: "Goldin, Feb 2026", kind: "sale" },
-    superman:  { name: "Superman #1", detail: "DC Comics, 1939 · Graded 9.0", price: 9120000, sold: "Heritage Auctions, Nov 2025", kind: "sale" },
-    action1:   { name: "Action Comics #1", detail: "DC Comics, 1938 · Graded 8.5", price: 6000000, sold: "Heritage Auctions, Apr 2024", kind: "sale" },
-    slippers:  { name: "Dorothy's Ruby Slippers", detail: "The Wizard of Oz, 1939 · Screen-worn", price: 32500000, sold: "Heritage Auctions, Dec 2024", kind: "sale" },
-    lotus:     { name: "Black Lotus", detail: "Magic: The Gathering Alpha, 1993 · Pristine 10", price: 3000000, sold: "Private sale, 2024", kind: "sale" },
-    sm64:      { name: "Super Mario 64", detail: "Nintendo 64, 1996 · Factory-sealed", price: 1560000, sold: "Heritage Auctions, Jul 2021", kind: "sale" },
-    smb:       { name: "Super Mario Bros.", detail: "NES, 1985 · Factory-sealed", price: 2000000, sold: "Private sale via Rally, Aug 2021", kind: "sale" },
-    zelda:     { name: "The Legend of Zelda", detail: "NES, 1987 · Factory-sealed", price: 870000, sold: "Heritage Auctions, Jul 2021", kind: "sale" },
-    nintendops:{ name: "Nintendo PlayStation", detail: "SNES CD-ROM, c. 1992 · Prototype console", price: 360000, sold: "Heritage Auctions, Mar 2020", kind: "sale" },
-    bobafett:  { name: "Rocket-Firing Boba Fett", detail: "Kenner, 1979 · Hand-painted prototype", price: 525000, sold: "Heritage Auctions, May 2024", kind: "sale" },
-    charizard: { name: "Charizard, 1st Edition", detail: "Pokémon Base Set, 1999 · Gem Mint 10", price: 550000, sold: "Heritage Auctions, 2025", kind: "sale" },
-    dracula:   { name: "Dracula One-Sheet", detail: "Universal Pictures, 1931 · Original one-sheet", price: 525800, sold: "Heritage Auctions, 2017", kind: "sale" },
-    metropolis:{ name: "Metropolis Poster", detail: "UFA, 1927 · Original release poster", price: 690000, sold: "Reel Poster Gallery, 2005", kind: "sale" },
-    kingkong:  { name: "King Kong Poster", detail: "RKO, 1933 · Original release poster", price: 388375, sold: "Auction record (reported)", kind: "sale" },
-    casablanca:{ name: "Casablanca Poster", detail: "Warner Bros., 1942 · Original release poster", price: 478000, sold: "Auction record (reported)", kind: "sale" },
-    mummy:     { name: "The Mummy Poster", detail: "Universal Pictures, 1932 · Original release poster", price: 435500, sold: "Auction record (reported)", kind: "sale" },
-    beachbomb: { name: "Pink Beach Bomb", detail: "Hot Wheels, 1969 · Rear-loading prototype", price: 72000, sold: "Private sale, 1999", kind: "sale" },
-    af15:      { name: "Amazing Fantasy #15", detail: "Marvel, 1962 · Graded 9.6", price: 3600000, sold: "Heritage Auctions, Sep 2021", kind: "sale" },
-    batman1:   { name: "Batman #1", detail: "DC Comics, 1940 · Graded 9.4", price: 2220000, sold: "Heritage Auctions, Jan 2021", kind: "sale" },
-    onering:   { name: "The One Ring, 1 of 1", detail: "Magic: The Gathering, 2023 · Serialized 1 of 1", price: 2000000, sold: "Private sale, 2023", kind: "sale" },
-    hulk181:   { name: "Incredible Hulk #181", detail: "Marvel, 1974 · Graded 9.8", price: 146000, sold: "ComicLink, Oct 2022", kind: "sale" },
+    pikachu:   { name: "Pikachu Illustrator", detail: "Pokémon promo card, 1998 · PSA Gem Mint 10", price: 16492000, sold: "Goldin, Feb 2026", kind: "sale", cat: "cards" },
+    superman:  { name: "Superman #1", detail: "DC Comics, 1939 · CGC 9.0", price: 9120000, sold: "Heritage Auctions, Nov 2025", kind: "sale", cat: "comics" },
+    action1:   { name: "Action Comics #1", detail: "DC Comics, 1938 · CGC 8.5", price: 6000000, sold: "Heritage Auctions, Apr 2024", kind: "sale", cat: "comics" },
+    slippers:  { name: "Dorothy's Ruby Slippers", detail: "The Wizard of Oz, 1939 · Screen-worn", price: 32500000, sold: "Heritage Auctions, Dec 2024", kind: "sale", cat: "memorabilia" },
+    lotus:     { name: "Black Lotus", detail: "Magic: The Gathering Alpha, 1993 · CGC Pristine 10", price: 3000000, sold: "Private sale, 2024", kind: "sale", cat: "cards" },
+    sm64:      { name: "Super Mario 64", detail: "Nintendo 64, 1996 · Sealed, Wata 9.8 A++", price: 1560000, sold: "Heritage Auctions, Jul 2021", kind: "sale", cat: "games" },
+    smb:       { name: "Super Mario Bros.", detail: "NES, 1985 · Sealed, Wata 9.4 A++", price: 2000000, sold: "Private sale via Rally, Aug 2021", kind: "sale", cat: "games" },
+    zelda:     { name: "The Legend of Zelda", detail: "NES, 1987 · Sealed, Wata 9.0 A", price: 870000, sold: "Heritage Auctions, Jul 2021", kind: "sale", cat: "games" },
+    nintendops:{ name: "Nintendo PlayStation", detail: "SNES CD-ROM, c. 1992 · Prototype console", price: 360000, sold: "Heritage Auctions, Mar 2020", kind: "sale", cat: "games" },
+    bobafett:  { name: "Rocket-Firing Boba Fett", detail: "Kenner, 1979 · Hand-painted prototype", price: 525000, sold: "Heritage Auctions, May 2024", kind: "sale", cat: "memorabilia" },
+    charizard: { name: "Charizard, 1st Edition", detail: "Pokémon Base Set, 1999 · PSA Gem Mint 10", price: 550000, sold: "Heritage Auctions, 2025", kind: "sale", cat: "cards" },
+    dracula:   { name: "Dracula One-Sheet", detail: "Universal Pictures, 1931 · Original one-sheet", price: 525800, sold: "Heritage Auctions, 2017", kind: "sale", cat: "art" },
+    metropolis:{ name: "Metropolis Poster", detail: "UFA, 1927 · Original release poster", price: 690000, sold: "Reel Poster Gallery, 2005", kind: "sale", cat: "art" },
+    kingkong:  { name: "King Kong Poster", detail: "RKO, 1933 · Original release poster", price: 388375, sold: "Auction record (reported)", kind: "sale", cat: "art" },
+    casablanca:{ name: "Casablanca Poster", detail: "Warner Bros., 1942 · Original release poster", price: 478000, sold: "Auction record (reported)", kind: "sale", cat: "art" },
+    mummy:     { name: "The Mummy Poster", detail: "Universal Pictures, 1932 · Original release poster", price: 435500, sold: "Auction record (reported)", kind: "sale", cat: "art" },
+    beachbomb: { name: "Pink Beach Bomb", detail: "Hot Wheels, 1969 · Rear-loading prototype", price: 72000, sold: "Private sale, 1999", kind: "sale", cat: "memorabilia" },
+    af15:      { name: "Amazing Fantasy #15", detail: "Marvel, 1962 · CGC 9.6", price: 3600000, sold: "Heritage Auctions, Sep 2021", kind: "sale", cat: "comics" },
+    batman1:   { name: "Batman #1", detail: "DC Comics, 1940 · CGC 9.4", price: 2220000, sold: "Heritage Auctions, Jan 2021", kind: "sale", cat: "comics" },
+    onering:   { name: "The One Ring, 1 of 1", detail: "Magic: The Gathering, 2023 · Serialized 1 of 1", price: 2000000, sold: "Private sale, 2023", kind: "sale", cat: "cards" },
+    hulk181:   { name: "Incredible Hulk #181", detail: "Marvel, 1974 · CGC 9.8", price: 146000, sold: "ComicLink, Oct 2022", kind: "sale", cat: "comics" },
     // Everyday market
-    stadium:   { name: "Stadium Events", detail: "NES, 1987 · Loose cartridge", price: 16100, sold: "PriceCharting, loose", kind: "market" },
-    samson:    { name: "Little Samson", detail: "NES, 1992 · Loose cartridge", price: 1756.25, sold: "PriceCharting, loose", kind: "market" },
-    earthbound:{ name: "EarthBound", detail: "SNES, 1995 · Complete in big box", price: 2601, sold: "PriceCharting, complete", kind: "market" },
-    pds:       { name: "Panzer Dragoon Saga", detail: "Sega Saturn, 1998 · Complete in box", price: 1280.59, sold: "PriceCharting, complete", kind: "market" },
-    chrono:    { name: "Chrono Trigger", detail: "SNES, 1995 · Complete in box", price: 856.72, sold: "PriceCharting, complete", kind: "market" },
-    charbase:  { name: "Charizard", detail: "Pokémon Base Set, 1999 · Unlimited, near mint", price: 954.65, sold: "TCGplayer market", kind: "market" },
-    umbreon:   { name: "Umbreon VMAX Alt Art", detail: "Pokémon Evolving Skies, 2021 · Ungraded, near mint", price: 2298.95, sold: "TCGplayer market", kind: "market" },
-    greyfelt:  { name: "Pikachu with Grey Felt Hat", detail: "Pokémon × Van Gogh promo, 2023 · Ungraded, near mint", price: 990.42, sold: "TCGplayer market", kind: "market" },
-    lugia:     { name: "Lugia", detail: "Pokémon Neo Genesis, 2000 · Ungraded, near mint", price: 901.20, sold: "TCGplayer market", kind: "market" },
-    giratina:  { name: "Giratina V Alt Art", detail: "Pokémon Lost Origin, 2022 · Ungraded, near mint", price: 855.17, sold: "TCGplayer market", kind: "market" },
-    ringposter:{ name: "The One Ring, Poster Art", detail: "Magic: The Gathering, 2023 · Borderless, near mint", price: 950.10, sold: "TCGplayer market", kind: "market" },
-    blueeyes:  { name: "Blue-Eyes White Dragon", detail: "Yu-Gi-Oh! Legend of Blue Eyes, 2002 · Ungraded, near mint", price: 125.94, sold: "TCGplayer market", kind: "market" },
-    dmg:       { name: "Dark Magician Girl", detail: "Yu-Gi-Oh! Magician's Force, 2003 · Secret rare, near mint", price: 277.35, sold: "TCGplayer market", kind: "market" },
+    stadium:   { name: "Stadium Events", detail: "NES, 1987 · Loose cartridge", price: 16100, sold: "PriceCharting, loose", kind: "market", cat: "games" },
+    samson:    { name: "Little Samson", detail: "NES, 1992 · Loose cartridge", price: 1756.25, sold: "PriceCharting, loose", kind: "market", cat: "games" },
+    earthbound:{ name: "EarthBound", detail: "SNES, 1995 · Complete in big box", price: 2601, sold: "PriceCharting, complete", kind: "market", cat: "games" },
+    pds:       { name: "Panzer Dragoon Saga", detail: "Sega Saturn, 1998 · Complete in box", price: 1280.59, sold: "PriceCharting, complete", kind: "market", cat: "games" },
+    chrono:    { name: "Chrono Trigger", detail: "SNES, 1995 · Complete in box", price: 856.72, sold: "PriceCharting, complete", kind: "market", cat: "games" },
+    charbase:  { name: "Charizard", detail: "Pokémon Base Set, 1999 · Unlimited, near mint", price: 954.65, sold: "TCGplayer market", kind: "market", cat: "cards" },
+    umbreon:   { name: "Umbreon VMAX Alt Art", detail: "Pokémon Evolving Skies, 2021 · Ungraded, near mint", price: 2298.95, sold: "TCGplayer market", kind: "market", cat: "cards" },
+    greyfelt:  { name: "Pikachu with Grey Felt Hat", detail: "Pokémon × Van Gogh promo, 2023 · Ungraded, near mint", price: 990.42, sold: "TCGplayer market", kind: "market", cat: "cards" },
+    lugia:     { name: "Lugia", detail: "Pokémon Neo Genesis, 2000 · Ungraded, near mint", price: 901.20, sold: "TCGplayer market", kind: "market", cat: "cards" },
+    giratina:  { name: "Giratina V Alt Art", detail: "Pokémon Lost Origin, 2022 · Ungraded, near mint", price: 855.17, sold: "TCGplayer market", kind: "market", cat: "cards" },
+    ringposter:{ name: "The One Ring, Poster Art", detail: "Magic: The Gathering, 2023 · Borderless, near mint", price: 950.10, sold: "TCGplayer market", kind: "market", cat: "cards" },
+    blueeyes:  { name: "Blue-Eyes White Dragon", detail: "Yu-Gi-Oh! Legend of Blue Eyes, 2002 · Ungraded, near mint", price: 125.94, sold: "TCGplayer market", kind: "market", cat: "cards" },
+    dmg:       { name: "Dark Magician Girl", detail: "Yu-Gi-Oh! Magician's Force, 2003 · Secret rare, near mint", price: 277.35, sold: "TCGplayer market", kind: "market", cat: "cards" },
+    // Rare PS1 / PS2 / SNES / N64 games (PriceCharting)
+    kuon:      { name: "Kuon", detail: "PlayStation 2, 2004 · Complete in box", price: 1577.28, sold: "PriceCharting, complete", kind: "market", cat: "games" },
+    ruleofrose:{ name: "Rule of Rose", detail: "PlayStation 2, 2006 · Complete in box", price: 1075, sold: "PriceCharting, complete", kind: "market", cat: "games" },
+    suikoden2: { name: "Suikoden II", detail: "PlayStation, 1999 · Complete in box", price: 160, sold: "PriceCharting, complete", kind: "market", cat: "games" },
+    valkyrie:  { name: "Valkyrie Profile", detail: "PlayStation, 2000 · Complete in box", price: 325, sold: "PriceCharting, recent sales", kind: "market", cat: "games" },
+    conker:    { name: "Conker's Bad Fur Day", detail: "Nintendo 64, 2001 · Complete in box", price: 423.13, sold: "PriceCharting, complete", kind: "market", cat: "games" },
+    clayfighter:{ name: "ClayFighter: Sculptor's Cut", detail: "Nintendo 64, 1998 · Loose cartridge", price: 1349.83, sold: "PriceCharting, loose", kind: "market", cat: "games" },
+    hagane:    { name: "Hagane: The Final Conflict", detail: "SNES, 1995 · Loose cartridge", price: 830, sold: "PriceCharting, loose", kind: "market", cat: "games" },
+    // More record comics
+    captainam1:{ name: "Captain America Comics #1", detail: "Timely Comics, 1941 · CGC 9.4", price: 3120000, sold: "Heritage Auctions, Apr 2022", kind: "sale", cat: "comics" },
+    xmen1:     { name: "The X-Men #1", detail: "Marvel, 1963 · CGC 9.8", price: 492937.5, sold: "Heritage Auctions, Jul 2012", kind: "sale", cat: "comics" },
+    detective27:{ name: "Detective Comics #27", detail: "DC Comics, 1939 · CGC 7.0", price: 2318000, sold: "Heritage Auctions, Feb 2026", kind: "sale", cat: "comics" },
+    // Famous paintings (shelved with the film posters)
+    salvator:  { name: "Salvator Mundi", detail: "Leonardo da Vinci, c. 1500 · Oil on walnut", price: 450300000, sold: "Christie's, Nov 2017", kind: "sale", cat: "art" },
+    lederer:   { name: "Portrait of Elisabeth Lederer", detail: "Gustav Klimt, 1914–16 · Oil on canvas", price: 236400000, sold: "Sotheby's, Nov 2025", kind: "sale", cat: "art" },
+    marilyn:   { name: "Shot Sage Blue Marilyn", detail: "Andy Warhol, 1964 · Silkscreen on canvas", price: 195000000, sold: "Christie's, May 2022", kind: "sale", cat: "art" },
+    femmesalger:{ name: "Les Femmes d'Alger (Version O)", detail: "Pablo Picasso, 1955 · Oil on canvas", price: 179400000, sold: "Christie's, May 2015", kind: "sale", cat: "art" },
+    meules:    { name: "Meules (Haystacks)", detail: "Claude Monet, 1890 · Oil on canvas", price: 110700000, sold: "Sotheby's, May 2019", kind: "sale", cat: "art" },
+    // Famous objects and screen cars (shelved with the props)
+    db5:       { name: "James Bond's Aston Martin DB5", detail: "Goldfinger promo car, 1965 · Bond-spec gadgets", price: 6385000, sold: "RM Sotheby's, Aug 2019", kind: "sale", cat: "memorabilia" },
+    apex:      { name: "Apex the Stegosaurus", detail: "Jurassic fossil, ~150 million years · 254 real bones", price: 44600000, sold: "Sotheby's, Jul 2024", kind: "sale", cat: "memorabilia" },
+    birkin:    { name: "The Original Birkin Bag", detail: "Hermès, 1985 · Jane Birkin's own", price: 10100000, sold: "Sotheby's Paris, Jul 2025", kind: "sale", cat: "memorabilia" },
+    gto:       { name: "Ferrari 250 GTO", detail: "Ferrari, 1962 · Chassis 3413 GT", price: 48405000, sold: "RM Sotheby's, Aug 2018", kind: "sale", cat: "memorabilia" },
+    uhlenhaut: { name: "Mercedes 300 SLR Uhlenhaut Coupé", detail: "Mercedes-Benz, 1955 · One of two built", price: 143000000, sold: "RM Sotheby's, May 2022", kind: "sale", cat: "memorabilia" },
   };
   // ---------- Language: Brazilian Portuguese ("QUANTO Custa!?") for Brazilian browsers ----------
   // pt-BR as the browser's first language, or any Portuguese with a Brazilian time zone.
@@ -443,27 +467,27 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 
   // pt-BR name · details · where it sold, per lot
   const LOTS_PT = {
-    pikachu:   ["Pikachu Ilustrador", "Carta promocional Pokémon, 1998 · Gem Mint 10", "Goldin, fev 2026"],
-    superman:  ["Superman #1", "DC Comics, 1939 · Nota 9.0", "Heritage Auctions, nov 2025"],
-    action1:   ["Action Comics #1", "DC Comics, 1938 · Nota 8.5", "Heritage Auctions, abr 2024"],
+    pikachu:   ["Pikachu Ilustrador", "Carta promocional Pokémon, 1998 · PSA Gem Mint 10", "Goldin, fev 2026"],
+    superman:  ["Superman #1", "DC Comics, 1939 · CGC 9.0", "Heritage Auctions, nov 2025"],
+    action1:   ["Action Comics #1", "DC Comics, 1938 · CGC 8.5", "Heritage Auctions, abr 2024"],
     slippers:  ["Sapatinhos de Rubi da Dorothy", "O Mágico de Oz, 1939 · Usados no filme", "Heritage Auctions, dez 2024"],
-    lotus:     ["Black Lotus", "Magic: The Gathering Alpha, 1993 · Pristine 10", "Venda privada, 2024"],
-    sm64:      ["Super Mario 64", "Nintendo 64, 1996 · Lacrado de fábrica", "Heritage Auctions, jul 2021"],
-    smb:       ["Super Mario Bros.", "NES, 1985 · Lacrado de fábrica", "Venda privada via Rally, ago 2021"],
-    zelda:     ["The Legend of Zelda", "NES, 1987 · Lacrado de fábrica", "Heritage Auctions, jul 2021"],
+    lotus:     ["Black Lotus", "Magic: The Gathering Alpha, 1993 · CGC Pristine 10", "Venda privada, 2024"],
+    sm64:      ["Super Mario 64", "Nintendo 64, 1996 · Lacrado, Wata 9.8 A++", "Heritage Auctions, jul 2021"],
+    smb:       ["Super Mario Bros.", "NES, 1985 · Lacrado, Wata 9.4 A++", "Venda privada via Rally, ago 2021"],
+    zelda:     ["The Legend of Zelda", "NES, 1987 · Lacrado, Wata 9.0 A", "Heritage Auctions, jul 2021"],
     nintendops:["Nintendo PlayStation", "SNES CD-ROM, c. 1992 · Console protótipo", "Heritage Auctions, mar 2020"],
     bobafett:  ["Boba Fett Lança-Míssil", "Kenner, 1979 · Protótipo pintado à mão", "Heritage Auctions, mai 2024"],
-    charizard: ["Charizard, 1ª Edição", "Pokémon Base Set, 1999 · Gem Mint 10", "Heritage Auctions, 2025"],
+    charizard: ["Charizard, 1ª Edição", "Pokémon Base Set, 1999 · PSA Gem Mint 10", "Heritage Auctions, 2025"],
     dracula:   ["Pôster de Drácula", "Universal Pictures, 1931 · One-sheet original", "Heritage Auctions, 2017"],
     metropolis:["Pôster de Metrópolis", "UFA, 1927 · Pôster original de lançamento", "Reel Poster Gallery, 2005"],
     kingkong:  ["Pôster de King Kong", "RKO, 1933 · Pôster original de lançamento", "Recorde em leilão (reportado)"],
     casablanca:["Pôster de Casablanca", "Warner Bros., 1942 · Pôster original de lançamento", "Recorde em leilão (reportado)"],
     mummy:     ["Pôster de A Múmia", "Universal Pictures, 1932 · Pôster original de lançamento", "Recorde em leilão (reportado)"],
     beachbomb: ["Beach Bomb Rosa", "Hot Wheels, 1969 · Protótipo de carga traseira", "Venda privada, 1999"],
-    af15:      ["Amazing Fantasy #15", "Marvel, 1962 · Nota 9.6", "Heritage Auctions, set 2021"],
-    batman1:   ["Batman #1", "DC Comics, 1940 · Nota 9.4", "Heritage Auctions, jan 2021"],
+    af15:      ["Amazing Fantasy #15", "Marvel, 1962 · CGC 9.6", "Heritage Auctions, set 2021"],
+    batman1:   ["Batman #1", "DC Comics, 1940 · CGC 9.4", "Heritage Auctions, jan 2021"],
     onering:   ["O Um Anel, 1 de 1", "Magic: The Gathering, 2023 · Exemplar único numerado", "Venda privada, 2023"],
-    hulk181:   ["Incredible Hulk #181", "Marvel, 1974 · Nota 9.8", "ComicLink, out 2022"],
+    hulk181:   ["Incredible Hulk #181", "Marvel, 1974 · CGC 9.8", "ComicLink, out 2022"],
     stadium:   ["Stadium Events", "NES, 1987 · Só o cartucho", "PriceCharting, só cartucho"],
     samson:    ["Little Samson", "NES, 1992 · Só o cartucho", "PriceCharting, só cartucho"],
     earthbound:["EarthBound", "SNES, 1995 · Completo na caixa grande", "PriceCharting, completo"],
@@ -477,6 +501,26 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     ringposter:["O Um Anel, Arte Pôster", "Magic: The Gathering, 2023 · Sem borda, quase nova", "TCGplayer, mercado"],
     blueeyes:  ["Dragão Branco de Olhos Azuis", "Yu-Gi-Oh! Legend of Blue Eyes, 2002 · Sem nota, quase nova", "TCGplayer, mercado"],
     dmg:       ["Garota Maga Negra", "Yu-Gi-Oh! Magician's Force, 2003 · Secret rare, quase nova", "TCGplayer, mercado"],
+    kuon:      ["Kuon", "PlayStation 2, 2004 · Completo na caixa", "PriceCharting, completo"],
+    ruleofrose:["Rule of Rose", "PlayStation 2, 2006 · Completo na caixa", "PriceCharting, completo"],
+    suikoden2: ["Suikoden II", "PlayStation, 1999 · Completo na caixa", "PriceCharting, completo"],
+    valkyrie:  ["Valkyrie Profile", "PlayStation, 2000 · Completo na caixa", "PriceCharting, vendas recentes"],
+    conker:    ["Conker's Bad Fur Day", "Nintendo 64, 2001 · Completo na caixa", "PriceCharting, completo"],
+    clayfighter:["ClayFighter: Sculptor's Cut", "Nintendo 64, 1998 · Só o cartucho", "PriceCharting, só cartucho"],
+    hagane:    ["Hagane: The Final Conflict", "SNES, 1995 · Só o cartucho", "PriceCharting, só cartucho"],
+    captainam1:["Captain America Comics #1", "Timely Comics, 1941 · CGC 9.4", "Heritage Auctions, abr 2022"],
+    xmen1:     ["The X-Men #1", "Marvel, 1963 · CGC 9.8", "Heritage Auctions, jul 2012"],
+    detective27:["Detective Comics #27", "DC Comics, 1939 · CGC 7.0", "Heritage Auctions, fev 2026"],
+    salvator:  ["Salvator Mundi", "Leonardo da Vinci, c. 1500 · Óleo sobre nogueira", "Christie's, nov 2017"],
+    lederer:   ["Retrato de Elisabeth Lederer", "Gustav Klimt, 1914–16 · Óleo sobre tela", "Sotheby's, nov 2025"],
+    marilyn:   ["Shot Sage Blue Marilyn", "Andy Warhol, 1964 · Serigrafia sobre tela", "Christie's, mai 2022"],
+    femmesalger:["As Mulheres de Argel (Versão O)", "Pablo Picasso, 1955 · Óleo sobre tela", "Christie's, mai 2015"],
+    meules:    ["Meules (Montes de Feno)", "Claude Monet, 1890 · Óleo sobre tela", "Sotheby's, mai 2019"],
+    db5:       ["Aston Martin DB5 de James Bond", "Carro promocional de 007 Contra Goldfinger, 1965 · Com os gadgets", "RM Sotheby's, ago 2019"],
+    apex:      ["Apex, o Estegossauro", "Fóssil jurássico, ~150 milhões de anos · 254 ossos reais", "Sotheby's, jul 2024"],
+    birkin:    ["A Primeira Bolsa Birkin", "Hermès, 1985 · A da própria Jane Birkin", "Sotheby's Paris, jul 2025"],
+    gto:       ["Ferrari 250 GTO", "Ferrari, 1962 · Chassi 3413 GT", "RM Sotheby's, ago 2018"],
+    uhlenhaut: ["Mercedes 300 SLR Uhlenhaut Coupé", "Mercedes-Benz, 1955 · Uma de duas fabricadas", "RM Sotheby's, mai 2022"],
   };
   if (PT) Object.entries(LOTS_PT).forEach(([id, [name, detail, sold]]) => Object.assign(LOTS[id], { name, detail, sold }));
 
@@ -538,7 +582,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     ],
   };
 
-  const PNG = new Set(["batman1", "sm64", "smb", "zelda"]);
+  const PNG = new Set(["batman1", "sm64", "smb", "zelda", "xmen1", "detective27"]);
   const imgSrc = id => `img/${id}.${PNG.has(id) ? "png" : "jpg"}`;
 
   // Every catalogue: lots 1-5 ask for the pricier lot ("more"), lots 6-10 for the cheaper one ("less").
@@ -559,17 +603,25 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   const gapOk = (a, b) => Math.abs(LOTS[a].price - LOTS[b].price) / Math.max(LOTS[a].price, LOTS[b].price) >= 0.03;
   const ratio = (a, b) => Math.max(LOTS[a].price, LOTS[b].price) / Math.min(LOTS[a].price, LOTS[b].price);
 
-  // Pairs lots off without repeats, preferring rivals within 8x of each other so rounds stay close.
+  // Pairs lots off without repeats. Rivals come from the same shelf (comics, cards, games, art, memorabilia)
+  // and within 8x of each other where possible; at most MAX_MIXED pairs a day mix two shelves.
+  const MAX_MIXED = 3;
   function buildRounds(rnd) {
     const ids = Object.keys(LOTS).sort();
     for (let k = ids.length - 1; k > 0; k--) { const j = Math.floor(rnd() * (k + 1)); [ids[k], ids[j]] = [ids[j], ids[k]]; }
     const rounds = [];
     const pool = ids.slice();
+    let mixed = 0;
     while (rounds.length < 10 && pool.length >= 2) {
       const a = pool.shift();
-      let cands = pool.filter(b => gapOk(a, b) && ratio(a, b) <= 8);
-      if (!cands.length) cands = pool.filter(b => gapOk(a, b));
+      const same = b => LOTS[b].cat === LOTS[a].cat;
+      // now and then (until the daily cap) a deliberate cross-shelf surprise
+      let cands = mixed < MAX_MIXED && rnd() < 0.15 ? pool.filter(b => !same(b) && gapOk(a, b) && ratio(a, b) <= 4) : [];
+      if (!cands.length) cands = pool.filter(b => same(b) && gapOk(a, b) && ratio(a, b) <= 8);
+      if (!cands.length) cands = pool.filter(b => same(b) && gapOk(a, b));
+      if (!cands.length && mixed < MAX_MIXED) cands = pool.filter(b => gapOk(a, b) && ratio(a, b) <= 8);
       if (!cands.length) continue;
+      if (!same(cands[0])) mixed++;
       const b = cands[Math.floor(rnd() * cands.length)];
       pool.splice(pool.indexOf(b), 1);
       const q = rounds.length < HALF ? "more" : "less";
