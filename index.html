@@ -831,8 +831,37 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       ["aj13", "subway", "less"], ["p917", "bullitt", "less"], ["neverland", "versace", "less"], ["lambert", "battersea", "less"], ["apple1", "apollobag", "less"],
     ],
   };
-  const dailyCatalogue = key => CURATED[key] ? CURATED[key].map(r => r.slice())
-    : buildRounds(seededRandom("howmuch:v3:" + key), key < "2026-10-27" ? FIRST_POOL : Object.keys(LOTS));
+  // After the hand-picked days, each day leaves out the lots shown in the previous REST_DAYS days.
+  // Days are built in order from the first hand-picked one, so every visitor still gets the same set.
+  const REST_DAYS = 3;
+  const FIRST_CURATED = "2026-10-27";
+  const catalogueCache = {};
+  const nextKey = key => {
+    const [y, m, d] = key.split("-").map(Number);
+    const t = new Date(Date.UTC(y, m - 1, d + 1));
+    return `${t.getUTCFullYear()}-${pad2(t.getUTCMonth() + 1)}-${pad2(t.getUTCDate())}`;
+  };
+  function dailyCatalogue(key) {
+    if (CURATED[key]) return CURATED[key].map(r => r.slice());
+    if (key < FIRST_CURATED) return buildRounds(seededRandom("howmuch:v3:" + key), FIRST_POOL);
+    if (!catalogueCache[key]) {
+      const recent = [];
+      for (let k = FIRST_CURATED; k <= key; k = nextKey(k)) {
+        if (!catalogueCache[k]) {
+          let rounds = CURATED[k];
+          // try to rest the last 3 days' lots; if the shelves can't fill 10 rounds, rest fewer days
+          for (let rest = REST_DAYS; !rounds; rest--) {
+            const skip = new Set(rest ? recent.slice(-rest).flat(2) : []);
+            const r = buildRounds(seededRandom("howmuch:v3:" + k), Object.keys(LOTS).filter(id => !skip.has(id)));
+            if (r.length === 10 || rest === 0) rounds = r;
+          }
+          catalogueCache[k] = rounds;
+        }
+        recent.push(catalogueCache[k].map(([a, b]) => [a, b]));
+      }
+    }
+    return catalogueCache[key].map(r => r.slice());
+  }
 
   // Streaks live in this browser only.
   const STORE_KEY = "howmuch.daily.v3"; // bump to reset everyone's daily progress and streaks
