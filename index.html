@@ -229,6 +229,9 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   border: 1px solid #9a8f78; border-top-width: 3px; border-radius: 2px; box-shadow: 0 2px 5px rgba(0,0,0,.45);
   font-family: var(--f-mono); text-transform: uppercase; pointer-events: none; overflow: hidden;
 }
+.vitrine.slab { --label: 36px; } /* leave room above the item for its label */
+.vitrine.slab > .photo, .vitrine.slab > .nophoto { top: calc(var(--pad) + var(--label)); }
+.vitrine.slab > .photo { height: calc(100% - var(--pad) - var(--label) - 6px); }
 .sticker.sealed { border-top-color: #b8322f; }
 .sticker.graded { border-top-color: #2f6b4a; }
 .sticker .sl { display: flex; flex-direction: column; min-width: 0; text-align: left; line-height: 1.1; }
@@ -1198,8 +1201,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     if (!st || !img || !img.naturalWidth) return;
     const ratio = img.naturalWidth / img.naturalHeight;
     const w = Math.min(img.clientWidth, img.clientHeight * ratio), h = w / ratio;
-    st.style.top = `${img.offsetTop + img.clientHeight - h}px`;
     st.style.width = `${Math.max(w, 96)}px`;
+    st.style.top = `${img.offsetTop + img.clientHeight - h - st.offsetHeight - 4}px`; // sits just above the item
   }
   window.addEventListener("resize", () => ["lot0", "lot1"].forEach(id => placeSticker($(id))));
 
@@ -1290,7 +1293,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       : `<span class="made">${t}</span>`).join("");
     return `
       <span class="beam"></span>
-      <span class="vitrine">${photoFor(id)}${sticker}<span class="stamp" id="stamp${n}"></span></span>
+      <span class="vitrine${sticker ? " slab" : ""}">${photoFor(id)}${sticker}<span class="stamp" id="stamp${n}"></span></span>
       <span class="plinth">
         <span class="cap"></span>
         <span class="column">
