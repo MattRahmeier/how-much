@@ -300,6 +300,65 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 .row .pair .s { display: block; font: 400 11px/1.4 var(--f-mono); color: rgba(188,165,149,.75); }
 .row .amt { font: 500 13px/1.3 var(--f-mono); font-variant-numeric: tabular-nums; text-align: right; color: var(--ivory); white-space: nowrap; }
 .toast { min-height: 18px; font: 400 12px/1.4 var(--f-mono); color: var(--win); }
+/* Landing card: the auction catalogue's front page, over a blurred wall of lots */
+.wrap { position: relative; z-index: 1; }
+.menubg {
+  position: fixed; inset: -60px; z-index: 0; pointer-events: none;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 22px; padding: 30px; align-content: start;
+  filter: blur(9px) brightness(.4) saturate(.85); opacity: 0; transition: opacity .6s;
+}
+.menubg img { width: 100%; aspect-ratio: 4 / 5; object-fit: contain; }
+.onmenu .menubg { opacity: 1; }
+.onmenu header .mark, .onmenu #homeBtn, .onmenu #pastBtn { visibility: hidden; }
+#brand { cursor: pointer; }
+.menu { display: flex; justify-content: center; padding-top: clamp(4px, 3vh, 28px); }
+.menucard {
+  width: min(100%, 560px); display: flex; flex-direction: column; align-items: stretch; gap: 16px; text-align: center;
+  padding: 26px clamp(14px, 4vw, 26px) 0; border-radius: 3px;
+  background: rgba(22,9,16,.9); border: 1px solid var(--brass);
+  box-shadow: inset 0 0 0 4px rgba(22,9,16,.6), inset 0 0 0 5px rgba(201,163,92,.35), 0 24px 60px rgba(0,0,0,.65);
+}
+.menutitle { margin: 0; font: italic 700 clamp(46px, 12vw, 78px)/1 var(--f-display); color: var(--brass-hi); text-shadow: 0 2px 0 var(--brass-lo); letter-spacing: .01em; }
+.menutitle span { font-style: normal; margin-left: .12em; }
+.menusub { margin: -6px 0 0; font: 500 12px/1.3 var(--f-mono); letter-spacing: .24em; text-transform: uppercase; color: var(--brass); }
+.menurule { margin: 0; padding-top: 14px; border-top: 1px solid rgba(201,163,92,.3); font-size: 15px; color: var(--ivory); text-wrap: balance; }
+.menurule em { font-style: normal; color: var(--brass-hi); font-weight: 600; }
+.menugrid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.mbtn {
+  appearance: none; border: 0; border-radius: 2px; cursor: pointer; font: inherit; color: var(--ivory);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; padding: 16px 8px 14px; min-height: 84px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12); transition: filter .15s, transform .15s;
+}
+.mbtn:hover { filter: brightness(1.12); }
+.mbtn:active { transform: translateY(1px); }
+.mbtn b { display: flex; align-items: center; gap: 8px; font: 600 clamp(18px, 4.4vw, 22px)/1.1 var(--f-display); }
+.mbtn small { font: 400 11px/1.35 var(--f-mono); letter-spacing: .04em; opacity: .82; }
+.mbtn svg { width: 20px; height: 20px; flex: none; }
+.mbtn.daily { background: linear-gradient(180deg, var(--brass-hi), var(--brass)); color: var(--ink); }
+.mbtn.history { background: #120509; border: 1px solid rgba(201,163,92,.3); }
+.mbtn.random { background: #5b2633; }
+.mbtn.packs { background: #1e4a3b; }
+.mbtn.wide { grid-column: 1 / -1; }
+.mbtn.pack { flex-direction: row; justify-content: flex-start; gap: 14px; padding: 12px 14px; text-align: left; background: #1e4a3b; }
+.mbtn.pack.cards { background: #2c3a5e; }
+.mbtn.pack .thumbs { display: flex; flex: none; }
+.mbtn.pack .thumbs img { width: 34px; height: 44px; object-fit: contain; margin-right: -8px; filter: drop-shadow(0 2px 3px rgba(0,0,0,.5)); }
+.mbtn.pack .txt { display: flex; flex-direction: column; gap: 3px; margin-left: 10px; }
+.mbtn.back { min-height: 0; padding: 11px; background: transparent; border: 1px solid rgba(201,163,92,.45); color: var(--brass-hi); }
+.mbtn.back b { font: 500 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; }
+.menuhead { margin: 0; font: italic 600 clamp(24px, 6vw, 30px)/1.1 var(--f-display); color: var(--brass-hi); }
+.menufoot {
+  margin: 0 calc(-1 * clamp(14px, 4vw, 26px)); padding: 10px 12px; border-top: 1px solid rgba(201,163,92,.25);
+  background: rgba(0,0,0,.25); display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+}
+.social {
+  display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 10px; border-radius: 2px; text-decoration: none;
+  border: 1px solid rgba(201,163,92,.45); background: rgba(0,0,0,.2); color: var(--brass-hi);
+  font: 500 12px/1 var(--f-mono); letter-spacing: .06em;
+}
+.social:hover { background: rgba(201,163,92,.14); }
+.social svg { width: 15px; height: 15px; }
+.social:focus-visible, #brand:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; }
 .pastbtn { display: flex; align-items: center; gap: 7px; height: 32px; padding: 0 10px; white-space: nowrap; }
 .pastbtn svg { width: 14px; height: 14px; flex: none; }
 .pastbtn[aria-pressed="true"] { background: rgba(201,163,92,.18); }
@@ -334,12 +393,16 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 </style>
 
 <div class="hall">
+  <div class="menubg" id="menuBg" aria-hidden="true"></div>
   <div class="wrap">
     <header>
       <div class="mark">
-        <h1 id="brand">HOW <span>Much!?</span></h1>
+        <h1 id="brand" role="link" tabindex="0">HOW <span>Much!?</span></h1>
       </div>
       <div class="tools">
+        <button class="iconbtn" id="homeBtn" type="button" aria-label="Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+        </button>
         <button class="ghost pastbtn" id="pastBtn" type="button">
           <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
           <span id="pastLabel">History</span>
@@ -364,7 +427,9 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       </div>
     </header>
 
-    <main id="game">
+    <section class="menu" id="menu" hidden></section>
+
+    <main id="game" hidden>
       <section class="rail">
         <span class="sale" id="saleName">Daily Sale</span>
         <h2 class="question" id="question"><span class="qtext">Which sold for <em>MORE</em>?</span></h2>
@@ -565,6 +630,29 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     nickel1913: { name: "1913 Liberty Head Nickel", detail: "United States, 1913 · One of five known", price: 4560000, sold: "Heritage Auctions, Aug 2018", kind: "sale", cat: "coins" },
     bigmaple: { name: "Big Maple Leaf", detail: "Royal Canadian Mint, 2007 · 100 kg of pure gold", price: 4020000, sold: "Dorotheum, Jun 2010", kind: "sale", cat: "coins" },
     watermelon: { name: "Grand Watermelon $1,000 Note", detail: "United States, 1890 · Treasury banknote", price: 3290000, sold: "Heritage Auctions, Jan 2014", kind: "sale", cat: "coins" },
+    // More games and cards for the Theme Packs (added Oct 2026)
+    madden: { name: "John Madden Football", detail: "Sega Genesis, 1990 · Sealed, Wata 9.2 A+", price: 480000, sold: "Heritage Auctions", kind: "sale", cat: "games" },
+    smw: { name: "Super Mario World", detail: "SNES, 1991 · Sealed, Wata 9.4 A+", price: 360000, sold: "Heritage Auctions", kind: "sale", cat: "games" },
+    sonic: { name: "Sonic the Hedgehog", detail: "Sega Genesis, 1991 · Sealed, Wata 9.8 A+", price: 360000, sold: "Heritage Auctions, Apr 2022", kind: "sale", cat: "games" },
+    smb2: { name: "Super Mario Bros. 2", detail: "NES, 1988 · Sealed, Wata 9.8 A+", price: 324000, sold: "Heritage Auctions", kind: "sale", cat: "games" },
+    punchout: { name: "Mike Tyson's Punch-Out!!", detail: "NES, 1987 · Sealed, Wata 9.8 A++", price: 312000, sold: "Heritage Auctions", kind: "sale", cat: "games" },
+    residentevil: { name: "Resident Evil", detail: "PlayStation, 1996 · Sealed, Wata 9.6 A+", price: 264000, sold: "Heritage Auctions", kind: "sale", cat: "games" },
+    ocarina: { name: "The Legend of Zelda: Ocarina of Time", detail: "Nintendo 64, 1998 · Sealed, Wata 9.8 A++", price: 228000, sold: "Heritage Auctions, Oct 2021", kind: "sale", cat: "games" },
+    finalfantasy: { name: "Final Fantasy", detail: "NES, 1990 · Sealed, Wata 9.8 A++", price: 208000, sold: "Heritage Auctions, Jul 2021", kind: "sale", cat: "games" },
+    goldeneye: { name: "GoldenEye 007", detail: "Nintendo 64, 1997 · Sealed, Wata 9.8 A++", price: 192000, sold: "Heritage Auctions", kind: "sale", cat: "games" },
+    airraid: { name: "Air Raid", detail: "Atari 2600, 1982 · The only known boxed copy", price: 31600, sold: "Private sale, 2010", kind: "sale", cat: "games" },
+    jordankobe: { name: "Jordan & Kobe Dual Logoman", detail: "Upper Deck Exquisite, 2007–08 · 1 of 1 autograph", price: 12932000, sold: "Heritage Auctions, Aug 2024", kind: "sale", cat: "cards" },
+    lebron: { name: "LeBron James Exquisite Logoman", detail: "Upper Deck Exquisite, 2003–04 · 1 of 1 rookie autograph", price: 5200000, sold: "Private sale, Apr 2021", kind: "sale", cat: "cards" },
+    luka: { name: "Luka Dončić Logoman", detail: "Panini National Treasures, 2018–19 · 1 of 1 rookie autograph", price: 4600000, sold: "Private sale, Feb 2021", kind: "sale", cat: "cards" },
+    gretzky: { name: "1979 O-Pee-Chee Wayne Gretzky", detail: "O-Pee-Chee, 1979 · Rookie card, PSA 10", price: 3750000, sold: "Private sale, May 2021", kind: "sale", cat: "cards" },
+    tombrady: { name: "Tom Brady 2000 Playoff Contenders", detail: "Playoff Contenders, 2000 · Rookie ticket autograph, BGS 8", price: 3107000, sold: "Lelands, Jun 2022", kind: "sale", cat: "cards" },
+    blastoise: { name: "Blastoise Presentation Galaxy Star", detail: "Pokémon, 1998 · Commissioned by Wizards of the Coast, CGC 8.5", price: 360000, sold: "Heritage Auctions, Jan 2021", kind: "sale", cat: "cards" },
+    gaeascradle: { name: "Gaea's Cradle", detail: "Magic: The Gathering Urza's Saga, 1998 · Near mint", price: 1630.77, sold: "TCGplayer market", kind: "market", cat: "cards" },
+    rayquazavmax: { name: "Rayquaza VMAX Alt Art", detail: "Pokémon Evolving Skies, 2021 · Near mint", price: 1241.76, sold: "TCGplayer market", kind: "market", cat: "cards" },
+    moxdiamond: { name: "Mox Diamond", detail: "Magic: The Gathering Stronghold, 1998 · Near mint", price: 1121.06, sold: "TCGplayer market", kind: "market", cat: "cards" },
+    venusaur: { name: "Venusaur, Shadowless", detail: "Pokémon Base Set, 1999 · Near mint", price: 899.95, sold: "TCGplayer market", kind: "market", cat: "cards" },
+    exodia: { name: "Exodia the Forbidden One", detail: "Yu-Gi-Oh! Legend of Blue Eyes, 2002 · Near mint", price: 61.3, sold: "TCGplayer market", kind: "market", cat: "cards" },
+    darkmagician: { name: "Dark Magician", detail: "Yu-Gi-Oh! Legend of Blue Eyes, 2002 · Near mint", price: 42.07, sold: "TCGplayer market", kind: "market", cat: "cards" },
   };
   // ---------- Language: Brazilian Portuguese ("QUANTO Custa!?") for Brazilian browsers ----------
   // pt-BR as the browser's first language, or any Portuguese with a Brazilian time zone.
@@ -750,6 +838,28 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     nickel1913: ["Níquel Liberty Head de 1913", "Estados Unidos, 1913 · Um de cinco conhecidos", "Heritage Auctions, ago 2018"],
     bigmaple: ["Big Maple Leaf", "Casa da Moeda do Canadá, 2007 · 100 kg de ouro puro", "Dorotheum, jun 2010"],
     watermelon: ["Nota de US$ 1.000 Grand Watermelon", "Estados Unidos, 1890 · Nota do Tesouro", "Heritage Auctions, jan 2014"],
+    madden: ["John Madden Football", "Sega Genesis, 1990 · Lacrado, Wata 9.2 A+", "Heritage Auctions"],
+    smw: ["Super Mario World", "SNES, 1991 · Lacrado, Wata 9.4 A+", "Heritage Auctions"],
+    sonic: ["Sonic the Hedgehog", "Sega Genesis, 1991 · Lacrado, Wata 9.8 A+", "Heritage Auctions, abr 2022"],
+    smb2: ["Super Mario Bros. 2", "NES, 1988 · Lacrado, Wata 9.8 A+", "Heritage Auctions"],
+    punchout: ["Mike Tyson's Punch-Out!!", "NES, 1987 · Lacrado, Wata 9.8 A++", "Heritage Auctions"],
+    residentevil: ["Resident Evil", "PlayStation, 1996 · Lacrado, Wata 9.6 A+", "Heritage Auctions"],
+    ocarina: ["The Legend of Zelda: Ocarina of Time", "Nintendo 64, 1998 · Lacrado, Wata 9.8 A++", "Heritage Auctions, out 2021"],
+    finalfantasy: ["Final Fantasy", "NES, 1990 · Lacrado, Wata 9.8 A++", "Heritage Auctions, jul 2021"],
+    goldeneye: ["GoldenEye 007", "Nintendo 64, 1997 · Lacrado, Wata 9.8 A++", "Heritage Auctions"],
+    airraid: ["Air Raid", "Atari 2600, 1982 · A única cópia conhecida com caixa", "Venda particular, 2010"],
+    jordankobe: ["Logoman Duplo de Jordan e Kobe", "Upper Deck Exquisite, 2007–08 · Autógrafo, 1 de 1", "Heritage Auctions, ago 2024"],
+    lebron: ["LeBron James Exquisite Logoman", "Upper Deck Exquisite, 2003–04 · Autógrafo de novato, 1 de 1", "Venda particular, abr 2021"],
+    luka: ["Luka Dončić Logoman", "Panini National Treasures, 2018–19 · Autógrafo de novato, 1 de 1", "Venda particular, fev 2021"],
+    gretzky: ["Wayne Gretzky O-Pee-Chee 1979", "O-Pee-Chee, 1979 · Cartão de novato, PSA 10", "Venda particular, mai 2021"],
+    tombrady: ["Tom Brady Playoff Contenders 2000", "Playoff Contenders, 2000 · Autógrafo de novato, BGS 8", "Lelands, jun 2022"],
+    blastoise: ["Blastoise Presentation Galaxy Star", "Pokémon, 1998 · Feito para a Wizards of the Coast, CGC 8.5", "Heritage Auctions, jan 2021"],
+    gaeascradle: ["Gaea's Cradle", "Magic: The Gathering Urza's Saga, 1998 · Quase nova", "TCGplayer, mercado"],
+    rayquazavmax: ["Rayquaza VMAX Arte Alternativa", "Pokémon Evolving Skies, 2021 · Quase nova", "TCGplayer, mercado"],
+    moxdiamond: ["Mox Diamond", "Magic: The Gathering Stronghold, 1998 · Quase nova", "TCGplayer, mercado"],
+    venusaur: ["Venusaur, Shadowless", "Pokémon Base Set, 1999 · Quase nova", "TCGplayer, mercado"],
+    exodia: ["Exodia, o Proibido", "Yu-Gi-Oh! Legend of Blue Eyes, 2002 · Quase nova", "TCGplayer, mercado"],
+    darkmagician: ["Mago Negro", "Yu-Gi-Oh! Legend of Blue Eyes, 2002 · Quase nova", "TCGplayer, mercado"],
   };
   if (PT) Object.entries(LOTS_PT).forEach(([id, [name, detail, sold]]) => Object.assign(LOTS[id], { name, detail, sold }));
 
@@ -765,6 +875,17 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     pastNone: "Ainda não há leilões passados. O primeiro aparece aqui amanhã.",
     pastNo: no => `Nº ${no}`, pastPlay: "Participar", pastReview: "Ver resultado", pastScore: (s, n) => `${s}/${n}`,
     pastBack: "Voltar ao leilão de hoje",
+    subtitle: "Um jogo sobre preços",
+    rule: "Dois lotes vão a leilão. Escolha o que <em>vendeu por mais</em>.",
+    mDaily: "Diário", mDailySub: t => `Renova em ${t}`, mDailyDone: t => `Jogado · novo leilão em ${t}`,
+    mHistory: "Histórico", mHistorySub: "Estatísticas e leilões passados",
+    mRandom: "Aleatório", mRandomSub: "Jogo livre com todo o catálogo",
+    mPacks: "Pacotes Temáticos", mPacksSub: "Jogos, cartas e mais",
+    packsHead: "Escolha um pacote", packsIntro: "Dez lotes aleatórios de uma prateleira do catálogo.",
+    packs: { games: ["Jogos", n => `${n} lotes · lacrados, raros e completos`], cards: ["Cartas", n => `${n} lotes · Pokémon, Magic, Yu-Gi-Oh! e esportes`] },
+    back: "Voltar", menu: "Menu", again: "Jogar de novo",
+    randomSale: "Leilão Aleatório · Jogo livre", randomTitle: "Leilão Aleatório",
+    packSale: name => `Pacote Temático · ${name}`, packTitle: name => `Pacote ${name}`,
     streak: (c, b) => `Sequência ${c} · Recorde ${b}`, soundOn: "Som ligado", soundOff: "Som desligado",
     lotOf: (i, n) => `Lote ${i} de ${n}`,
     question: "Qual vendeu por <em>MAIS</em>?",
@@ -796,6 +917,17 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     pastNone: "No past sales yet. The first one shows up here tomorrow.",
     pastNo: no => `No. ${no}`, pastPlay: "Enter", pastReview: "View results", pastScore: (s, n) => `${s}/${n}`,
     pastBack: "Back to today's sale",
+    subtitle: "A game about pricing",
+    rule: "Two lots go under the hammer. Pick the one that <em>sold for more</em>.",
+    mDaily: "Daily", mDailySub: t => `Resets in ${t}`, mDailyDone: t => `Played · new sale in ${t}`,
+    mHistory: "History", mHistorySub: "Stats and past sales",
+    mRandom: "Random", mRandomSub: "Free play from the whole catalogue",
+    mPacks: "Theme Packs", mPacksSub: "Games, cards and more",
+    packsHead: "Choose a pack", packsIntro: "Ten random lots from one shelf of the catalogue.",
+    packs: { games: ["Games", n => `${n} lots · sealed, rare and complete`], cards: ["Cards", n => `${n} lots · Pokémon, Magic, Yu-Gi-Oh! and sports`] },
+    back: "Back", menu: "Menu", again: "Play again",
+    randomSale: "Random Sale · Free play", randomTitle: "Random Sale",
+    packSale: name => `Theme Pack · ${name}`, packTitle: name => `${name} Pack`,
     streak: (c, b) => `Streak ${c} · Best ${b}`, soundOn: "Sound on", soundOff: "Sound off",
     lotOf: (i, n) => `Lot ${i} of ${n}`,
     question: "Which sold for <em>MORE</em>?",
@@ -819,7 +951,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     ],
   };
 
-  const PNG = new Set(["batman1", "sm64", "smb", "zelda", "xmen1", "detective27", "cobain", "lion", "smb3", "blowin", "goku", "jumpdb", "sassoon"]);
+  const PNG = new Set(["batman1", "sm64", "smb", "zelda", "xmen1", "detective27", "cobain", "lion", "smb3", "blowin", "goku", "jumpdb", "sassoon", "madden", "smw", "smb2", "residentevil"]);
   const imgSrc = id => `img/${id}.${PNG.has(id) ? "png" : "jpg"}`;
 
   // Every lot asks which sold for more.
@@ -1061,6 +1193,9 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       const day = mode === "past" ? pastDay : dayKey(0);
       return { mode, day, store: STORE_KEY, rounds: dailyCatalogue(day), i: 0, results: [], revealed: false, catNo: dayNumber(day) };
     }
+    // Random: ten fresh lots from the whole catalogue. Theme pack: ten from one shelf (pastDay holds the pack id here).
+    if (mode === "random") return { mode, rounds: buildRounds(Math.random), i: 0, results: [], revealed: false };
+    if (mode === "theme") return { mode, pack: pastDay, rounds: buildRounds(Math.random, packLots(pastDay)), i: 0, results: [], revealed: false };
     return { mode, rounds: mode === "shuffle" ? buildRounds(Math.random) : CATALOGUE.map(r => r.slice()), i: 0, results: [], revealed: false, catNo: mode === "shuffle" ? 2 + Math.floor(Math.random() * 97) : 1 };
   }
 
@@ -1089,14 +1224,27 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       <span class="shadow"></span>`;
   }
 
-  const saleTitle = () => T.saleTitle(S.catNo);
+  const saleTitle = () => S.mode === "random" ? T.randomTitle
+    : S.mode === "theme" ? T.packTitle(T.packs[S.pack][0])
+    : T.saleTitle(S.catNo);
   let countdownTimer = null;
   function updateChrome() {
-    $("saleName").textContent = (S.mode === "past" ? T.pastSale : T.sale)(S.catNo, prettyDay(S.day || dayKey(0)));
+    $("saleName").textContent = S.mode === "random" ? T.randomSale
+      : S.mode === "theme" ? T.packSale(T.packs[S.pack][0])
+      : (S.mode === "past" ? T.pastSale : T.sale)(S.catNo, prettyDay(S.day || dayKey(0)));
     $("pastBtn").setAttribute("aria-pressed", "false");
     const st = loadStore();
     $("streak").textContent = T.streak(currentStreak(st), st.best || 0);
+    $("streak").hidden = S.mode !== "daily"; // free play doesn't touch the streak
     clearInterval(countdownTimer);
+  }
+
+  // One screen at a time: the landing card, the board, the results or the history page.
+  let menuTimer = null;
+  function showScreen(id) {
+    ["menu", "game", "results", "archive"].forEach(k => { $(k).hidden = k !== id; });
+    document.documentElement.classList.toggle("onmenu", id === "menu");
+    if (id !== "menu") clearInterval(menuTimer);
   }
 
   function renderRound() {
@@ -1114,9 +1262,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     });
     $("verdict").innerHTML = `<p class="hint">${T.hint}</p>`;
     renderPips();
-    $("game").hidden = false;
-    $("results").hidden = true;
-    $("archive").hidden = true;
+    showScreen("game");
     // warm the next pair's photos
     const nx = S.rounds[S.i + 1];
     if (nx) [nx[0], nx[1]].forEach(id => { const im = new Image(); im.src = imgSrc(id); });
@@ -1308,10 +1454,9 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     const st = S.mode === "daily" ? recordDaily() : null;
     if (S.mode === "past") recordPast();
     updateChrome();
-    $("game").hidden = true;
-    $("archive").hidden = true;
+    showScreen("results");
     const R = $("results");
-    R.hidden = false;
+    const free = S.mode === "random" || S.mode === "theme";
     const dailyBox = st ? `
       <div class="dailybox">
         <div><b>${currentStreak(st)}</b><span>${T.box[0]}</span></div>
@@ -1327,9 +1472,11 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       <div class="grid" aria-label="${T.gridLabel(score, S.rounds.length)}">${S.results.map(r => r.ok ? "🟩" : "🟥").join("")}</div>
       ${dailyBox}
       <div class="actions">
-        <button class="cta" id="shareBtn" type="button">${T.copy}</button>
-        <button class="ghost" id="toPast" type="button">${T.past}</button>
+        ${free ? `<button class="cta" id="againBtn" type="button">${T.again}</button>` : ""}
+        <button class="${free ? "ghost" : "cta"}" id="shareBtn" type="button">${T.copy}</button>
+        ${free ? "" : `<button class="ghost" id="toPast" type="button">${T.past}</button>`}
         ${S.mode === "past" ? `<button class="ghost" id="toToday" type="button">${T.pastBack}</button>` : ""}
+        <button class="ghost" id="toMenu" type="button">${T.menu}</button>
       </div>
       <div class="toast" id="toast" aria-live="polite"></div>
       <div class="ledger">
@@ -1352,8 +1499,10 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
         navigator.clipboard.writeText(txt).then(done, () => { $("toast").textContent = txt.replace(/\n/g, "  "); });
       } catch (e) { $("toast").textContent = txt.replace(/\n/g, "  "); }
     });
-    $("toPast").addEventListener("click", showArchive);
+    if ($("toPast")) $("toPast").addEventListener("click", showArchive);
     if ($("toToday")) $("toToday").addEventListener("click", () => setMode("daily"));
+    if ($("againBtn")) $("againBtn").addEventListener("click", () => setMode(S.mode, S.pack));
+    $("toMenu").addEventListener("click", showMenu);
     if (st) {
       const today = S.day;
       countdownTimer = setInterval(() => {
@@ -1380,10 +1529,92 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     }
     renderRound();
   }
-  function setMode(m) {
+  function setMode(m, pack) {
     stopAutoNext();
-    if (m === "daily") startDaily(); else { S = fresh(m); renderRound(); }
+    if (m === "daily") startDaily(); else { S = fresh(m, pack); renderRound(); }
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // ---------- Landing card ----------
+  const PACKS = ["games", "cards"];
+  const packLots = pack => Object.keys(LOTS).filter(id => LOTS[id].cat === pack);
+  const ICONS = {
+    daily: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="1.5"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>`,
+    history: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg>`,
+    random: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18.2 8.2C16.4 6.3 14.2 7 12 12s-4.4 5.7-6.2 3.8a2.7 2.7 0 0 1 0-3.6C7.6 10.3 9.8 11 12 12s4.4 1.7 6.2-.2a2.7 2.7 0 0 0 0-3.6z"/></svg>`,
+    packs: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 3 7.5l9 4.5 9-4.5z"/><path d="m3 12 9 4.5 9-4.5M3 16.5 12 21l9-4.5"/></svg>`,
+    github: `<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>`,
+    instagram: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>`,
+  };
+  const GITHUB_URL = "https://github.com/MattRahmeier";
+  const INSTAGRAM_URL = "https://www.instagram.com/mathiasrahmeier/";
+
+  let menuBgDone = false;
+  function fillMenuBg() { // a wall of random lots behind the card, blurred by CSS
+    if (menuBgDone) return;
+    menuBgDone = true;
+    const ids = Object.keys(LOTS);
+    for (let k = ids.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [ids[k], ids[j]] = [ids[j], ids[k]]; }
+    $("menuBg").innerHTML = ids.slice(0, 40).map(id => `<img src="${imgSrc(id)}" alt="" loading="lazy">`).join("");
+  }
+  function menuShell(body) {
+    return `<div class="menucard">
+      <h1 class="menutitle">${T.brand}</h1>
+      <p class="menusub">${T.subtitle}</p>
+      ${body}
+      <div class="menufoot">
+        <a class="social" href="${GITHUB_URL}" target="_blank" rel="noopener noreferrer">${ICONS.github}<span>GitHub</span></a>
+        <a class="social" href="${INSTAGRAM_URL}" target="_blank" rel="noopener noreferrer">${ICONS.instagram}<span>Instagram</span></a>
+      </div>
+    </div>`;
+  }
+  function showMenu() {
+    stopAutoNext();
+    clearInterval(countdownTimer);
+    fillMenuBg();
+    const M = $("menu");
+    M.innerHTML = menuShell(`
+      <p class="menurule">${T.rule}</p>
+      <div class="menugrid">
+        <button class="mbtn daily" id="goDaily" type="button"><b>${ICONS.daily}${T.mDaily}</b><small id="dailySub"></small></button>
+        <button class="mbtn history" id="goHistory" type="button"><b>${ICONS.history}${T.mHistory}</b><small>${T.mHistorySub}</small></button>
+        <button class="mbtn random" id="goRandom" type="button"><b>${ICONS.random}${T.mRandom}</b><small>${T.mRandomSub}</small></button>
+        <button class="mbtn packs" id="goPacks" type="button"><b>${ICONS.packs}${T.mPacks}</b><small>${T.mPacksSub}</small></button>
+      </div>`);
+    showScreen("menu");
+    const tick = () => {
+      const st = loadStore();
+      const played = st.days && st.days[dayKey(0)];
+      if ($("dailySub")) $("dailySub").textContent = (played ? T.mDailyDone : T.mDailySub)(untilMidnight());
+    };
+    tick();
+    clearInterval(menuTimer);
+    menuTimer = setInterval(tick, 1000);
+    $("goDaily").addEventListener("click", () => setMode("daily"));
+    $("goHistory").addEventListener("click", showArchive);
+    $("goRandom").addEventListener("click", () => setMode("random"));
+    $("goPacks").addEventListener("click", showPacks);
+    window.scrollTo({ top: 0 });
+  }
+  function showPacks() { // the theme pack picker, inside the same card
+    const M = $("menu");
+    M.innerHTML = menuShell(`
+      <h2 class="menuhead">${T.packsHead}</h2>
+      <p class="menurule">${T.packsIntro}</p>
+      <div class="menugrid">
+        ${PACKS.map(p => {
+          const ids = packLots(p);
+          const thumbs = ids.slice().sort((a, b) => LOTS[b].price - LOTS[a].price).slice(0, 3);
+          return `<button class="mbtn pack wide ${p}" type="button" data-pack="${p}">
+            <span class="thumbs">${thumbs.map(id => `<img src="${imgSrc(id)}" alt="">`).join("")}</span>
+            <span class="txt"><b>${T.packs[p][0]}</b><small>${T.packs[p][1](ids.length)}</small></span>
+          </button>`;
+        }).join("")}
+        <button class="mbtn back wide" id="packsBack" type="button"><b>← ${T.back}</b></button>
+      </div>`);
+    clearInterval(menuTimer);
+    M.querySelectorAll("[data-pack]").forEach(b => b.addEventListener("click", () => setMode("theme", b.dataset.pack)));
+    $("packsBack").addEventListener("click", showMenu);
   }
 
   // ---------- Past sales: every earlier daily catalogue, replayable without touching the streak ----------
@@ -1407,10 +1638,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       if (dayNumber(key) < 1) break;
       keys.push(key);
     }
-    $("game").hidden = true;
-    $("results").hidden = true;
+    showScreen("archive");
     const A = $("archive");
-    A.hidden = false;
     A.innerHTML = `
       <h2>${T.past}</h2>
       <p class="intro">${keys.length ? T.pastIntro : T.pastNone}</p>
@@ -1423,9 +1652,13 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
           <button class="ghost" type="button" data-day="${key}">${r ? T.pastReview : T.pastPlay}</button>
         </div>`;
       }).join("")}</div>` : ""}
-      <button class="cta" id="archBack" type="button">${T.pastBack}</button>`;
+      <div class="actions">
+        <button class="cta" id="archBack" type="button">${T.pastBack}</button>
+        <button class="ghost" id="archMenu" type="button">${T.menu}</button>
+      </div>`;
     A.querySelectorAll("[data-day]").forEach(b => b.addEventListener("click", () => playPast(b.dataset.day)));
     $("archBack").addEventListener("click", () => setMode("daily"));
+    $("archMenu").addEventListener("click", showMenu);
     $("pastBtn").setAttribute("aria-pressed", "true");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -1447,7 +1680,12 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   $("vsWord").textContent = T.vs;
   $("foot").textContent = T.foot;
   $("pastLabel").textContent = T.past;
-  $("pastBtn").addEventListener("click", () => $("archive").hidden ? showArchive() : setMode("daily"));
+  $("pastBtn").addEventListener("click", () => $("archive").hidden ? showArchive() : showMenu());
+  $("homeBtn").setAttribute("aria-label", T.menu);
+  $("homeBtn").title = T.menu;
+  $("homeBtn").addEventListener("click", showMenu);
+  $("brand").addEventListener("click", showMenu);
+  $("brand").addEventListener("keydown", e => { if (e.key === "Enter") showMenu(); });
   if (T.footRate) $("foot").insertAdjacentHTML("beforeend", `<span class="rate">${T.footRate}</span>`);
   // Touch screens have no hover: mark the lot while a finger is on it.
   ["lot0", "lot1"].forEach(id => {
@@ -1506,7 +1744,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   window.claude?.hot?.snapshot?.(() => ({ S }));
   const start = data => {
     const old = data && data.S;
-    if (!(old && validRounds(old.rounds)) || old.mode !== "daily" || old.day !== dayKey(0) || old.store !== STORE_KEY) { startDaily(); return; }
+    // Every visit opens on the landing card; only a live hot reload mid-game drops straight back into the board.
+    if (!(old && validRounds(old.rounds)) || old.mode !== "daily" || old.day !== dayKey(0) || old.store !== STORE_KEY) { showMenu(); return; }
     S = old;
     if (S.results.length === S.rounds.length) showResults();
     else { if (S.results[S.i]) S.i = Math.min(S.i + 1, S.rounds.length - 1); renderRound(); }
