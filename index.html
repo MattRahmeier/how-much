@@ -141,7 +141,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 
 /* Stage */
 #game { display: flex; flex-direction: column; gap: 18px; }
-.stage { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: clamp(6px, 2vw, 22px); margin-top: 34px; }
+.stage { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; gap: clamp(6px, 2vw, 22px); margin-top: 34px; }
+#game { scroll-margin-top: 10px; }
 .vs {
   align-self: center; font-family: var(--f-display); font-style: italic; font-size: clamp(18px, 3vw, 26px);
   color: var(--brass); padding-bottom: 140px;
@@ -161,19 +162,23 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   pointer-events: none; z-index: -1; transition: opacity .4s; opacity: .85;
 }
 .lot:hover:not([disabled]) .beam, .lot:focus-visible .beam { opacity: 1; }
-.vitrine {
-  position: relative; width: min(100%, 280px); aspect-ratio: 4 / 5; max-width: 100%;
+.vitrine { /* fixed-size case: only the photo inside scales, so the glass never changes between lots */
+  --pad: 12%;
+  position: relative; flex: none; aspect-ratio: 4 / 5;
+  width: clamp(140px, calc((100svh - 470px) * .8), 280px); max-width: 100%;
   border: 1px solid rgba(255,255,255,.22); border-bottom: 0;
   background: linear-gradient(115deg, rgba(255,255,255,.10), rgba(255,255,255,.02) 38%, rgba(255,255,255,.06) 60%, rgba(255,255,255,.01));
-  display: grid; place-items: center; padding: 12%; overflow: hidden;
+  overflow: hidden;
   transition: transform .35s cubic-bezier(.2,.8,.2,1);
 }
+.vitrine > .photo, .vitrine > .nophoto { position: absolute; inset: var(--pad); }
+.nophoto { display: grid; place-items: center; text-align: center; }
 .vitrine::after { /* glass glare over the photo */
   content: ""; position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(115deg, rgba(255,255,255,.14), transparent 30%, transparent 70%, rgba(255,255,255,.05));
 }
 .photo { /* sits inside the case's padding, never cropped */
-  display: block; width: 100%; height: 100%; min-height: 0; object-fit: contain;
+  display: block; width: calc(100% - 2 * var(--pad)); height: calc(100% - 2 * var(--pad)); object-fit: contain;
   filter: drop-shadow(0 3px 4px rgba(0,0,0,.45)) drop-shadow(0 14px 16px rgba(0,0,0,.5));
 }
 .nophoto { font-family: var(--f-display); font-style: italic; color: var(--brass-hi); font-size: 15px; }
@@ -197,7 +202,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 }
 .vitrine, .lotname { transition: transform .35s cubic-bezier(.2,.8,.2,1), border-color .2s, box-shadow .2s; }
 .foot .rate { display: block; margin-top: 4px; }
-.plinth { width: min(100%, 300px); display: flex; flex-direction: column; align-items: center; }
+.plinth { width: min(100%, 300px); flex: 1; display: flex; flex-direction: column; align-items: center; }
 .cap {
   width: 100%; height: 14px;
   background: linear-gradient(180deg, #f6f1e7, var(--marble) 50%, var(--marble-shade));
@@ -210,7 +215,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     linear-gradient(160deg, rgba(255,255,255,.3) 0 2%, transparent 2% 30%, rgba(120,110,95,.12) 30% 31%, transparent 31%),
     linear-gradient(180deg, var(--marble), var(--marble-shade));
   display: flex; flex-direction: column; align-items: center; gap: 10px;
-  min-height: 150px;
+  flex: 1; min-height: 196px;
 }
 .lotname { /* engraved name plaquette, slightly see-through over the marble */
   margin: 0; max-width: 100%; padding: 6px 10px 7px; border-radius: 2px;
@@ -258,7 +263,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 
 /* Verdict */
 .verdict {
-  display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; min-height: 112px;
+  display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center;
+  min-height: 250px; /* room for the full verdict, so answering never shifts the page */
 }
 .verdict p { margin: 0; max-width: 60ch; color: var(--muted); }
 .verdict .head { font-family: var(--f-display); font-size: clamp(20px, 3.6vw, 26px); color: var(--ivory); font-style: italic; }
@@ -312,8 +318,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 
 @media (max-width: 560px) {
   .vs { padding-bottom: 150px; }
-  .column { min-height: 168px; padding: 10px 5px 12px; gap: 8px; }
-  .vitrine { padding: 10%; }
+  .column { min-height: 200px; padding: 10px 5px 12px; gap: 8px; }
+  .vitrine { --pad: 10%; }
   .stage { margin-top: 24px; }
   .beam { width: 130%; }
 }
@@ -917,6 +923,9 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       renderPips();
       $("nextBtn").addEventListener("click", next);
       $("nextBtn").focus({ preventScroll: true });
+      // if the screen is short, nudge just enough to show the button, keeping the lots on screen
+      const nb = $("nextBtn").getBoundingClientRect();
+      if (nb.bottom > innerHeight) window.scrollBy({ top: Math.min(nb.bottom - innerHeight + 12, $("stage").getBoundingClientRect().top - 10), behavior: "smooth" });
       startAutoNext();
       // Alternate the multiple with the dollar gap.
       let tick = 0;
@@ -984,10 +993,17 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     }, 200);
   }
 
+  // Keep the question and both lots in view while playing; the page sizes the cases to fit the screen.
+  function focusPlay() {
+    const g = $("game");
+    if (g.hidden || Math.abs(g.getBoundingClientRect().top - 10) < 4) return;
+    g.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   function next() {
     stopAutoNext();
     if (!S.revealed) return;
-    if (S.i < S.rounds.length - 1) { S.i++; renderRound(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+    if (S.i < S.rounds.length - 1) { S.i++; renderRound(); focusPlay(); }
     else { showResults(); sfx.done(); }
   }
 
