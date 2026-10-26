@@ -656,10 +656,10 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
     };
   }
-  const dailyCatalogue = key => buildRounds(seededRandom("howmuch:" + key));
+  const dailyCatalogue = key => buildRounds(seededRandom("howmuch:v3:" + key));
 
   // Streaks live in this browser only.
-  const STORE_KEY = "howmuch.daily.v2"; // v2 reset everyone's daily progress and streaks
+  const STORE_KEY = "howmuch.daily.v3"; // bump to reset everyone's daily progress and streaks
   function loadStore() {
     try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { return {}; }
   }
