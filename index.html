@@ -218,6 +218,20 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   padding-top: 5px; border-top: 1px solid rgba(29,16,20,.18); min-width: 60%;
   font: 500 clamp(9.5px, 1.7vw, 11px)/1.3 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: #6b564c;
 }
+.certtag { /* "Certified" chip in front of the grade */
+  display: inline-block; margin: 0 2px 2px 0; padding: 1px 5px; border-radius: 2px; vertical-align: 1px;
+  font-style: normal; font-weight: 700; letter-spacing: .08em; color: #f4ecdc; background: #2f6b4a;
+}
+.sticker { /* auction-house sticker on the item itself: sealed and/or graded */
+  position: absolute; left: 50%; bottom: 14px; z-index: 1; max-width: 88%;
+  transform: translateX(-50%) rotate(-3deg); padding: 4px 8px 4px 7px; border-radius: 2px;
+  background: linear-gradient(180deg, #fffdf6, #eee3c8); color: #1d1014; border: 1px solid #b89a5a; border-left-width: 5px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.5);
+  font: 700 clamp(8.5px, 1.8vw, 10.5px)/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none;
+}
+.sticker.sealed { border-left-color: #b8322f; }
+.sticker.graded { border-left-color: #2f6b4a; }
 .plaque {
   margin-top: auto; width: 100%; max-width: 190px; padding: 8px 6px 7px; border-radius: 2px;
   background: linear-gradient(180deg, var(--brass-hi), var(--brass) 45%, var(--brass-lo));
@@ -910,7 +924,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     mPacks: "Pacotes Temáticos", mPacksSub: "Jogos, cartas e mais",
     packsHead: "Escolha um pacote", packsIntro: "Dez lotes aleatórios de uma prateleira do catálogo.",
     packs: { games: ["Jogos", n => `${n} lotes · lacrados, raros e completos`], cards: ["Cartas", n => `${n} lotes · Pokémon, Magic, Yu-Gi-Oh! e esportes`] },
-    back: "Voltar", menu: "Menu", again: "Jogar de novo", newLots: "Lotes novos todos os dias!",
+    back: "Voltar", menu: "Menu", again: "Jogar de novo", newLots: "Lotes novos todos os dias!", certified: "Certificado", sealed: "Lacrado",
     randomSale: "Leilão Aleatório · Jogo livre", randomTitle: "Leilão Aleatório",
     packSale: name => `Pacote Temático · ${name}`, packTitle: name => `Pacote ${name}`,
     streak: (c, b) => `Sequência ${c} · Recorde ${b}`, soundOn: "Som ligado", soundOff: "Som desligado",
@@ -952,7 +966,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     mPacks: "Theme Packs", mPacksSub: "Games, cards and more",
     packsHead: "Choose a pack", packsIntro: "Ten random lots from one shelf of the catalogue.",
     packs: { games: ["Games", n => `${n} lots · sealed, rare and complete`], cards: ["Cards", n => `${n} lots · Pokémon, Magic, Yu-Gi-Oh! and sports`] },
-    back: "Back", menu: "Menu", again: "Play again", newLots: "New lots every day!",
+    back: "Back", menu: "Menu", again: "Play again", newLots: "New lots every day!", certified: "Certified", sealed: "Sealed",
     randomSale: "Random Sale · Free play", randomTitle: "Random Sale",
     packSale: name => `Theme Pack · ${name}`, packTitle: name => `${name} Pack`,
     streak: (c, b) => `Streak ${c} · Best ${b}`, soundOn: "Sound on", soundOff: "Sound off",
@@ -1234,16 +1248,31 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     }).join("");
   }
 
+  // Graded (PSA, CGC, SGC, BGS, Wata) and factory-sealed lots get a "Certified" tag and a sticker on the item.
+  const GRADER = /\b(PSA|Wata|CGC|BGS|SGC)\b[^,·]*/i;
+  function certInfo(L) {
+    const cond = L.detail.split(" · ")[1] || "";
+    const grade = (cond.match(GRADER) || [""])[0].trim();
+    const sealed = /^(Sealed|Lacrado)(,|$)/i.test(cond) || /\bSealed VHS\b|\bVHS Lacrado\b/i.test(L.name);
+    return { grade, sealed };
+  }
   function lotMarkup(id, n) {
     const L = LOTS[id];
+    const C = certInfo(L);
+    const sticker = C.sealed || C.grade
+      ? `<span class="sticker ${C.sealed ? "sealed" : "graded"}">${[C.sealed ? T.sealed : T.certified, C.grade].filter(Boolean).join(" · ")}</span>`
+      : "";
+    const detail = L.detail.split(" · ").map((t, k) => k
+      ? `<span class="cond">${C.grade ? `<i class="certtag">✓ ${T.certified}</i> ` : ""}${t}</span>`
+      : `<span class="made">${t}</span>`).join("");
     return `
       <span class="beam"></span>
-      <span class="vitrine">${photoFor(id)}<span class="stamp" id="stamp${n}"></span></span>
+      <span class="vitrine">${photoFor(id)}${sticker}<span class="stamp" id="stamp${n}"></span></span>
       <span class="plinth">
         <span class="cap"></span>
         <span class="column">
           <span class="lotname">${L.name}</span>
-          <span class="lotdetail">${L.detail.split(" · ").map((t, k) => `<span class="${k ? "cond" : "made"}">${t}</span>`).join("")}</span>
+          <span class="lotdetail">${detail}</span>
           <span class="plaque"><span class="k" id="k${n}">${T.price}</span><span class="v" id="v${n}">${T.placeholder}</span></span>
         </span>
         <span class="base"></span>
