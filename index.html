@@ -132,34 +132,6 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 .question em { font-style: italic; color: var(--brass-hi); }
 .qicon { flex: none; width: clamp(30px, 5vw, 40px); height: clamp(30px, 5vw, 40px); }
 .qicon.more { color: var(--win); }
-.qicon.less { color: var(--lose); }
-.question.flip { animation: flip 1.8s ease-out; }
-@keyframes flip {
-  0%, 20% { background: rgba(240,215,159,.32); box-shadow: 0 0 0 1px var(--brass-hi), 0 0 40px rgba(240,215,159,.35); transform: scale(1.06); }
-  100% { background: transparent; box-shadow: 0 0 0 1px transparent; transform: none; }
-}
-/* Rule-change notice: pauses the game over a dimmed board */
-.alert {
-  position: fixed; inset: 0; z-index: 50; display: flex; padding: 16px; overflow-y: auto; /* scrolls on very short screens */
-  background: rgba(10,3,7,.78); animation: fadein .25s ease-out;
-}
-.alertcard {
-  margin: auto; width: min(100%, 420px); display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center;
-  padding: 28px 22px 24px; border-radius: 3px; background: var(--velvet-deep); border: 1px solid var(--brass);
-  box-shadow: inset 0 0 0 4px var(--velvet-deep), inset 0 0 0 5px rgba(201,163,92,.4), 0 18px 40px rgba(0,0,0,.6);
-  animation: pop .35s cubic-bezier(.3,1.4,.5,1);
-}
-.alertcard .qicon { width: 56px; height: 56px; }
-.alertcard h2 { margin: 0; font-family: var(--f-display); font-style: italic; font-size: clamp(26px, 6vw, 34px); color: var(--brass-hi); }
-.alertcard p { margin: 0; font-family: var(--f-display); font-size: clamp(18px, 4vw, 22px); color: var(--ivory); text-wrap: balance; }
-.alertcard p em { color: var(--lose); font-style: normal; font-weight: 700; }
-@keyframes fadein { from { opacity: 0; } }
-@keyframes pop { from { opacity: 0; transform: scale(.9); } }
-.rulechange {
-  font: 500 12px/1.3 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink);
-  background: linear-gradient(180deg, var(--brass-hi), var(--brass)); padding: 6px 12px; border-radius: 2px;
-  animation: flip 1.8s ease-out;
-}
 
 /* Stage */
 #game { display: flex; flex-direction: column; gap: 18px; }
@@ -394,7 +366,6 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 
     <main id="game">
       <section class="rail">
-        <div class="rulechange" id="ruleNote" hidden>Rules change · now find the cheaper lot</div>
         <span class="sale" id="saleName">Daily Sale</span>
         <h2 class="question" id="question"><span class="qtext">Which sold for <em>MORE</em>?</span></h2>
         <div class="pips" id="pips" aria-hidden="true"></div>
@@ -416,8 +387,6 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     <section class="results" id="results" hidden></section>
 
     <section class="archive" id="archive" hidden></section>
-
-    <div class="alert" id="ruleAlert" role="alertdialog" aria-modal="true" aria-labelledby="ruleAlertTitle" hidden></div>
 
     <p class="foot" id="foot">Prices from the internet based on trading sites, auction houses and publicly available information.</p>
   </div>
@@ -705,15 +674,12 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     pastBack: "Voltar ao leilão de hoje",
     streak: (c, b) => `Sequência ${c} · Recorde ${b}`, soundOn: "Som ligado", soundOff: "Som desligado",
     lotOf: (i, n) => `Lote ${i} de ${n}`,
-    q: { saleMore: "Qual vendeu por <em>MAIS</em>?", saleLess: "Qual vendeu por <em>MENOS</em>?", marketMore: "Qual vendeu por <em>MAIS</em>?", marketLess: "Qual vendeu por <em>MENOS</em>?" },
-    ruleLess: "Mudança de regra · agora encontre o lote mais barato", ruleMore: "Mudança de regra · agora encontre o lote mais caro",
-    alertTitle: "Mudança de regra!", alertBody: "Daqui em diante, escolha o lote que vendeu por <em>MENOS</em>.",
-    alertIn: "O leilão continua em instantes", alertOk: "Ok, entendi!",
-    iconMore: "Mais dinheiro", iconLess: "Menos dinheiro",
+    question: "Qual vendeu por <em>MAIS</em>?",
+    iconMore: "Mais dinheiro",
     price: "Preço", placeholder: "R$ ? ? ?", soldFor: "Vendido por", marketValue: "Valor de mercado",
     correct: "Acertou", wrong: "Errou",
     headOk: "Vendido para o espertinho!", headNo: "Superado no lance.",
-    more: "MAIS", less: "MENOS", worth: (name, amt, word) => `${name} vale <b>${amt}</b> ${word}`,
+    more: "MAIS", worth: (name, amt, word) => `${name} vale <b>${amt}</b> ${word}`,
     buy: (item, n, noun) => `Com o preço de <i>${item}</i> você poderia comprar <b>${n} ${noun}</b>`, buyNone: item => `O preço de <i>${item}</i> não compraria nem um peso argentino`,
     nextIn: last => last ? "Resultado em" : "Próximo lote em", nextBtn: last => last ? "Ver resultado" : "Próximo leilão",
     closed: "Leilão encerrado", gridLabel: (s, n) => `${s} acertos de ${n}`,
@@ -739,15 +705,12 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     pastBack: "Back to today's sale",
     streak: (c, b) => `Streak ${c} · Best ${b}`, soundOn: "Sound on", soundOff: "Sound off",
     lotOf: (i, n) => `Lot ${i} of ${n}`,
-    q: { saleMore: "Which sold for <em>MORE</em>?", saleLess: "Which sold for <em>LESS</em>?", marketMore: "Which sold for <em>MORE</em>?", marketLess: "Which sold for <em>LESS</em>?" },
-    ruleLess: "Rules change · now find the cheaper lot", ruleMore: "Rules change · now find the pricier lot",
-    alertTitle: "Rule change!", alertBody: "From now on, pick the lot that sold for <em>LESS</em>.",
-    alertIn: "The sale resumes in a moment", alertOk: "Ok, got it!",
-    iconMore: "More money", iconLess: "Less money",
+    question: "Which sold for <em>MORE</em>?",
+    iconMore: "More money",
     price: "Price", placeholder: "$ ? ? ?", soldFor: "Sold for", marketValue: "Market value",
     correct: "Correct", wrong: "Wrong",
     headOk: "Sold, to the sharp-eyed bidder.", headNo: "Outbid.",
-    more: "MORE", less: "LESS", worth: (name, amt, word) => `${name} is worth <b>${amt}</b> ${word}`,
+    more: "MORE", worth: (name, amt, word) => `${name} is worth <b>${amt}</b> ${word}`,
     buy: (item, n, noun) => `With the price of <i>${item}</i> you could buy <b>${n} ${noun}</b>`, buyNone: item => `The price of <i>${item}</i> wouldn't even buy an Argentine peso`,
     nextIn: last => last ? "Results in" : "Next lot in", nextBtn: last => last ? "See results" : "Next auction",
     closed: "Sale closed", gridLabel: (s, n) => `${s} correct of ${n}`,
@@ -766,19 +729,18 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   const PNG = new Set(["batman1", "sm64", "smb", "zelda", "xmen1", "detective27", "cobain", "lion", "smb3"]);
   const imgSrc = id => `img/${id}.${PNG.has(id) ? "png" : "jpg"}`;
 
-  // Every catalogue: lots 1-5 ask for the pricier lot ("more"), lots 6-10 for the cheaper one ("less").
-  const HALF = 5;
+  // Every lot asks which sold for more.
   const CATALOGUE = [
     ["sm64", "zelda", "more"],
     ["nintendops", "dracula", "more"],
     ["superman", "pikachu", "more"],
     ["lugia", "charbase", "more"],
     ["beachbomb", "hulk181", "more"],
-    ["bobafett", "charizard", "less"],
-    ["lotus", "af15", "less"],
-    ["smb", "action1", "less"],
-    ["earthbound", "umbreon", "less"],
-    ["action1", "slippers", "less"],
+    ["bobafett", "charizard", "more"],
+    ["lotus", "af15", "more"],
+    ["smb", "action1", "more"],
+    ["earthbound", "umbreon", "more"],
+    ["action1", "slippers", "more"],
   ];
 
   const gapOk = (a, b) => Math.abs(LOTS[a].price - LOTS[b].price) / Math.max(LOTS[a].price, LOTS[b].price) >= 0.03;
@@ -805,8 +767,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       if (!same(cands[0])) mixed++;
       const b = cands[Math.floor(rnd() * cands.length)];
       pool.splice(pool.indexOf(b), 1);
-      const q = rounds.length < HALF ? "more" : "less";
-      rounds.push(rnd() < 0.5 ? [a, b, q] : [b, a, q]);
+      rounds.push(rnd() < 0.5 ? [a, b, "more"] : [b, a, "more"]);
     }
     return rounds;
   }
@@ -843,15 +804,15 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   const CURATED = {
     "2026-10-27": [
       ["wagner", "mantle", "more"], ["f335s", "w196", "more"], ["chateau", "cps220", "more"], ["willis", "waldorf", "more"], ["ruth", "jordan98", "more"],
-      ["basquiat", "scream", "less"], ["mclarenf1", "dtype", "less"], ["brady", "homealone", "less"], ["londonbridge", "cerrogordo", "less"], ["stan", "sue", "less"],
+      ["basquiat", "scream", "more"], ["mclarenf1", "dtype", "more"], ["brady", "homealone", "more"], ["londonbridge", "cerrogordo", "more"], ["stan", "sue", "more"],
     ],
     "2026-10-28": [
       ["smb3", "nwc", "more"], ["dbr1", "f290mm", "more"], ["theone", "spelling", "more"], ["transamerica", "pebble", "more"], ["codex", "constitution", "more"],
-      ["hockney", "banksy", "less"], ["batmobile", "cobra", "less"], ["ennis", "mmhouse", "less"], ["buford", "alaska", "less"], ["cobain", "maradona", "less"],
+      ["hockney", "banksy", "more"], ["batmobile", "cobra", "more"], ["ennis", "mmhouse", "more"], ["buford", "alaska", "more"], ["cobain", "maradona", "more"],
     ],
     "2026-10-29": [
       ["ladyblunt", "faberge", "more"], ["nart", "duesenberg", "more"], ["beverly", "playboy", "more"], ["plaza", "chrysler", "more"], ["lion", "blackstrat", "more"],
-      ["aj13", "subway", "less"], ["p917", "bullitt", "less"], ["neverland", "versace", "less"], ["lambert", "battersea", "less"], ["apple1", "apollobag", "less"],
+      ["aj13", "subway", "more"], ["p917", "bullitt", "more"], ["neverland", "versace", "more"], ["lambert", "battersea", "more"], ["apple1", "apollobag", "more"],
     ],
   };
   // After the hand-picked days, each day leaves out the lots shown in the previous REST_DAYS days.
@@ -939,13 +900,13 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   const short = PT ? shortBRL : shortUSD;
   const num = (n, d = 0) => n.toLocaleString(T.locale, { maximumFractionDigits: d, minimumFractionDigits: d });
   const valueLabel = L => L.kind === "market" ? T.marketValue : T.soldFor;
-  // A banknote with an arrow: up for "more money", down for "less money".
-  const moneyIcon = q => `
-    <svg class="qicon ${q}" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="${q === "more" ? T.iconMore : T.iconLess}">
+  // A banknote with an up arrow: "more money".
+  const moneyIcon = () => `
+    <svg class="qicon more" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="${T.iconMore}">
       <rect x="3" y="13" width="24" height="15" rx="2"/>
       <circle cx="15" cy="20.5" r="3.6"/>
       <path d="M7 17v7M23 17v7" stroke-width="1.6"/>
-      ${q === "more" ? `<path d="M34 30V8M29 13l5-5 5 5"/>` : `<path d="M34 8v22M29 25l5 5 5-5"/>`}
+      <path d="M34 30V8M29 13l5-5 5 5"/>
     </svg>`;
 
   function photoFor(id) {
@@ -1034,23 +995,10 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 
   function renderRound() {
     S.revealed = false;
-    const [a, b, q] = S.rounds[S.i];
+    const [a, b] = S.rounds[S.i];
     updateChrome();
     $("lotNo").textContent = T.lotOf(S.i + 1, S.rounds.length);
-    const anyMarket = LOTS[a].kind === "market" || LOTS[b].kind === "market";
-    const text = anyMarket
-      ? (q === "more" ? T.q.marketMore : T.q.marketLess)
-      : (q === "more" ? T.q.saleMore : T.q.saleLess);
-    const Qel = $("question");
-    Qel.innerHTML = `${moneyIcon(q)}<span class="qtext">${text}</span>`;
-    const flipped = S.i > 0 && S.rounds[S.i - 1][2] !== q;
-    Qel.classList.remove("flip");
-    $("ruleNote").hidden = !flipped;
-    if (flipped) {
-      $("ruleNote").textContent = q === "less" ? T.ruleLess : T.ruleMore;
-      void Qel.offsetWidth; // restart the highlight animation
-      Qel.classList.add("flip");
-    }
+    $("question").innerHTML = `${moneyIcon()}<span class="qtext">${T.question}</span>`;
     [a, b].forEach((id, n) => {
       const el = $("lot" + n);
       el.className = "lot";
@@ -1066,53 +1014,17 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     // warm the next pair's photos
     const nx = S.rounds[S.i + 1];
     if (nx) [nx[0], nx[1]].forEach(id => { const im = new Image(); im.src = imgSrc(id); });
-    if (flipped && q === "less") showRuleAlert();
   }
 
-  // Rule change: pause the game behind a notice until the countdown ends or the player dismisses it.
-  const ALERT_SECONDS = 5;
-  let alertTimer = null;
-  const alertOpen = () => !$("ruleAlert").hidden;
-  function showRuleAlert() {
-    const A = $("ruleAlert");
-    A.innerHTML = `
-      <div class="alertcard">
-        ${moneyIcon("less")}
-        <h2 id="ruleAlertTitle">${T.alertTitle}</h2>
-        <p>${T.alertBody}</p>
-        <div class="countdown"><span class="ring"><svg viewBox="0 0 34 34" aria-hidden="true">
-          <circle cx="17" cy="17" r="15" stroke="rgba(244,236,220,.15)" stroke-width="2.5" fill="none"/>
-          <circle id="alertArc" cx="17" cy="17" r="15" stroke="var(--brass-hi)" stroke-width="2.5" fill="none" stroke-dasharray="94.25" stroke-dashoffset="0" stroke-linecap="round"/>
-        </svg><b id="alertNum">${ALERT_SECONDS}</b></span><span>${T.alertIn}</span></div>
-        <button class="cta" id="alertOk" type="button">${T.alertOk}</button>
-      </div>`;
-    A.hidden = false;
-    $("alertOk").addEventListener("click", closeRuleAlert);
-    $("alertOk").focus({ preventScroll: true });
-    clearInterval(alertTimer);
-    const end = performance.now() + ALERT_SECONDS * 1000;
-    alertTimer = setInterval(() => {
-      const left = Math.max(0, end - performance.now());
-      $("alertNum").textContent = Math.ceil(left / 1000);
-      $("alertArc").setAttribute("stroke-dashoffset", String(94.25 * (1 - left / (ALERT_SECONDS * 1000))));
-      if (left <= 0) closeRuleAlert();
-    }, 100);
-  }
-  function closeRuleAlert() {
-    clearInterval(alertTimer);
-    if (!alertOpen()) return;
-    $("ruleAlert").hidden = true;
-    const Qel = $("question"); // replay the question highlight now that the board is visible
-    Qel.classList.remove("flip"); void Qel.offsetWidth; Qel.classList.add("flip");
-  }
 
   function pick(n) {
-    if (S.revealed || alertOpen()) return;
+    if (S.revealed) return;
     S.revealed = true;
-    const [a, b, q] = S.rounds[S.i];
+    S.rounds[S.i][2] = "more"; // a round saved under the old MORE/LESS rules is played as MORE now
+    const [a, b] = S.rounds[S.i];
     const ids = [a, b];
     const prices = ids.map(id => LOTS[id].price);
-    const answer = q === "more" ? (prices[0] > prices[1] ? 0 : 1) : (prices[0] < prices[1] ? 0 : 1);
+    const answer = prices[0] > prices[1] ? 0 : 1;
     const ok = n === answer;
     S.results[S.i] = { ok, pick: n, answer };
     if (S.mode === "daily" && S.results.length < S.rounds.length) saveProgress();
@@ -1162,7 +1074,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     const winName = LOTS[ids[answer]].name;
     const times = hi / lo;
     const last = S.i === S.rounds.length - 1;
-    const word = q === "more" ? T.more : T.less;
+    const word = T.more;
     const timesTxt = num(times, times >= 10 ? 0 : times >= 2 ? 1 : 2);
     const relLines = [
       T.worth(winName, `${timesTxt}×`, word),
@@ -1468,7 +1380,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     if (open) $("langMenu").querySelector('[aria-selected="true"]').focus();
   });
   document.addEventListener("click", e => { if (!$("langPick").contains(e.target)) closeLangMenu(); });
-  document.addEventListener("keydown", e => { if (e.key === "Escape") { closeLangMenu(); closeRuleAlert(); } });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { closeLangMenu(); } });
   $("lot0").addEventListener("click", () => pick(0));
   $("lot1").addEventListener("click", () => pick(1));
   $("soundBtn").addEventListener("click", () => {
@@ -1479,7 +1391,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   });
   paintSound();
   document.addEventListener("keydown", e => {
-    if ($("game").hidden || alertOpen()) return;
+    if ($("game").hidden) return;
     if (!S.revealed && (e.key === "ArrowLeft" || e.key === "1")) pick(0);
     else if (!S.revealed && (e.key === "ArrowRight" || e.key === "2")) pick(1);
     else if (S.revealed && e.key === "Enter" && $("nextBtn") && document.activeElement !== $("nextBtn")) next();
