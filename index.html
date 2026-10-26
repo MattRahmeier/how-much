@@ -1535,7 +1535,9 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     const nb = $("nextBtn");
     if (nb) { // the button is pinned, so make room for the verdict text above it, never scrolling past the bids
       const last = $("buyLine") || $("relLine") || $("verdict");
-      const need = last.getBoundingClientRect().bottom + y - (nb.getBoundingClientRect().top - 12);
+      // where the pinned button ends up once its entrance animation is over
+      const btnTop = innerHeight - parseFloat(getComputedStyle(nb).bottom) - nb.offsetHeight;
+      const need = last.getBoundingClientRect().bottom + y - (btnTop - 12);
       const keep = top(document.querySelector(".plaque")) - 10;
       target = Math.max(target, Math.min(need, keep));
     }
