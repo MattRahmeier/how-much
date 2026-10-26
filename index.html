@@ -1622,7 +1622,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     stopAutoNext();
     if (m === "daily") startDaily(); else { S = fresh(m, pack); renderRound(); }
     if ($("game").hidden) window.scrollTo({ top: 0, behavior: "smooth" }); // results page: start at the top
-    else requestAnimationFrame(focusPlay);
+    else focusPlay();
   }
 
   // ---------- Landing card ----------
@@ -1762,7 +1762,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       S.results = r.results; S.i = S.rounds.length - 1; S.revealed = true; showResults();
     } else renderRound();
     if ($("game").hidden) window.scrollTo({ top: 0, behavior: "smooth" });
-    else requestAnimationFrame(focusPlay);
+    else focusPlay();
   }
 
   // ---------- Wiring ----------
