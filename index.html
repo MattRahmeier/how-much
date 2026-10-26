@@ -315,6 +315,24 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 .row .pair .s { display: block; font: 400 11px/1.4 var(--f-mono); color: rgba(188,165,149,.75); }
 .row .amt { font: 500 13px/1.3 var(--f-mono); font-variant-numeric: tabular-nums; text-align: right; color: var(--ivory); white-space: nowrap; }
 .toast { min-height: 18px; font: 400 12px/1.4 var(--f-mono); color: var(--win); }
+.pastbtn { display: flex; align-items: center; gap: 7px; height: 32px; padding: 0 10px; white-space: nowrap; }
+.pastbtn svg { width: 14px; height: 14px; flex: none; }
+.pastbtn[aria-pressed="true"] { background: rgba(201,163,92,.18); }
+.rail .streak { padding: 6px 10px; font-size: 11px; }
+
+/* Past sales */
+.archive { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+.archive h2 { margin: 0; font-family: var(--f-display); font-style: italic; font-weight: 500; font-size: clamp(26px, 5vw, 36px); color: var(--brass-hi); }
+.archive .intro { margin: -6px 0 0; color: var(--muted); max-width: 52ch; }
+.salelist { width: 100%; max-width: 620px; display: flex; flex-direction: column; border-top: 1px solid rgba(201,163,92,.35); }
+.salerow {
+  display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; text-align: left;
+  padding: 12px 4px; border-bottom: 1px solid rgba(244,236,220,.08);
+}
+.salerow .no { font: 500 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--brass); min-width: 52px; }
+.salerow .when { font-family: var(--f-display); font-size: 18px; color: var(--ivory); }
+.salerow .when small { display: block; font: 400 11px/1.4 var(--f-mono); color: var(--muted); letter-spacing: .04em; }
+.salerow .ghost { white-space: nowrap; }
 .foot { text-align: center; font: 400 11px/1.5 var(--f-mono); color: rgba(188,165,149,.6); max-width: 70ch; margin: 6px auto 0; }
 
 @media (max-width: 560px) {
@@ -337,7 +355,10 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
         <h1 id="brand">HOW <span>Much!?</span></h1>
       </div>
       <div class="tools">
-        <span class="streak" id="streak">Streak 0 · Best 0</span>
+        <button class="ghost pastbtn" id="pastBtn" type="button">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span id="pastLabel">Past Sales</span>
+        </button>
         <div class="langpick" id="langPick">
           <button class="langbtn" id="langBtn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="langMenu">
             <span class="langcur" id="langCur"></span>
@@ -364,6 +385,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
         <span class="sale" id="saleName">Daily Sale</span>
         <h2 class="question" id="question"><span class="qtext">Which sold for <em>MORE</em>?</span></h2>
         <div class="pips" id="pips" aria-hidden="true"></div>
+        <span class="streak" id="streak">Streak 0 · Best 0</span>
         <div class="lotno" id="lotNo">Lot 1 of 10</div>
       </section>
 
@@ -379,6 +401,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     </main>
 
     <section class="results" id="results" hidden></section>
+
+    <section class="archive" id="archive" hidden></section>
 
     <p class="foot" id="foot">Prices from the internet based on trading sites, auction houses and publicly available information.</p>
   </div>
@@ -538,6 +562,11 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     footRate: `Valores em reais convertidos do dólar: US$ 1 = R$ ${BRL_PER_USD.toFixed(2).replace(".", ",")} (PTAX do Banco Central).`,
     vs: "ou", hint: "Toque em um lote · ou use ← / →",
     sale: (no, date) => `Leilão do Dia · Nº ${no} · ${date}`, saleTitle: no => `Catálogo do Dia Nº ${no}`,
+    pastSale: (no, date) => `Leilão Passado · Nº ${no} · ${date}`,
+    past: "Leilões Passados", pastIntro: "Os catálogos dos dias anteriores. Jogar um leilão passado não conta para a sua sequência.",
+    pastNone: "Ainda não há leilões passados. O primeiro aparece aqui amanhã.",
+    pastNo: no => `Nº ${no}`, pastPlay: "Participar", pastReview: "Ver resultado", pastScore: (s, n) => `${s}/${n}`,
+    pastBack: "Voltar ao leilão de hoje",
     streak: (c, b) => `Sequência ${c} · Recorde ${b}`, soundOn: "Som ligado", soundOff: "Som desligado",
     lotOf: (i, n) => `Lote ${i} de ${n}`,
     q: { saleMore: "Qual vendeu por <em>MAIS</em>?", saleLess: "Qual vendeu por <em>MENOS</em>?", marketMore: "Qual vendeu por <em>MAIS</em>?", marketLess: "Qual vendeu por <em>MENOS</em>?" },
@@ -565,6 +594,11 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     foot: "Prices from the internet based on trading sites, auction houses and publicly available information.",
     vs: "or", hint: "Tap a lot · or press ← / →",
     sale: (no, date) => `Daily Sale · No. ${no} · ${date}`, saleTitle: no => `Daily Catalogue No. ${no}`,
+    pastSale: (no, date) => `Past Sale · No. ${no} · ${date}`,
+    past: "Past Sales", pastIntro: "Catalogues from previous days. Playing a past sale doesn't count toward your streak.",
+    pastNone: "No past sales yet. The first one shows up here tomorrow.",
+    pastNo: no => `No. ${no}`, pastPlay: "Enter", pastReview: "View results", pastScore: (s, n) => `${s}/${n}`,
+    pastBack: "Back to today's sale",
     streak: (c, b) => `Streak ${c} · Best ${b}`, soundOn: "Sound on", soundOff: "Sound off",
     lotOf: (i, n) => `Lot ${i} of ${n}`,
     q: { saleMore: "Which sold for <em>MORE</em>?", saleLess: "Which sold for <em>LESS</em>?", marketMore: "Which sold for <em>MORE</em>?", marketLess: "Which sold for <em>LESS</em>?" },
@@ -768,9 +802,9 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 
   // ---------- State ----------
   let S;
-  function fresh(mode) {
-    if (mode === "daily") {
-      const day = dayKey(0);
+  function fresh(mode, pastDay) {
+    if (mode === "daily" || mode === "past") {
+      const day = mode === "past" ? pastDay : dayKey(0);
       return { mode, day, store: STORE_KEY, rounds: dailyCatalogue(day), i: 0, results: [], revealed: false, catNo: dayNumber(day) };
     }
     return { mode, rounds: mode === "shuffle" ? buildRounds(Math.random) : CATALOGUE.map(r => r.slice()), i: 0, results: [], revealed: false, catNo: mode === "shuffle" ? 2 + Math.floor(Math.random() * 97) : 1 };
@@ -804,7 +838,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   const saleTitle = () => T.saleTitle(S.catNo);
   let countdownTimer = null;
   function updateChrome() {
-    $("saleName").textContent = T.sale(S.catNo, prettyDay(S.day || dayKey(0)));
+    $("saleName").textContent = (S.mode === "past" ? T.pastSale : T.sale)(S.catNo, prettyDay(S.day || dayKey(0)));
+    $("pastBtn").setAttribute("aria-pressed", "false");
     const st = loadStore();
     $("streak").textContent = T.streak(currentStreak(st), st.best || 0);
     clearInterval(countdownTimer);
@@ -840,6 +875,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     renderPips();
     $("game").hidden = false;
     $("results").hidden = true;
+    $("archive").hidden = true;
     // warm the next pair's photos
     const nx = S.rounds[S.i + 1];
     if (nx) [nx[0], nx[1]].forEach(id => { const im = new Image(); im.src = imgSrc(id); });
@@ -1027,8 +1063,10 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     const score = S.results.filter(r => r.ok).length;
     const [, rank, line] = RANKS.find(r => score >= r[0]);
     const st = S.mode === "daily" ? recordDaily() : null;
+    if (S.mode === "past") recordPast();
     updateChrome();
     $("game").hidden = true;
+    $("archive").hidden = true;
     const R = $("results");
     R.hidden = false;
     const dailyBox = st ? `
@@ -1047,6 +1085,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       ${dailyBox}
       <div class="actions">
         <button class="cta" id="shareBtn" type="button">${T.copy}</button>
+        <button class="ghost" id="toPast" type="button">${T.past}</button>
+        ${S.mode === "past" ? `<button class="ghost" id="toToday" type="button">${T.pastBack}</button>` : ""}
       </div>
       <div class="toast" id="toast" aria-live="polite"></div>
       <div class="ledger">
@@ -1069,6 +1109,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
         navigator.clipboard.writeText(txt).then(done, () => { $("toast").textContent = txt.replace(/\n/g, "  "); });
       } catch (e) { $("toast").textContent = txt.replace(/\n/g, "  "); }
     });
+    $("toPast").addEventListener("click", showArchive);
+    if ($("toToday")) $("toToday").addEventListener("click", () => setMode("daily"));
     if (st) {
       const today = S.day;
       countdownTimer = setInterval(() => {
@@ -1101,12 +1143,68 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  // ---------- Past sales: every earlier daily catalogue, replayable without touching the streak ----------
+  function pastRecord(st, key) {
+    const r = (st.days && st.days[key]) || (st.past && st.past[key]);
+    return r && validRounds(r.rounds || dailyCatalogue(key)) ? r : null;
+  }
+  function recordPast() {
+    const st = loadStore();
+    st.past = st.past || {};
+    if (!(st.days && st.days[S.day])) st.past[S.day] = { rounds: S.rounds, results: S.results };
+    saveStore(st);
+  }
+  function showArchive() {
+    stopAutoNext();
+    clearInterval(countdownTimer);
+    const st = loadStore();
+    const keys = [];
+    for (let k = -1; keys.length < 90; k--) {
+      const key = dayKey(k);
+      if (dayNumber(key) < 1) break;
+      keys.push(key);
+    }
+    $("game").hidden = true;
+    $("results").hidden = true;
+    const A = $("archive");
+    A.hidden = false;
+    A.innerHTML = `
+      <h2>${T.past}</h2>
+      <p class="intro">${keys.length ? T.pastIntro : T.pastNone}</p>
+      ${keys.length ? `<div class="salelist">${keys.map(key => {
+        const r = pastRecord(st, key);
+        const score = r ? r.results.filter(x => x.ok).length : null;
+        return `<div class="salerow">
+          <span class="no">${T.pastNo(dayNumber(key))}</span>
+          <span class="when">${prettyDay(key)}${r ? `<small>${T.pastScore(score, (r.rounds || r.results).length)} · ${r.results.map(x => x.ok ? "🟩" : "🟥").join("")}</small>` : ""}</span>
+          <button class="ghost" type="button" data-day="${key}">${r ? T.pastReview : T.pastPlay}</button>
+        </div>`;
+      }).join("")}</div>` : ""}
+      <button class="cta" id="archBack" type="button">${T.pastBack}</button>`;
+    A.querySelectorAll("[data-day]").forEach(b => b.addEventListener("click", () => playPast(b.dataset.day)));
+    $("archBack").addEventListener("click", () => setMode("daily"));
+    $("pastBtn").setAttribute("aria-pressed", "true");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  function playPast(key) {
+    stopAutoNext();
+    S = fresh("past", key);
+    const r = pastRecord(loadStore(), key);
+    if (r) {
+      if (r.rounds) S.rounds = r.rounds;
+      S.results = r.results; S.i = S.rounds.length - 1; S.revealed = true; showResults();
+    } else renderRound();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   // ---------- Wiring ----------
   document.documentElement.lang = T.lang;
   document.title = T.docTitle;
   $("brand").innerHTML = T.brand;
   $("vsWord").textContent = T.vs;
   $("foot").textContent = T.foot;
+  $("pastLabel").textContent = T.past;
+  $("pastBtn").addEventListener("click", () => $("archive").hidden ? showArchive() : setMode("daily"));
   if (T.footRate) $("foot").insertAdjacentHTML("beforeend", `<span class="rate">${T.footRate}</span>`);
   // Touch screens have no hover: mark the lot while a finger is on it.
   ["lot0", "lot1"].forEach(id => {
