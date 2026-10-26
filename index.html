@@ -117,7 +117,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 .iconbtn[aria-pressed="false"] .waves, .iconbtn[aria-pressed="true"] .mute { display: none; }
 
 /* Rail: progress + question */
-.rail { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+.rail { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
 .pips { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
 .pip { width: 22px; height: 6px; border-radius: 1px; background: rgba(244,236,220,.14); transition: background .3s; }
 .pip.now { background: var(--brass); box-shadow: 0 0 10px rgba(201,163,92,.6); }
@@ -135,7 +135,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 
 /* Stage */
 #game { display: flex; flex-direction: column; gap: 18px; }
-.stage { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; gap: clamp(6px, 2vw, 22px); margin-top: 34px; }
+.stage { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; gap: clamp(6px, 2vw, 22px); margin-top: 14px; }
 #game { scroll-margin-top: 10px; }
 .vs {
   align-self: center; font-family: var(--f-display); font-style: italic; font-size: clamp(18px, 3vw, 26px);
@@ -428,7 +428,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   .vs { padding-bottom: 150px; }
   .column { min-height: 200px; padding: 10px 5px 12px; gap: 8px; }
   .vitrine { --pad: 6%; }
-  .stage { margin-top: 24px; }
+  .stage { margin-top: 6px; }
   .beam { width: 130%; }
 }
 @media (max-width: 480px) { .dailybox { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -1504,10 +1504,14 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   }
 
   // Keep the question and both lots in view while playing; the page sizes the cases to fit the screen.
+  // Bring the question to the top of the screen so the two lots, their bids and (on a phone) the
+  // verdict below all fit without the player scrolling. Pages that already fit don't move.
   function focusPlay() {
-    const g = $("game");
-    if (g.hidden || Math.abs(g.getBoundingClientRect().top - 10) < 4) return;
-    g.scrollIntoView({ behavior: "smooth", block: "start" });
+    if ($("game").hidden) return;
+    const target = Math.max(0, $("question").getBoundingClientRect().top + scrollY - 10);
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const top = Math.min(target, Math.max(0, max));
+    if (Math.abs(top - scrollY) > 4) window.scrollTo({ top, behavior: "smooth" });
   }
 
   function next() {
@@ -1616,7 +1620,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   function setMode(m, pack) {
     stopAutoNext();
     if (m === "daily") startDaily(); else { S = fresh(m, pack); renderRound(); }
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if ($("game").hidden) window.scrollTo({ top: 0, behavior: "smooth" }); // results page: start at the top
+    else requestAnimationFrame(focusPlay);
   }
 
   // ---------- Landing card ----------
@@ -1755,7 +1760,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       if (r.rounds) S.rounds = r.rounds;
       S.results = r.results; S.i = S.rounds.length - 1; S.revealed = true; showResults();
     } else renderRound();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if ($("game").hidden) window.scrollTo({ top: 0, behavior: "smooth" });
+    else requestAnimationFrame(focusPlay);
   }
 
   // ---------- Wiring ----------
