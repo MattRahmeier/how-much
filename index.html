@@ -67,14 +67,14 @@ header { display: flex; align-items: center; justify-content: space-between; gap
 .mark { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 h1 {
   margin: 0; font-family: var(--f-display); font-weight: 700; font-style: italic;
-  font-size: clamp(30px, 6vw, 46px); line-height: 1; letter-spacing: -.01em;
+  font-size: clamp(30px, 6vw, 46px); line-height: 1.1; letter-spacing: .01em;
   color: var(--brass-hi);
-  /* dark nameplate behind the title, framed in brass */
-  padding: 8px 16px 10px; border-radius: 3px;
-  background: var(--wall); border: 1px solid var(--brass);
-  box-shadow: inset 0 0 0 3px var(--wall), inset 0 0 0 4px rgba(201,163,92,.45), 0 4px 12px rgba(0,0,0,.45);
+  /* see-through dark nameplate behind the title, framed in brass; extra room on the sides for the italic */
+  padding: 10px 26px 12px 22px; border-radius: 3px;
+  background: rgba(22,9,16,.6); border: 1px solid var(--brass);
+  box-shadow: inset 0 0 0 4px rgba(22,9,16,.35), inset 0 0 0 5px rgba(201,163,92,.4), 0 4px 12px rgba(0,0,0,.35);
 }
-h1 span { font-style: normal; }
+h1 span { font-style: normal; margin-left: .14em; }
 .sale { font-family: var(--f-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--brass); margin-bottom: -4px; }
 .tools { display: flex; gap: 8px; align-items: center; }
 .ghost {
@@ -166,41 +166,35 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   pointer-events: none; z-index: -1; transition: opacity .4s; opacity: .85;
 }
 .lot:hover:not([disabled]) .beam, .lot:focus-visible .beam { opacity: 1; }
-.vitrine { /* fixed-size case: only the photo inside scales, so the glass never changes between lots */
-  --pad: 12%;
+.vitrine { /* fixed-size spot above the pedestal (no glass): only the item inside scales, so the layout never changes */
+  --pad: 8%;
   position: relative; flex: none; aspect-ratio: 4 / 5;
   width: var(--case); max-width: 100%;
-  border: 1px solid rgba(255,255,255,.22); border-bottom: 0;
-  background: linear-gradient(115deg, rgba(255,255,255,.10), rgba(255,255,255,.02) 38%, rgba(255,255,255,.06) 60%, rgba(255,255,255,.01));
-  overflow: hidden;
   transition: transform .35s cubic-bezier(.2,.8,.2,1);
 }
-.vitrine > .photo, .vitrine > .nophoto { position: absolute; inset: var(--pad); }
-.nophoto { display: grid; place-items: center; text-align: center; }
-.vitrine::after { /* glass glare over the photo */
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(115deg, rgba(255,255,255,.14), transparent 30%, transparent 70%, rgba(255,255,255,.05));
-}
-.photo { /* sits inside the case's padding, never cropped */
-  display: block; width: calc(100% - 2 * var(--pad)); height: calc(100% - 2 * var(--pad)); object-fit: contain;
+.vitrine > .photo, .vitrine > .nophoto { position: absolute; inset: var(--pad) var(--pad) 6px; } /* item rests on the pedestal top */
+.nophoto { display: grid; place-items: end center; text-align: center; }
+.photo {
+  display: block; width: calc(100% - 2 * var(--pad)); height: calc(100% - var(--pad) - 6px);
+  object-fit: contain; object-position: 50% 100%;
   filter: drop-shadow(0 3px 4px rgba(0,0,0,.45)) drop-shadow(0 14px 16px rgba(0,0,0,.5));
+  transition: filter .2s;
 }
 .nophoto { font-family: var(--f-display); font-style: italic; color: var(--brass-hi); font-size: 15px; }
 .lot:hover:not([disabled]) .vitrine { transform: translateY(-4px); }
-/* Highlight the lot under the pointer, or while a finger is on it */
-.lot:focus-visible:not([disabled]) .vitrine,
-.lot:active:not([disabled]) .vitrine,
-.lot.touching:not([disabled]) .vitrine {
-  border-color: rgba(240,215,159,.75);
-  box-shadow: 0 0 0 1px rgba(240,215,159,.45), 0 0 26px rgba(240,215,159,.2);
+/* Highlight the lot under the pointer, or while a finger is on it: a warm glow around the item */
+.lot:focus-visible:not([disabled]) .photo,
+.lot:active:not([disabled]) .photo,
+.lot.touching:not([disabled]) .photo,
+.lot.chosen .photo {
+  filter: drop-shadow(0 0 1px rgba(240,215,159,.9)) drop-shadow(0 0 14px rgba(240,215,159,.4)) drop-shadow(0 14px 16px rgba(0,0,0,.5));
 }
 .lot:focus-visible:not([disabled]) .lotname,
 .lot:active:not([disabled]) .lotname,
 .lot.touching:not([disabled]) .lotname { box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 0 0 2px rgba(240,215,159,.55); }
 @media (hover: hover) {
-  .lot:hover:not([disabled]) .vitrine {
-    border-color: rgba(240,215,159,.75);
-    box-shadow: 0 0 0 1px rgba(240,215,159,.45), 0 0 26px rgba(240,215,159,.2);
+  .lot:hover:not([disabled]) .photo {
+    filter: drop-shadow(0 0 1px rgba(240,215,159,.9)) drop-shadow(0 0 14px rgba(240,215,159,.4)) drop-shadow(0 14px 16px rgba(0,0,0,.5));
   }
   .lot:hover:not([disabled]) .lotname { box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 0 0 2px rgba(240,215,159,.55); }
 }
@@ -221,11 +215,11 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   display: flex; flex-direction: column; align-items: center; gap: 10px;
   flex: 1; min-height: 196px;
 }
-.lotname { /* engraved name plaquette, slightly see-through over the marble */
+.lotname { /* engraved name plaquette; solid, so the marble's diagonal vein stops at its edge */
   margin: 0; max-width: 100%; padding: 6px 10px 7px; border-radius: 2px;
   font-family: var(--f-display); font-weight: 700; color: var(--ink);
   font-size: clamp(14px, 2.6vw, 18px); line-height: 1.15; text-wrap: balance;
-  background: linear-gradient(180deg, rgba(240,215,159,.55), rgba(201,163,92,.42));
+  background: linear-gradient(180deg, #eddcb4, #d8c08e);
   border: 1px solid rgba(125,95,44,.45);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 1px 2px rgba(0,0,0,.18);
 }
@@ -252,7 +246,6 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 .ring { position: relative; width: 34px; height: 34px; display: grid; place-items: center; }
 .ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
 .ring b { font: 500 13px/1 var(--f-mono); color: var(--brass-hi); font-variant-numeric: tabular-nums; }
-.lot.chosen .vitrine { border-color: var(--brass-hi); box-shadow: 0 0 0 1px var(--brass-hi), 0 0 30px rgba(240,215,159,.25); }
 .lot.won .plaque { background: linear-gradient(180deg, #d9f3e2, var(--win) 50%, #3e8a5f); }
 .lot.dim { opacity: .62; transition: opacity .4s; }
 .stamp {
@@ -341,7 +334,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 @media (max-width: 560px) {
   .vs { padding-bottom: 150px; }
   .column { min-height: 200px; padding: 10px 5px 12px; gap: 8px; }
-  .vitrine { --pad: 10%; }
+  .vitrine { --pad: 6%; }
   .stage { margin-top: 24px; }
   .beam { width: 130%; }
 }
