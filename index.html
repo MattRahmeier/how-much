@@ -469,6 +469,67 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     birkin:    { name: "The Original Birkin Bag", detail: "Hermès, 1985 · Jane Birkin's own", price: 10100000, sold: "Sotheby's Paris, Jul 2025", kind: "sale", cat: "memorabilia" },
     gto:       { name: "Ferrari 250 GTO", detail: "Ferrari, 1962 · Chassis 3413 GT", price: 48405000, sold: "RM Sotheby's, Aug 2018", kind: "sale", cat: "memorabilia" },
     uhlenhaut: { name: "Mercedes 300 SLR Uhlenhaut Coupé", detail: "Mercedes-Benz, 1955 · One of two built", price: 143000000, sold: "RM Sotheby's, May 2022", kind: "sale", cat: "memorabilia" },
+    // Rare cars, famous homes and places, sports and music memorabilia, famous objects (added Oct 2026)
+    w196: { name: "Mercedes-Benz W196R Streamliner", detail: "Mercedes-Benz, 1954 · Fangio's Grand Prix car", price: 53900000, sold: "RM Sotheby's, Feb 2025", kind: "sale", cat: "cars" },
+    f335s: { name: "Ferrari 335 S Spider Scaglietti", detail: "Ferrari, 1957 · Raced by Stirling Moss", price: 35700000, sold: "Artcurial, Feb 2016", kind: "sale", cat: "cars" },
+    f290mm: { name: "Ferrari 290 MM", detail: "Ferrari, 1956 · Fangio's Mille Miglia car", price: 28050000, sold: "RM Sotheby's, Dec 2015", kind: "sale", cat: "cars" },
+    dbr1: { name: "Aston Martin DBR1/1", detail: "Aston Martin, 1956 · Le Mans race car", price: 22550000, sold: "RM Sotheby's, Aug 2017", kind: "sale", cat: "cars" },
+    nart: { name: "Ferrari 275 GTB/4*S NART Spider", detail: "Ferrari, 1967 · One of ten built", price: 27500000, sold: "RM Sotheby's, Aug 2013", kind: "sale", cat: "cars" },
+    duesenberg: { name: "Duesenberg SSJ", detail: "Duesenberg, 1935 · Gary Cooper's own car", price: 22000000, sold: "Gooding & Co., Aug 2018", kind: "sale", cat: "cars" },
+    mclarenf1: { name: "McLaren F1", detail: "McLaren, 1995 · 242 miles on the clock", price: 20465000, sold: "Gooding & Co., Aug 2021", kind: "sale", cat: "cars" },
+    dtype: { name: "Jaguar D-Type XKD 501", detail: "Jaguar, 1955 · Le Mans winner", price: 21780000, sold: "RM Sotheby's, Aug 2016", kind: "sale", cat: "cars" },
+    cobra: { name: "Shelby Cobra CSX2000", detail: "Shelby, 1962 · The very first Cobra", price: 13750000, sold: "RM Sotheby's, Jan 2016", kind: "sale", cat: "cars" },
+    batmobile: { name: "The 1966 Batmobile", detail: "George Barris, 1966 · Original TV car", price: 4620000, sold: "Barrett-Jackson, Jan 2013", kind: "sale", cat: "cars" },
+    p917: { name: "Porsche 917K", detail: "Porsche, 1970 · Used in Steve McQueen's Le Mans", price: 14080000, sold: "Gooding & Co., Aug 2017", kind: "sale", cat: "cars" },
+    bullitt: { name: "The Bullitt Mustang", detail: "Ford, 1968 · Steve McQueen's hero car", price: 3740000, sold: "Mecum, Jan 2020", kind: "sale", cat: "cars" },
+    chateau: { name: "Château Louis XIV", detail: "Louveciennes, France · Built 2011", price: 301000000, sold: "Private sale, Dec 2015", kind: "sale", cat: "homes" },
+    cps220: { name: "220 Central Park South Penthouse", detail: "New York, 2019 · 24,000 sq ft", price: 238000000, sold: "Bought by Ken Griffin, Jan 2019", kind: "sale", cat: "homes" },
+    theone: { name: "The One", detail: "Bel Air, 2021 · 105,000 sq ft", price: 141000000, sold: "Foreclosure auction, Mar 2022", kind: "sale", cat: "homes" },
+    spelling: { name: "The Spelling Manor", detail: "Holmby Hills, 1991 · 123 rooms", price: 119750000, sold: "Private sale, Jul 2019", kind: "sale", cat: "homes" },
+    playboy: { name: "The Playboy Mansion", detail: "Holmby Hills, 1927 · 29 rooms", price: 100000000, sold: "Private sale, Aug 2016", kind: "sale", cat: "homes" },
+    beverly: { name: "The Beverly House", detail: "Beverly Hills, 1927 · Seen in The Godfather", price: 63100000, sold: "Bankruptcy auction, Sep 2021", kind: "sale", cat: "homes" },
+    versace: { name: "The Versace Mansion", detail: "Miami Beach, 1930 · Casa Casuarina", price: 41500000, sold: "Auction, Sep 2013", kind: "sale", cat: "homes" },
+    neverland: { name: "Neverland Ranch", detail: "California, 1982 · Michael Jackson's home", price: 22000000, sold: "Bought by Ron Burkle, Dec 2020", kind: "sale", cat: "homes" },
+    ennis: { name: "Ennis House", detail: "Frank Lloyd Wright, 1924 · Seen in Blade Runner", price: 18000000, sold: "Private sale, Oct 2019", kind: "sale", cat: "homes" },
+    mmhouse: { name: "Marilyn Monroe's House", detail: "Brentwood, 1929 · Her last home", price: 7250000, sold: "Private sale, Aug 2017", kind: "sale", cat: "homes" },
+    homealone: { name: "The Home Alone House", detail: "Winnetka, 1920 · The McCallister home", price: 5500000, sold: "Private sale, 2024", kind: "sale", cat: "homes" },
+    brady: { name: "The Brady Bunch House", detail: "Studio City, 1959 · The TV show's exterior", price: 3500000, sold: "Bought by HGTV, Aug 2018", kind: "sale", cat: "homes" },
+    waldorf: { name: "Waldorf Astoria New York", detail: "New York, 1931 · Art deco hotel", price: 1950000000, sold: "Anbang Insurance, Oct 2014", kind: "sale", cat: "places" },
+    willis: { name: "Willis Tower", detail: "Chicago, 1973 · The former Sears Tower", price: 1300000000, sold: "Blackstone, Mar 2015", kind: "sale", cat: "places" },
+    pebble: { name: "Pebble Beach", detail: "California, 1919 · Golf links and resort", price: 820000000, sold: "Eastwood & Palmer group, Jul 1999", kind: "sale", cat: "places" },
+    transamerica: { name: "Transamerica Pyramid", detail: "San Francisco, 1972 · 48-story skyscraper", price: 650000000, sold: "Shvo group, Oct 2020", kind: "sale", cat: "places" },
+    plaza: { name: "The Plaza Hotel", detail: "New York, 1907 · Seen in Home Alone 2", price: 600000000, sold: "Katara Hospitality, Jul 2018", kind: "sale", cat: "places" },
+    chrysler: { name: "Chrysler Building", detail: "New York, 1930 · Art deco skyscraper", price: 150000000, sold: "RFR Holding, Mar 2019", kind: "sale", cat: "places" },
+    battersea: { name: "Battersea Power Station", detail: "London, 1933 · Pink Floyd's Animals cover", price: 620000000, sold: "Malaysian consortium, Jul 2012 (£400M)", kind: "sale", cat: "places" },
+    lambert: { name: "Hôtel Lambert", detail: "Paris, 1640s · Mansion on the Île Saint-Louis", price: 226000000, sold: "Bought by Xavier Niel, 2022", kind: "sale", cat: "places" },
+    londonbridge: { name: "London Bridge", detail: "London, 1831 · Moved stone by stone to Arizona", price: 2460000, sold: "Robert McCulloch, Apr 1968", kind: "sale", cat: "places" },
+    cerrogordo: { name: "Cerro Gordo Ghost Town", detail: "California, 1865 · Old silver-mining town", price: 1400000, sold: "Brent Underwood, Jul 2018", kind: "sale", cat: "places" },
+    alaska: { name: "The Alaska Territory", detail: "Russian America · 586,000 sq mi", price: 7200000, sold: "Bought by the United States, Mar 1867", kind: "sale", cat: "places" },
+    buford: { name: "Buford, Wyoming", detail: "Wyoming, 1866 · A town of one resident", price: 900000, sold: "Online auction, Apr 2012", kind: "sale", cat: "places" },
+    ruth: { name: "Babe Ruth's Called Shot Jersey", detail: "New York Yankees, 1932 · Game-worn", price: 24120000, sold: "Heritage Auctions, Aug 2024", kind: "sale", cat: "memorabilia" },
+    jordan98: { name: "Michael Jordan's Last Dance Jersey", detail: "Chicago Bulls, 1998 · Worn in the Finals", price: 10091000, sold: "Sotheby's, Sep 2022", kind: "sale", cat: "memorabilia" },
+    maradona: { name: "Maradona's Hand of God Shirt", detail: "Argentina, 1986 · Worn at the World Cup", price: 9280000, sold: "Sotheby's, May 2022", kind: "sale", cat: "memorabilia" },
+    aj13: { name: "Michael Jordan's Air Jordan 13s", detail: "Nike, 1998 · Worn in the Finals", price: 2238000, sold: "Sotheby's, Apr 2023", kind: "sale", cat: "memorabilia" },
+    cobain: { name: "Kurt Cobain's Unplugged Guitar", detail: "Martin D-18E, 1959 · MTV Unplugged", price: 6010000, sold: "Julien's Auctions, Jun 2020", kind: "sale", cat: "memorabilia" },
+    blackstrat: { name: "David Gilmour's Black Strat", detail: "Fender Stratocaster, 1969 · Pink Floyd", price: 3975000, sold: "Christie's, Jun 2019", kind: "sale", cat: "memorabilia" },
+    lion: { name: "The Cowardly Lion Costume", detail: "The Wizard of Oz, 1939 · Screen-worn", price: 3077000, sold: "Bonhams, Nov 2014", kind: "sale", cat: "memorabilia" },
+    subway: { name: "Marilyn Monroe's Subway Dress", detail: "The Seven Year Itch, 1955 · Screen-worn", price: 5520000, sold: "Profiles in History, Jun 2011", kind: "sale", cat: "memorabilia" },
+    stan: { name: "Stan the T. rex", detail: "Tyrannosaurus rex, 67 million years · 188 real bones", price: 31847500, sold: "Christie's, Oct 2020", kind: "sale", cat: "objects" },
+    sue: { name: "Sue the T. rex", detail: "Tyrannosaurus rex, 67 million years · Most complete ever found", price: 8362500, sold: "Sotheby's, Oct 1997", kind: "sale", cat: "objects" },
+    constitution: { name: "U.S. Constitution, First Printing", detail: "Philadelphia, 1787 · One of 13 known", price: 43173000, sold: "Sotheby's, Nov 2021", kind: "sale", cat: "objects" },
+    codex: { name: "Codex Leicester", detail: "Leonardo da Vinci, c. 1510 · Notebook", price: 30802500, sold: "Christie's, Nov 1994", kind: "sale", cat: "objects" },
+    faberge: { name: "The Rothschild Fabergé Egg", detail: "Fabergé, 1902 · Clock with a cockerel", price: 18500000, sold: "Christie's, Nov 2007", kind: "sale", cat: "objects" },
+    ladyblunt: { name: "Lady Blunt Stradivarius", detail: "Antonio Stradivari, 1721 · Violin", price: 15900000, sold: "Tarisio, Jun 2011", kind: "sale", cat: "objects" },
+    apple1: { name: "Apple-1 Computer", detail: "Apple, 1976 · Hand-built, still working", price: 905000, sold: "Bonhams, Oct 2014", kind: "sale", cat: "objects" },
+    apollobag: { name: "Apollo 11 Moon Dust Bag", detail: "NASA, 1969 · Lunar sample bag", price: 1812500, sold: "Sotheby's, Jul 2017", kind: "sale", cat: "objects" },
+    scream: { name: "The Scream (pastel)", detail: "Edvard Munch, 1895 · Pastel on board", price: 119922500, sold: "Sotheby's, May 2012", kind: "sale", cat: "art" },
+    basquiat: { name: "Untitled (Skull)", detail: "Jean-Michel Basquiat, 1982 · Acrylic and oil stick", price: 110487500, sold: "Sotheby's, May 2017", kind: "sale", cat: "art" },
+    hockney: { name: "Portrait of an Artist (Pool with Two Figures)", detail: "David Hockney, 1972 · Acrylic on canvas", price: 90312500, sold: "Christie's, Nov 2018", kind: "sale", cat: "art" },
+    banksy: { name: "Love Is in the Bin", detail: "Banksy, 2018 · Shredded at auction", price: 25400000, sold: "Sotheby's, Oct 2021", kind: "sale", cat: "art" },
+    mantle: { name: "1952 Topps Mickey Mantle", detail: "Topps, 1952 · SGC Mint+ 9.5", price: 12600000, sold: "Heritage Auctions, Aug 2022", kind: "sale", cat: "cards" },
+    wagner: { name: "T206 Honus Wagner", detail: "American Tobacco Co., 1909–11 · SGC 3", price: 7250000, sold: "Goldin, Aug 2022", kind: "sale", cat: "cards" },
+    smb3: { name: "Super Mario Bros. 3", detail: "NES, 1990 · Sealed, Wata 9.2 A++", price: 156000, sold: "Heritage Auctions, Nov 2020", kind: "sale", cat: "games" },
+    nwc: { name: "Nintendo World Championships 1990", detail: "NES, 1990 · Gray competition cartridge", price: 100088, sold: "eBay, Jan 2014", kind: "sale", cat: "games" },
   };
   // ---------- Language: Brazilian Portuguese ("QUANTO Custa!?") for Brazilian browsers ----------
   // pt-BR as the browser's first language, or any Portuguese with a Brazilian time zone.
@@ -548,6 +609,66 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     birkin:    ["A Primeira Bolsa Birkin", "Hermès, 1985 · A da própria Jane Birkin", "Sotheby's Paris, jul 2025"],
     gto:       ["Ferrari 250 GTO", "Ferrari, 1962 · Chassi 3413 GT", "RM Sotheby's, ago 2018"],
     uhlenhaut: ["Mercedes 300 SLR Uhlenhaut Coupé", "Mercedes-Benz, 1955 · Uma de duas fabricadas", "RM Sotheby's, mai 2022"],
+    w196: ["Mercedes-Benz W196R Streamliner", "Mercedes-Benz, 1954 · O carro de Fórmula 1 de Fangio", "RM Sotheby's, fev 2025"],
+    f335s: ["Ferrari 335 S Spider Scaglietti", "Ferrari, 1957 · Pilotada por Stirling Moss", "Artcurial, fev 2016"],
+    f290mm: ["Ferrari 290 MM", "Ferrari, 1956 · A Mille Miglia de Fangio", "RM Sotheby's, dez 2015"],
+    dbr1: ["Aston Martin DBR1/1", "Aston Martin, 1956 · Carro de corrida de Le Mans", "RM Sotheby's, ago 2017"],
+    nart: ["Ferrari 275 GTB/4*S NART Spider", "Ferrari, 1967 · Uma de dez fabricadas", "RM Sotheby's, ago 2013"],
+    duesenberg: ["Duesenberg SSJ", "Duesenberg, 1935 · O carro de Gary Cooper", "Gooding & Co., ago 2018"],
+    mclarenf1: ["McLaren F1", "McLaren, 1995 · Só 390 km rodados", "Gooding & Co., ago 2021"],
+    dtype: ["Jaguar D-Type XKD 501", "Jaguar, 1955 · Vencedor de Le Mans", "RM Sotheby's, ago 2016"],
+    cobra: ["Shelby Cobra CSX2000", "Shelby, 1962 · O primeiro Cobra de todos", "RM Sotheby's, jan 2016"],
+    batmobile: ["O Batmóvel de 1966", "George Barris, 1966 · O original da série de TV", "Barrett-Jackson, jan 2013"],
+    p917: ["Porsche 917K", "Porsche, 1970 · Usado no filme As 24 Horas de Le Mans", "Gooding & Co., ago 2017"],
+    bullitt: ["O Mustang de Bullitt", "Ford, 1968 · O carro de Steve McQueen no filme", "Mecum, jan 2020"],
+    chateau: ["Château Louis XIV", "Louveciennes, França · Construído em 2011", "Venda particular, dez 2015"],
+    cps220: ["Cobertura do 220 Central Park South", "Nova York, 2019 · 2.200 m²", "Comprada por Ken Griffin, jan 2019"],
+    theone: ["The One", "Bel Air, 2021 · 9.800 m²", "Leilão judicial, mar 2022"],
+    spelling: ["A Mansão Spelling", "Holmby Hills, 1991 · 123 cômodos", "Venda particular, jul 2019"],
+    playboy: ["A Mansão da Playboy", "Holmby Hills, 1927 · 29 cômodos", "Venda particular, ago 2016"],
+    beverly: ["A Beverly House", "Beverly Hills, 1927 · Aparece em O Poderoso Chefão", "Leilão de falência, set 2021"],
+    versace: ["A Mansão Versace", "Miami Beach, 1930 · Casa Casuarina", "Leilão, set 2013"],
+    neverland: ["Rancho Neverland", "Califórnia, 1982 · O lar de Michael Jackson", "Comprado por Ron Burkle, dez 2020"],
+    ennis: ["Ennis House", "Frank Lloyd Wright, 1924 · Aparece em Blade Runner", "Venda particular, out 2019"],
+    mmhouse: ["A Casa de Marilyn Monroe", "Brentwood, 1929 · Seu último lar", "Venda particular, ago 2017"],
+    homealone: ["A Casa de Esqueceram de Mim", "Winnetka, 1920 · A casa dos McCallister", "Venda particular, 2024"],
+    brady: ["A Casa da Família Sol-Lá-Si-Dó", "Studio City, 1959 · A fachada da série", "Comprada pela HGTV, ago 2018"],
+    waldorf: ["Waldorf Astoria Nova York", "Nova York, 1931 · Hotel art déco", "Anbang Insurance, out 2014"],
+    willis: ["Willis Tower", "Chicago, 1973 · A antiga Sears Tower", "Blackstone, mar 2015"],
+    pebble: ["Pebble Beach", "Califórnia, 1919 · Campo de golfe e resort", "Grupo de Eastwood e Palmer, jul 1999"],
+    transamerica: ["Pirâmide Transamerica", "São Francisco, 1972 · Arranha-céu de 48 andares", "Grupo Shvo, out 2020"],
+    plaza: ["O Plaza Hotel", "Nova York, 1907 · Aparece em Esqueceram de Mim 2", "Katara Hospitality, jul 2018"],
+    chrysler: ["Edifício Chrysler", "Nova York, 1930 · Arranha-céu art déco", "RFR Holding, mar 2019"],
+    battersea: ["Usina de Battersea", "Londres, 1933 · A capa do Animals, do Pink Floyd", "Consórcio malaio, jul 2012 (£ 400 mi)"],
+    lambert: ["Hôtel Lambert", "Paris, década de 1640 · Palacete na Île Saint-Louis", "Comprado por Xavier Niel, 2022"],
+    londonbridge: ["A Ponte de Londres", "Londres, 1831 · Levada pedra por pedra ao Arizona", "Robert McCulloch, abr 1968"],
+    cerrogordo: ["Cidade-fantasma de Cerro Gordo", "Califórnia, 1865 · Antiga cidade de mineração de prata", "Brent Underwood, jul 2018"],
+    alaska: ["O Território do Alasca", "América Russa · 1,5 milhão de km²", "Comprado pelos Estados Unidos, mar 1867"],
+    buford: ["Buford, Wyoming", "Wyoming, 1866 · Uma cidade de um morador só", "Leilão online, abr 2012"],
+    ruth: ["A Camisa do Called Shot de Babe Ruth", "New York Yankees, 1932 · Usada em jogo", "Heritage Auctions, ago 2024"],
+    jordan98: ["A Camisa de Michael Jordan do Last Dance", "Chicago Bulls, 1998 · Usada nas Finais", "Sotheby's, set 2022"],
+    maradona: ["A Camisa de Maradona da Mão de Deus", "Argentina, 1986 · Usada na Copa do Mundo", "Sotheby's, mai 2022"],
+    aj13: ["Os Air Jordan 13 de Michael Jordan", "Nike, 1998 · Usados nas Finais", "Sotheby's, abr 2023"],
+    cobain: ["O Violão de Kurt Cobain do Unplugged", "Martin D-18E, 1959 · MTV Unplugged", "Julien's Auctions, jun 2020"],
+    blackstrat: ["A Black Strat de David Gilmour", "Fender Stratocaster, 1969 · Pink Floyd", "Christie's, jun 2019"],
+    lion: ["A Fantasia do Leão Covarde", "O Mágico de Oz, 1939 · Usada em cena", "Bonhams, nov 2014"],
+    subway: ["O Vestido Branco de Marilyn Monroe", "O Pecado Mora ao Lado, 1955 · Usado em cena", "Profiles in History, jun 2011"],
+    stan: ["Stan, o T. rex", "Tiranossauro rex, 67 milhões de anos · 188 ossos reais", "Christie's, out 2020"],
+    sue: ["Sue, a T. rex", "Tiranossauro rex, 67 milhões de anos · A mais completa já achada", "Sotheby's, out 1997"],
+    constitution: ["Constituição dos EUA, primeira impressão", "Filadélfia, 1787 · Uma de 13 conhecidas", "Sotheby's, nov 2021"],
+    codex: ["Codex Leicester", "Leonardo da Vinci, c. 1510 · Caderno de anotações", "Christie's, nov 1994"],
+    faberge: ["O Ovo Fabergé Rothschild", "Fabergé, 1902 · Relógio com galo", "Christie's, nov 2007"],
+    ladyblunt: ["Stradivarius Lady Blunt", "Antonio Stradivari, 1721 · Violino", "Tarisio, jun 2011"],
+    apple1: ["Computador Apple-1", "Apple, 1976 · Feito à mão, ainda funciona", "Bonhams, out 2014"],
+    apollobag: ["Saco de Poeira Lunar da Apollo 11", "NASA, 1969 · Saco de amostras lunares", "Sotheby's, jul 2017"],
+    scream: ["O Grito (pastel)", "Edvard Munch, 1895 · Pastel sobre cartão", "Sotheby's, mai 2012"],
+    basquiat: ["Sem Título (Caveira)", "Jean-Michel Basquiat, 1982 · Acrílica e bastão a óleo", "Sotheby's, mai 2017"],
+    hockney: ["Retrato de um Artista (Piscina com Duas Figuras)", "David Hockney, 1972 · Acrílica sobre tela", "Christie's, nov 2018"],
+    banksy: ["Love Is in the Bin", "Banksy, 2018 · Triturado no leilão", "Sotheby's, out 2021"],
+    mantle: ["Mickey Mantle Topps 1952", "Topps, 1952 · SGC Mint+ 9.5", "Heritage Auctions, ago 2022"],
+    wagner: ["Honus Wagner T206", "American Tobacco Co., 1909–11 · SGC 3", "Goldin, ago 2022"],
+    smb3: ["Super Mario Bros. 3", "NES, 1990 · Lacrado, Wata 9.2 A++", "Heritage Auctions, nov 2020"],
+    nwc: ["Nintendo World Championships 1990", "NES, 1990 · Cartucho cinza do campeonato", "eBay, jan 2014"],
   };
   if (PT) Object.entries(LOTS_PT).forEach(([id, [name, detail, sold]]) => Object.assign(LOTS[id], { name, detail, sold }));
 
@@ -619,7 +740,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     ],
   };
 
-  const PNG = new Set(["batman1", "sm64", "smb", "zelda", "xmen1", "detective27"]);
+  const PNG = new Set(["batman1", "sm64", "smb", "zelda", "xmen1", "detective27", "cobain", "lion", "smb3"]);
   const imgSrc = id => `img/${id}.${PNG.has(id) ? "png" : "jpg"}`;
 
   // Every catalogue: lots 1-5 ask for the pricier lot ("more"), lots 6-10 for the cheaper one ("less").
@@ -643,8 +764,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   // Pairs lots off without repeats. Rivals come from the same shelf (comics, cards, games, art, memorabilia)
   // and within 8x of each other where possible; at most MAX_MIXED pairs a day mix two shelves.
   const MAX_MIXED = 3;
-  function buildRounds(rnd) {
-    const ids = Object.keys(LOTS).sort();
+  function buildRounds(rnd, from = Object.keys(LOTS)) {
+    const ids = from.slice().sort();
     for (let k = ids.length - 1; k > 0; k--) { const j = Math.floor(rnd() * (k + 1)); [ids[k], ids[j]] = [ids[j], ids[k]]; }
     const rounds = [];
     const pool = ids.slice();
@@ -693,7 +814,25 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
     };
   }
-  const dailyCatalogue = key => buildRounds(seededRandom("howmuch:v3:" + key));
+  // Days already played keep the lots they were drawn from, so adding lots never reshuffles an old day.
+  const FIRST_POOL = ["action1","af15","apex","batman1","beachbomb","birkin","blueeyes","bobafett","captainam1","casablanca","charbase","charizard","chrono","clayfighter","conker","db5","detective27","dmg","dracula","earthbound","femmesalger","giratina","greyfelt","gto","hagane","hulk181","kingkong","kuon","lederer","lotus","lugia","marilyn","metropolis","meules","mummy","nintendops","onering","pds","pikachu","ringposter","ruleofrose","salvator","samson","slippers","sm64","smb","stadium","suikoden2","superman","uhlenhaut","umbreon","valkyrie","xmen1","zelda"];
+  // Hand-picked days: 60 new lots, each shown once, rivals from the same shelf.
+  const CURATED = {
+    "2026-10-27": [
+      ["wagner", "mantle", "more"], ["f335s", "w196", "more"], ["chateau", "cps220", "more"], ["willis", "waldorf", "more"], ["ruth", "jordan98", "more"],
+      ["basquiat", "scream", "less"], ["mclarenf1", "dtype", "less"], ["brady", "homealone", "less"], ["londonbridge", "cerrogordo", "less"], ["stan", "sue", "less"],
+    ],
+    "2026-10-28": [
+      ["smb3", "nwc", "more"], ["dbr1", "f290mm", "more"], ["theone", "spelling", "more"], ["transamerica", "pebble", "more"], ["codex", "constitution", "more"],
+      ["hockney", "banksy", "less"], ["batmobile", "cobra", "less"], ["ennis", "mmhouse", "less"], ["buford", "alaska", "less"], ["cobain", "maradona", "less"],
+    ],
+    "2026-10-29": [
+      ["ladyblunt", "faberge", "more"], ["nart", "duesenberg", "more"], ["beverly", "playboy", "more"], ["plaza", "chrysler", "more"], ["lion", "blackstrat", "more"],
+      ["aj13", "subway", "less"], ["p917", "bullitt", "less"], ["neverland", "versace", "less"], ["lambert", "battersea", "less"], ["apple1", "apollobag", "less"],
+    ],
+  };
+  const dailyCatalogue = key => CURATED[key] ? CURATED[key].map(r => r.slice())
+    : buildRounds(seededRandom("howmuch:v3:" + key), key < "2026-10-27" ? FIRST_POOL : Object.keys(LOTS));
 
   // Streaks live in this browser only.
   const STORE_KEY = "howmuch.daily.v3"; // bump to reset everyone's daily progress and streaks
