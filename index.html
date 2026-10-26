@@ -188,7 +188,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   .lot:hover:not([disabled]) .lotname { box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 0 0 2px rgba(240,215,159,.55); }
 }
 .vitrine, .lotname { transition: transform .35s cubic-bezier(.2,.8,.2,1), border-color .2s, box-shadow .2s; }
-.foot .rate { display: block; margin-top: 4px; }
+.foot .rate { display: block; }
 .plinth { width: min(100%, calc(var(--case) + 40px)); flex: 1; display: flex; flex-direction: column; align-items: center; }
 .cap {
   width: 100%; height: 14px;
@@ -313,20 +313,22 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 #brand { cursor: pointer; }
 .menu { display: flex; justify-content: center; padding-top: clamp(4px, 3vh, 28px); }
 .menucard {
-  width: min(100%, 560px); display: flex; flex-direction: column; align-items: stretch; gap: 16px; text-align: center;
+  width: min(100%, 580px); display: flex; flex-direction: column; align-items: stretch; gap: 16px; text-align: center;
+  container-type: inline-size; overflow: hidden; /* the title scales with the card, never past it */
   padding: 26px clamp(14px, 4vw, 26px) 0; border-radius: 3px;
   background: rgba(22,9,16,.9); border: 1px solid var(--brass);
   box-shadow: inset 0 0 0 4px rgba(22,9,16,.6), inset 0 0 0 5px rgba(201,163,92,.35), 0 24px 60px rgba(0,0,0,.65);
 }
 .menutitle { /* the card itself is the nameplate here, so drop the header's frame */
   margin: 0; padding: 0; border: 0; background: none; box-shadow: none; white-space: nowrap;
-  font: italic 700 clamp(34px, 10vw, 64px)/1.05 var(--f-display); color: var(--brass-hi); text-shadow: 0 2px 0 var(--brass-lo); letter-spacing: .01em;
+  font: italic 700 clamp(28px, 8vw, 56px)/1.05 var(--f-display); color: var(--brass-hi); text-shadow: 0 2px 0 var(--brass-lo); letter-spacing: .01em;
+  font-size: min(58px, 9cqi);
 }
 .menutitle span { font-style: normal; margin-left: .12em; }
 .menusub { margin: -6px 0 0; font: 500 12px/1.3 var(--f-mono); letter-spacing: .24em; text-transform: uppercase; color: var(--brass); }
 .menurule { margin: 0; padding-top: 14px; border-top: 1px solid rgba(201,163,92,.3); font-size: 15px; color: var(--ivory); text-wrap: balance; }
 .menurule em { font-style: normal; color: var(--brass-hi); font-weight: 600; }
-.menugrid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.menugrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
 .mbtn {
   appearance: none; border: 0; border-radius: 2px; cursor: pointer; font: inherit; color: var(--ivory);
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; padding: 16px 8px 14px; min-height: 84px;
@@ -334,8 +336,9 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 }
 .mbtn:hover { filter: brightness(1.12); }
 .mbtn:active { transform: translateY(1px); }
-.mbtn b { display: flex; align-items: center; gap: 8px; font: 600 clamp(18px, 4.4vw, 22px)/1.1 var(--f-display); }
-.mbtn small { font: 400 11px/1.35 var(--f-mono); letter-spacing: .04em; opacity: .82; }
+.mbtn { min-width: 0; text-align: center; }
+.mbtn b { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 8px; max-width: 100%; font: 600 clamp(16px, 4.4vw, 22px)/1.1 var(--f-display); }
+.mbtn small { max-width: 100%; overflow-wrap: anywhere; font: 400 clamp(10px, 2.6vw, 11px)/1.35 var(--f-mono); letter-spacing: .03em; opacity: .82; }
 .mbtn svg { width: 20px; height: 20px; flex: none; }
 .mbtn.daily { background: linear-gradient(180deg, var(--brass-hi), var(--brass)); color: var(--ink); }
 .mbtn.history { background: #120509; border: 1px solid rgba(201,163,92,.3); }
@@ -380,7 +383,19 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 .salerow .when { font-family: var(--f-display); font-size: 18px; color: var(--ivory); }
 .salerow .when small { display: block; font: 400 11px/1.4 var(--f-mono); color: var(--muted); letter-spacing: .04em; }
 .salerow .ghost { white-space: nowrap; }
-.foot { text-align: center; font: 400 11px/1.5 var(--f-mono); color: rgba(188,165,149,.6); max-width: 70ch; margin: 6px auto 0; }
+.foot {
+  text-align: center; font: 400 11px/1.5 var(--f-mono); color: rgba(188,165,149,.75); max-width: 70ch; margin: 6px auto 0;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.foot .footnote { /* highlighted source note */
+  display: inline-block; padding: 7px 12px; border-radius: 2px; text-wrap: balance;
+  color: var(--brass-hi); background: rgba(201,163,92,.1); border: 1px solid rgba(201,163,92,.4);
+}
+.foot .rate { margin-top: 0; }
+.foot .quote { /* the exchange rate, set apart from the sentence above */
+  display: inline-block; padding: 5px 10px; border-radius: 2px; margin-top: -4px;
+  color: var(--ivory); background: rgba(0,0,0,.3); border: 1px solid rgba(244,236,220,.18); font-variant-numeric: tabular-nums;
+}
 
 @media (max-width: 560px) {
   .vs { padding-bottom: 150px; }
@@ -677,7 +692,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       return langs[0].startsWith("pt") && brTz;
     } catch (e) { return false; }
   })();
-  const BRL_PER_USD = 5.21; // Banco Central PTAX (venda), 28 Sep 2026: R$ 5.2132
+  const BRL_PER_USD = 5.0377; // Banco Central PTAX (venda), last official close
+  const BRL_DATE = "23/10/2026";
 
   // pt-BR name · details · where it sold, per lot
   const LOTS_PT = {
@@ -870,7 +886,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   const T = PT ? {
     brand: `QUANTO <span>Custa!?</span>`, docTitle: "QUANTO Custa!?", lang: "pt-BR", locale: "pt-BR",
     foot: "Preços da internet, com base em sites de negociação, casas de leilão e informações públicas.",
-    footRate: `Valores em reais convertidos do dólar: US$ 1 = R$ ${BRL_PER_USD.toFixed(2).replace(".", ",")} (PTAX do Banco Central).`,
+    footRate: "Valores em reais convertidos do dólar.",
+    footQuote: `Cotação: US$ 1 = R$ ${BRL_PER_USD.toFixed(4).replace(".", ",")} · PTAX do Banco Central, ${BRL_DATE}`,
     vs: "ou", hint: "Toque em um lote · ou use ← / →",
     sale: (no, date) => `Leilão do Dia · Nº ${no} · ${date}`, saleTitle: no => `Catálogo do Dia Nº ${no}`,
     pastSale: (no, date) => `Leilão Passado · Nº ${no} · ${date}`,
@@ -1681,7 +1698,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   document.title = T.docTitle;
   $("brand").innerHTML = T.brand;
   $("vsWord").textContent = T.vs;
-  $("foot").textContent = T.foot;
+  $("foot").innerHTML = `<span class="footnote">${T.foot}</span>`;
   $("pastLabel").textContent = T.past;
   $("pastBtn").addEventListener("click", () => $("archive").hidden ? showArchive() : showMenu());
   $("homeBtn").setAttribute("aria-label", T.menu);
@@ -1689,7 +1706,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   $("homeBtn").addEventListener("click", showMenu);
   $("brand").addEventListener("click", showMenu);
   $("brand").addEventListener("keydown", e => { if (e.key === "Enter") showMenu(); });
-  if (T.footRate) $("foot").insertAdjacentHTML("beforeend", `<span class="rate">${T.footRate}</span>`);
+  if (T.footRate) $("foot").insertAdjacentHTML("beforeend", `<span class="rate">${T.footRate}</span><span class="quote">${T.footQuote}</span>`);
   // Touch screens have no hover: mark the lot while a finger is on it.
   ["lot0", "lot1"].forEach(id => {
     const el = $(id);
