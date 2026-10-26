@@ -151,6 +151,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   position: relative; appearance: none; border: 0; background: none; color: inherit; font: inherit; text-align: center;
   padding: 0; cursor: pointer; min-width: 0; display: flex; flex-direction: column; align-items: center;
   -webkit-tap-highlight-color: transparent;
+  --case: clamp(140px, calc((100svh - 470px) * .8), 280px); /* shrinks on short screens so the lots fit */
 }
 .lot[disabled] { cursor: default; }
 .cap, .base, .shadow, .lotname, .plaque, .lotdetail span { display: block; }
@@ -165,7 +166,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 .vitrine { /* fixed-size case: only the photo inside scales, so the glass never changes between lots */
   --pad: 12%;
   position: relative; flex: none; aspect-ratio: 4 / 5;
-  width: clamp(140px, calc((100svh - 470px) * .8), 280px); max-width: 100%;
+  width: var(--case); max-width: 100%;
   border: 1px solid rgba(255,255,255,.22); border-bottom: 0;
   background: linear-gradient(115deg, rgba(255,255,255,.10), rgba(255,255,255,.02) 38%, rgba(255,255,255,.06) 60%, rgba(255,255,255,.01));
   overflow: hidden;
@@ -202,7 +203,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 }
 .vitrine, .lotname { transition: transform .35s cubic-bezier(.2,.8,.2,1), border-color .2s, box-shadow .2s; }
 .foot .rate { display: block; margin-top: 4px; }
-.plinth { width: min(100%, 300px); flex: 1; display: flex; flex-direction: column; align-items: center; }
+.plinth { width: min(100%, calc(var(--case) + 40px)); flex: 1; display: flex; flex-direction: column; align-items: center; }
 .cap {
   width: 100%; height: 14px;
   background: linear-gradient(180deg, #f6f1e7, var(--marble) 50%, var(--marble-shade));
