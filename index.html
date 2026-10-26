@@ -357,7 +357,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       <div class="tools">
         <button class="ghost pastbtn" id="pastBtn" type="button">
           <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          <span id="pastLabel">Past Sales</span>
+          <span id="pastLabel">History</span>
         </button>
         <div class="langpick" id="langPick">
           <button class="langbtn" id="langBtn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="langMenu">
@@ -563,7 +563,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     vs: "ou", hint: "Toque em um lote · ou use ← / →",
     sale: (no, date) => `Leilão do Dia · Nº ${no} · ${date}`, saleTitle: no => `Catálogo do Dia Nº ${no}`,
     pastSale: (no, date) => `Leilão Passado · Nº ${no} · ${date}`,
-    past: "Leilões Passados", pastIntro: "Os catálogos dos dias anteriores. Jogar um leilão passado não conta para a sua sequência.",
+    past: "Histórico", pastIntro: "Os catálogos dos dias anteriores. Jogar um leilão passado não conta para a sua sequência.",
     pastNone: "Ainda não há leilões passados. O primeiro aparece aqui amanhã.",
     pastNo: no => `Nº ${no}`, pastPlay: "Participar", pastReview: "Ver resultado", pastScore: (s, n) => `${s}/${n}`,
     pastBack: "Voltar ao leilão de hoje",
@@ -595,7 +595,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     vs: "or", hint: "Tap a lot · or press ← / →",
     sale: (no, date) => `Daily Sale · No. ${no} · ${date}`, saleTitle: no => `Daily Catalogue No. ${no}`,
     pastSale: (no, date) => `Past Sale · No. ${no} · ${date}`,
-    past: "Past Sales", pastIntro: "Catalogues from previous days. Playing a past sale doesn't count toward your streak.",
+    past: "History", pastIntro: "Catalogues from previous days. Playing a past sale doesn't count toward your streak.",
     pastNone: "No past sales yet. The first one shows up here tomorrow.",
     pastNo: no => `No. ${no}`, pastPlay: "Enter", pastReview: "View results", pastScore: (s, n) => `${s}/${n}`,
     pastBack: "Back to today's sale",
