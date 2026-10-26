@@ -222,16 +222,19 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   display: table; margin: 0 auto 4px; padding: 1px 6px; border-radius: 2px; /* its own line, above the grade */
   font-style: normal; font-weight: 700; letter-spacing: .08em; color: #f4ecdc; background: #2f6b4a;
 }
-.sticker { /* auction-house sticker on the item itself: sealed and/or graded */
-  position: absolute; left: 50%; bottom: 14px; z-index: 1; max-width: 88%;
-  transform: translateX(-50%) rotate(-3deg); padding: 4px 8px 4px 7px; border-radius: 2px;
-  background: linear-gradient(180deg, #fffdf6, #eee3c8); color: #1d1014; border: 1px solid #b89a5a; border-left-width: 5px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.5);
-  font: 700 clamp(8.5px, 1.8vw, 10.5px)/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none;
+.sticker { /* grading-slab label across the top of the item; placeSticker() lines it up with the photo */
+  position: absolute; left: 50%; top: 8%; width: 80%; z-index: 1; transform: translateX(-50%);
+  display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 3px 6px;
+  background: linear-gradient(180deg, #fdfcf8, #e8e2d2); color: #1d1014;
+  border: 1px solid #9a8f78; border-top-width: 3px; border-radius: 2px; box-shadow: 0 2px 5px rgba(0,0,0,.45);
+  font-family: var(--f-mono); text-transform: uppercase; pointer-events: none; overflow: hidden;
 }
-.sticker.sealed { border-left-color: #b8322f; }
-.sticker.graded { border-left-color: #2f6b4a; }
+.sticker.sealed { border-top-color: #b8322f; }
+.sticker.graded { border-top-color: #2f6b4a; }
+.sticker .sl { display: flex; flex-direction: column; min-width: 0; text-align: left; line-height: 1.1; }
+.sticker .sl b { font-size: clamp(9px, 1.9vw, 11px); font-weight: 700; letter-spacing: .1em; }
+.sticker .sl small { font-size: clamp(7px, 1.4vw, 8.5px); letter-spacing: .08em; color: #5d4a42; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sticker .sg { flex: none; font: 700 clamp(11px, 2.4vw, 15px)/1 var(--f-mono); letter-spacing: .02em; }
 .plaque {
   margin-top: auto; width: 100%; max-width: 190px; padding: 8px 6px 7px; border-radius: 2px;
   background: linear-gradient(180deg, var(--brass-hi), var(--brass) 45%, var(--brass-lo));
@@ -1188,6 +1191,18 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       <path d="M34 30V8M29 13l5-5 5 5"/>
     </svg>`;
 
+  // The photo is scaled to fit and rests on the pedestal, so its visible top edge moves with each picture:
+  // put the grading label right there, as wide as the item.
+  function placeSticker(lot) {
+    const st = lot.querySelector(".sticker"), img = lot.querySelector(".photo");
+    if (!st || !img || !img.naturalWidth) return;
+    const ratio = img.naturalWidth / img.naturalHeight;
+    const w = Math.min(img.clientWidth, img.clientHeight * ratio), h = w / ratio;
+    st.style.top = `${img.offsetTop + img.clientHeight - h}px`;
+    st.style.width = `${Math.max(w, 96)}px`;
+  }
+  window.addEventListener("resize", () => ["lot0", "lot1"].forEach(id => placeSticker($(id))));
+
   function photoFor(id) {
     const L = LOTS[id];
     const alt = `${L.name}, ${L.detail}`.replace(/"/g, "&quot;");
@@ -1260,9 +1275,16 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   function lotMarkup(id, n) {
     const L = LOTS[id];
     const C = certInfo(L);
-    const sticker = C.sealed || C.grade
-      ? `<span class="sticker ${C.sealed ? "sealed" : "graded"}">${[C.sealed ? T.sealed : T.graded, C.grade].filter(Boolean).join(" · ")}</span>`
-      : "";
+    // Slab-style label: grader (or "Sealed") on the left with a small line under it, the grade on the right.
+    let sticker = "";
+    if (C.sealed || C.grade) {
+      const rest = C.grade.slice(C.grader.length).trim();               // "Gem Mint 10", "9.8 A++", "Pristine 10"
+      const score = (rest.match(/[\d.]+(\s*A\+{0,2})?$/) || [""])[0];  // "10", "9.8 A++"
+      const words = rest.slice(0, rest.length - score.length).trim();   // "Gem Mint", "Pristine", ""
+      const head = C.grader ? C.grader.toUpperCase() : T.sealed;
+      const sub = C.grader ? (C.sealed ? T.sealed : (words || T.graded)) : "";
+      sticker = `<span class="sticker ${C.sealed ? "sealed" : "graded"}"><span class="sl"><b>${head}</b>${sub ? `<small>${sub}</small>` : ""}</span>${score ? `<span class="sg">${score}</span>` : ""}</span>`;
+    }
     const detail = L.detail.split(" · ").map((t, k) => k
       ? `<span class="cond">${C.grade ? `<i class="certtag">✓ ${T.gradedBy(C.grader)}</i> ` : ""}${t}</span>`
       : `<span class="made">${t}</span>`).join("");
@@ -1316,6 +1338,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       el.disabled = false;
       el.innerHTML = lotMarkup(id, n);
       el.setAttribute("aria-label", `${LOTS[id].name}, ${LOTS[id].detail}`);
+      const img = el.querySelector(".photo");
+      if (img) img.complete ? placeSticker(el) : img.addEventListener("load", () => placeSticker(el), { once: true });
     });
     $("verdict").innerHTML = `<p class="hint">${T.hint}</p>`;
     renderPips();
