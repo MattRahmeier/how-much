@@ -282,6 +282,22 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 .verdict .buy b { color: var(--ivory); font-weight: 600; }
 .swap { transition: opacity .28s ease; }
 .swap.out { opacity: 0; }
+/* After each answer: one button that is both the countdown and "next", pinned to the bottom of the screen */
+.nextbar {
+  position: fixed; left: 50%; bottom: max(14px, env(safe-area-inset-bottom)); z-index: 40; transform: translateX(-50%);
+  width: min(calc(100vw - 32px), 420px); display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 15px 20px !important; overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 0 0 1px rgba(125,95,44,.6), 0 12px 32px rgba(0,0,0,.65) !important;
+  animation: nextbar-in .3s ease-out;
+}
+.nextbar .fill { /* darkens from the left as the seconds run out */
+  position: absolute; inset: 0; background: rgba(29,16,20,.24); transform-origin: left center;
+  transform: scaleX(calc(1 - var(--left, 1))); transition: transform .2s linear; pointer-events: none;
+}
+.nextbar .nxt, .nextbar .secs { position: relative; }
+.nextbar .secs { font: 600 15px/1 var(--f-mono); letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.verdict:has(.nextbar) { padding-bottom: 86px; } /* room so the text above can scroll clear of the pinned button */
+@keyframes nextbar-in { from { opacity: 0; transform: translate(-50%, 16px); } }
 .cta {
   appearance: none; border: 0; cursor: pointer; border-radius: 2px;
   padding: 12px 26px; font: 600 14px/1 var(--f-body); letter-spacing: .12em; text-transform: uppercase;
@@ -1431,14 +1447,11 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
         <div class="head ${ok ? "ok" : "no"}">${ok ? T.headOk : T.headNo}</div>
         <p class="rel swap" id="relLine">${relLines[0]}</p>
         <p class="buy swap" id="buyLine">${buyLines[0]}</p>
-        <div class="countdown" aria-live="off">
-          <span class="ring"><svg viewBox="0 0 34 34" aria-hidden="true">
-            <circle cx="17" cy="17" r="15" stroke="rgba(244,236,220,.15)" stroke-width="2.5" fill="none"/>
-            <circle id="cdArc" cx="17" cy="17" r="15" stroke="var(--brass-hi)" stroke-width="2.5" fill="none" stroke-dasharray="94.25" stroke-dashoffset="0" stroke-linecap="round"/>
-          </svg><b id="cdNum">${AUTO_SECONDS}</b></span>
-          <span>${T.nextIn(last)} <span id="cdText">${AUTO_SECONDS}</span>s</span>
-        </div>
-        <button class="cta" id="nextBtn" type="button">${T.nextBtn(last)}</button>`;
+        <button class="cta nextbar" id="nextBtn" type="button" style="--left:1">
+          <span class="fill" aria-hidden="true"></span>
+          <span class="nxt">${T.nextBtn(last)}</span>
+          <span class="secs" aria-hidden="true"><b id="cdNum">${AUTO_SECONDS}</b>s</span>
+        </button>`;
       renderPips();
       $("nextBtn").addEventListener("click", next);
       $("nextBtn").focus({ preventScroll: true });
@@ -1504,8 +1517,8 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     autoTimer = setInterval(() => {
       const left = Math.max(0, end - performance.now());
       const secs = Math.ceil(left / 1000);
-      if ($("cdNum")) { $("cdNum").textContent = secs; $("cdText").textContent = secs; }
-      if ($("cdArc")) $("cdArc").setAttribute("stroke-dashoffset", String(94.25 * (1 - left / (AUTO_SECONDS * 1000))));
+      if ($("cdNum")) $("cdNum").textContent = secs;
+      if ($("nextBtn")) $("nextBtn").style.setProperty("--left", String(left / (AUTO_SECONDS * 1000))); // drains the button's fill
       if (left <= 0) next();
     }, 200);
   }
@@ -1520,8 +1533,9 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     const y = scrollY, top = el => el.getBoundingClientRect().top + y;
     let target = top($("question")) - 10;
     const nb = $("nextBtn");
-    if (nb) {
-      const need = nb.getBoundingClientRect().bottom + y + 12 - innerHeight;
+    if (nb) { // the button is pinned, so make room for the verdict text above it, never scrolling past the bids
+      const last = $("buyLine") || $("relLine") || $("verdict");
+      const need = last.getBoundingClientRect().bottom + y - (nb.getBoundingClientRect().top - 12);
       const keep = top(document.querySelector(".plaque")) - 10;
       target = Math.max(target, Math.min(need, keep));
     }
