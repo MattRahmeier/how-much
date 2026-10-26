@@ -1433,9 +1433,10 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       renderPips();
       $("nextBtn").addEventListener("click", next);
       $("nextBtn").focus({ preventScroll: true });
-      // if the screen is short, nudge just enough to show the button, keeping the lots on screen
+      // if the screen is short, nudge just enough to show the button, keeping the bids (price plaques) on screen
       const nb = $("nextBtn").getBoundingClientRect();
-      if (nb.bottom > innerHeight) window.scrollBy({ top: Math.min(nb.bottom - innerHeight + 12, $("stage").getBoundingClientRect().top - 10), behavior: "smooth" });
+      const bids = document.querySelector(".plaque").getBoundingClientRect();
+      if (nb.bottom > innerHeight) window.scrollBy({ top: Math.min(nb.bottom - innerHeight + 12, bids.top - 10), behavior: "smooth" });
       startAutoNext();
       // Alternate the multiple with the dollar gap.
       let tick = 0;
