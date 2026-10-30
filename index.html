@@ -123,6 +123,14 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 .pip.now { background: var(--brass); box-shadow: 0 0 10px rgba(201,163,92,.6); }
 .pip.ok { background: var(--win); }
 .pip.no { background: var(--lose); }
+.pip.bonus { /* the extra question: a small star after the ten bars */
+  width: 14px; height: 14px; margin: -4px 0 0 4px; border-radius: 0;
+  clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+#game.extra .lotno { color: var(--brass-hi); font-weight: 600; }
+#game.extra .question { box-shadow: 0 0 0 1px rgba(240,215,159,.45); background: rgba(240,215,159,.08); }
+.extraline { margin: -6px 0 0; font: 500 14px/1.4 var(--f-mono); letter-spacing: .04em; }
+.extraline.ok { color: var(--win); } .extraline.no { color: var(--lose); }
 .lotno { font-family: var(--f-mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--brass); }
 .question {
   margin: 0; font-family: var(--f-display); font-weight: 500; font-size: clamp(22px, 4.4vw, 34px); line-height: 1.15;
@@ -723,6 +731,45 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     venusaur: { name: "Venusaur, Shadowless", detail: "Pokémon Base Set, 1999 · Near mint", price: 899.95, sold: "TCGplayer market", kind: "market", cat: "cards" },
     exodia: { name: "Exodia the Forbidden One", detail: "Yu-Gi-Oh! Legend of Blue Eyes, 2002 · Near mint", price: 61.3, sold: "TCGplayer market", kind: "market", cat: "cards" },
     darkmagician: { name: "Dark Magician", detail: "Yu-Gi-Oh! Legend of Blue Eyes, 2002 · Near mint", price: 42.07, sold: "TCGplayer market", kind: "market", cat: "cards" },
+    // Records and tapes, film reels, historic weapons, rare ungraded games, extra questions (added Oct 2026)
+    tillthere: { name: "Till There Was You Acetate", detail: "The Beatles, 1962 · Cut by Brian Epstein", price: 110000, sold: "Omega Auctions, Mar 2016 (£77,500)", kind: "sale", cat: "music" },
+    jaggertape: { name: "Little Boy Blue and the Blue Boys Tape", detail: "Jagger & Richards, 1961 · Before the Rolling Stones", price: 79400, sold: "Bonhams, 1995 (£50,250)", kind: "sale", cat: "music" },
+    aphex: { name: "Caustic Window Test Pressing", detail: "Aphex Twin, 1994 · Unreleased album", price: 46300, sold: "eBay, 2014", kind: "sale", cat: "music" },
+    tommyjohnson: { name: "Alcohol and Jake Blues 78", detail: "Tommy Johnson, 1930 · Paramount 78 rpm", price: 37100, sold: "eBay, 2013", kind: "sale", cat: "music" },
+    freewheelin: { name: "The Freewheelin' Bob Dylan, Suze Rotolo's Copy", detail: "Bob Dylan, 1963 · Stereo LP", price: 35000, sold: "Christie's New York", kind: "sale", cat: "music" },
+    mybonnie: { name: "My Bonnie, Decca Single", detail: "Tony Sheridan & The Beatles, 1962 · US stock copy", price: 30000, sold: "Heritage Auctions", kind: "sale", cat: "music" },
+    lennon73: { name: "John Lennon's 1973 Party Tape", detail: "John Lennon, 1973 · Home recording", price: 30000, sold: "Bonhams, 2008", kind: "sale", cat: "music" },
+    pleaseplease: { name: "Please Please Me, Gold Stereo Label", detail: "The Beatles, 1963 · First stereo pressing", price: 35000, sold: "Auction, 2009 (£22,322)", kind: "sale", cat: "music" },
+    cantbuy: { name: "Can't Buy Me Love, Yellow Vinyl", detail: "The Beatles, 1964 · Capitol single", price: 27500, sold: "Heritage Auctions", kind: "sale", cat: "music" },
+    elvisfilm: { name: "Elvis in Buffalo, 1972 Concert Film", detail: "Memorial Auditorium, 1972 · Complete show on film", price: 137500, sold: "Graceland Auctions, Jan 2016", kind: "sale", cat: "film" },
+    stockholmreel: { name: "The Beatles in Stockholm, 8mm Reel", detail: "Home movie, 1963–64 · Never released", price: 6072, sold: "RR Auction, Feb 2013", kind: "sale", cat: "film" },
+    kansasreel: { name: "The Beatles in Kansas City, 8mm Reel", detail: "Municipal Stadium, 1964 · Silent color footage", price: 6300, sold: "Auction in Reading, Nov 2008 (£4,100)", kind: "sale", cat: "film" },
+    tipu: { name: "Tipu Sultan's Bedchamber Sword", detail: "Mysore, 1700s · Gold-inlaid sabre", price: 17400000, sold: "Bonhams, May 2023 (£14M)", kind: "sale", cat: "weapons" },
+    marengo: { name: "Napoleon's Marengo Sword", detail: "Napoleon Bonaparte, 1800 · Carried at Marengo", price: 6500000, sold: "Osenat, Jun 2007 (€4.8M)", kind: "sale", cat: "weapons" },
+    garrett: { name: "The Gun That Killed Billy the Kid", detail: "Pat Garrett's Colt, 1881 · Single Action Army", price: 6030000, sold: "Bonhams, Aug 2021", kind: "sale", cat: "weapons" },
+    napoleon25: { name: "Napoleon's Personal Sword", detail: "Napoleon Bonaparte, c. 1802 · Made for his own use", price: 5300000, sold: "Paris auction, May 2025 (€4.7M)", kind: "sale", cat: "weapons" },
+    walker: { name: "Danish Sea Captain Colt Walker", detail: "Colt, 1847 · Walker revolver", price: 1840000, sold: "Rock Island Auction, 2018", kind: "sale", cat: "weapons" },
+    millikin: { name: "Millikin Colt Dragoon", detail: "Colt, 1850s · Engraved by Gustave Young", price: 1667500, sold: "Rock Island Auction, May 2019", kind: "sale", cat: "weapons" },
+    whippet: { name: "Clyde Barrow's Whippet Shotgun", detail: "Browning Auto-5 · Found on his lap in 1934", price: 1000000, sold: "Rock Island Auction, Aug 2026", kind: "sale", cat: "weapons" },
+    bonnie38: { name: "Bonnie Parker's Revolver", detail: "Colt Detective Special .38 · Taped to her thigh", price: 264000, sold: "RR Auction, Sep 2012", kind: "sale", cat: "weapons" },
+    clyde1911: { name: "Clyde Barrow's Colt .45", detail: "Colt M1911 · Recovered in 1933", price: 240000, sold: "RR Auction, Sep 2012", kind: "sale", cat: "weapons" },
+    earp: { name: "Wyatt Earp's OK Corral Colt", detail: "Colt .45, 1881 · Gunfight at the OK Corral", price: 225000, sold: "J. Levine Auction, Apr 2014", kind: "sale", cat: "weapons" },
+    blues2000: { name: "Blues Brothers 2000 (PAL)", detail: "Nintendo 64, 2000 · Complete in box", price: 639.75, sold: "PriceCharting, Sep 2026", kind: "market", cat: "games" },
+    photopi: { name: "Mario no Photopi", detail: "Nintendo 64, 1998 · Japan, complete in box", price: 600, sold: "PriceCharting, Sep 2026", kind: "market", cat: "games" },
+    winks40: { name: "40 Winks, Special Edition", detail: "Nintendo 64, 2019 · Complete in box", price: 633.56, sold: "PriceCharting, Sep 2026", kind: "market", cat: "games" },
+    gauntlet: { name: "Gauntlet Legends, Figure Bundle", detail: "Nintendo 64, 1999 · Complete with figure", price: 574.52, sold: "PriceCharting, Sep 2026", kind: "market", cat: "games" },
+    daikatana: { name: "Daikatana", detail: "Nintendo 64, 2000 · Complete in box", price: 502.76, sold: "PriceCharting, Sep 2026", kind: "market", cat: "games" },
+    chameleon2: { name: "Chameleon Twist 2 (PAL)", detail: "Nintendo 64, 1998 · Complete in box", price: 442.46, sold: "PriceCharting, Sep 2026", kind: "market", cat: "games" },
+    kirby64: { name: "Kirby 64: The Crystal Shards (PAL)", detail: "Nintendo 64, 2001 · Complete in box", price: 426.23, sold: "PriceCharting, Sep 2026", kind: "market", cat: "games" },
+    xenosaga3: { name: "Xenosaga Episode III, Lenticular Cover", detail: "PlayStation 2, 2006 · Complete in box", price: 474.99, sold: "PriceCharting, Jan 2026", kind: "market", cat: "games" },
+    bullyce: { name: "Bully, Collector's Edition", detail: "PlayStation 2, 2006 · Complete in box", price: 435.43, sold: "PriceCharting, Jan 2026", kind: "market", cat: "games" },
+    haunting: { name: "Haunting Ground", detail: "PlayStation 2, 2005 · Complete in box", price: 429.63, sold: "PriceCharting, Jan 2026", kind: "market", cat: "games" },
+    obscure: { name: "Obscure", detail: "PlayStation 2, 2005 · Complete in box", price: 410.34, sold: "PriceCharting, Jan 2026", kind: "market", cat: "games" },
+    shsm: { name: "Silent Hill: Shattered Memories", detail: "PlayStation 2, 2010 · Complete in box", price: 407.5, sold: "PriceCharting, Jan 2026", kind: "market", cat: "games" },
+    gow2kit: { name: "God of War II, Retailer Kit", detail: "PlayStation 2, 2007 · Store promo kit", price: 400, sold: "PriceCharting, Jan 2026", kind: "market", cat: "games" },
+    child: { name: "Raising a Child, 0 to 18", detail: "United States, birth to 18 · Without college", price: 303418, sold: "LendingTree estimate, 2026", kind: "estimate", cat: "bonus" },
+    n64set: { name: "Every N64 Game, US + Japan", detail: "296 US games + 208 Japanese · Complete sets", price: 45000, sold: "Estimate: eBay full-set listing (US) + typical prices (Japan)", kind: "estimate", cat: "bonus" },
+    vss: { name: "A Seat to Space", detail: "Virgin Galactic · Suborbital flight", price: 750000, sold: "Virgin Galactic, Mar 2026", kind: "list", cat: "bonus" },
   };
   // ---------- Language: Brazilian Portuguese ("QUANTO Custa!?") for Brazilian browsers ----------
   // pt-BR as the browser's first language, or any Portuguese with a Brazilian time zone.
@@ -931,6 +978,44 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     venusaur: ["Venusaur, Shadowless", "Pokémon Base Set, 1999 · Quase nova", "TCGplayer, mercado"],
     exodia: ["Exodia, o Proibido", "Yu-Gi-Oh! Legend of Blue Eyes, 2002 · Quase nova", "TCGplayer, mercado"],
     darkmagician: ["Mago Negro", "Yu-Gi-Oh! Legend of Blue Eyes, 2002 · Quase nova", "TCGplayer, mercado"],
+    tillthere: ["Acetato de Till There Was You", "The Beatles, 1962 · Gravado por Brian Epstein", "Omega Auctions, mar 2016 (£ 77.500)"],
+    jaggertape: ["Fita de Little Boy Blue and the Blue Boys", "Jagger e Richards, 1961 · Antes dos Rolling Stones", "Bonhams, 1995 (£ 50.250)"],
+    aphex: ["Prensagem de Teste de Caustic Window", "Aphex Twin, 1994 · Álbum nunca lançado", "eBay, 2014"],
+    tommyjohnson: ["Alcohol and Jake Blues em 78 rpm", "Tommy Johnson, 1930 · Disco de 78 rpm da Paramount", "eBay, 2013"],
+    freewheelin: ["The Freewheelin' Bob Dylan, Cópia de Suze Rotolo", "Bob Dylan, 1963 · LP estéreo", "Christie's Nova York"],
+    mybonnie: ["My Bonnie, Compacto da Decca", "Tony Sheridan e The Beatles, 1962 · Cópia americana de loja", "Heritage Auctions"],
+    lennon73: ["Fita da Festa de John Lennon de 1973", "John Lennon, 1973 · Gravação caseira", "Bonhams, 2008"],
+    pleaseplease: ["Please Please Me, Selo Dourado Estéreo", "The Beatles, 1963 · Primeira prensagem estéreo", "Leilão, 2009 (£ 22.322)"],
+    cantbuy: ["Can't Buy Me Love, Vinil Amarelo", "The Beatles, 1964 · Compacto da Capitol", "Heritage Auctions"],
+    elvisfilm: ["Elvis em Buffalo, Filme do Show de 1972", "Memorial Auditorium, 1972 · O show completo em filme", "Graceland Auctions, jan 2016"],
+    stockholmreel: ["Os Beatles em Estocolmo, Rolo de 8 mm", "Filme caseiro, 1963–64 · Nunca lançado", "RR Auction, fev 2013"],
+    kansasreel: ["Os Beatles em Kansas City, Rolo de 8 mm", "Municipal Stadium, 1964 · Filme colorido mudo", "Leilão em Reading, nov 2008 (£ 4.100)"],
+    tipu: ["A Espada do Quarto de Tipu Sultan", "Mysore, século XVIII · Sabre com ouro incrustado", "Bonhams, mai 2023 (£ 14 mi)"],
+    marengo: ["A Espada de Napoleão em Marengo", "Napoleão Bonaparte, 1800 · Usada em Marengo", "Osenat, jun 2007 (€ 4,8 mi)"],
+    garrett: ["A Arma que Matou Billy the Kid", "O Colt de Pat Garrett, 1881 · Single Action Army", "Bonhams, ago 2021"],
+    napoleon25: ["A Espada Pessoal de Napoleão", "Napoleão Bonaparte, c. 1802 · Feita para seu uso", "Leilão em Paris, mai 2025 (€ 4,7 mi)"],
+    walker: ["Colt Walker do Capitão Dinamarquês", "Colt, 1847 · Revólver Walker", "Rock Island Auction, 2018"],
+    millikin: ["Colt Dragoon Millikin", "Colt, década de 1850 · Gravado por Gustave Young", "Rock Island Auction, mai 2019"],
+    whippet: ["A Espingarda Whippet de Clyde Barrow", "Browning Auto-5 · Achada no colo dele em 1934", "Rock Island Auction, ago 2026"],
+    bonnie38: ["O Revólver de Bonnie Parker", "Colt Detective Special .38 · Preso à coxa", "RR Auction, set 2012"],
+    clyde1911: ["O Colt .45 de Clyde Barrow", "Colt M1911 · Recuperado em 1933", "RR Auction, set 2012"],
+    earp: ["O Colt de Wyatt Earp no OK Corral", "Colt .45, 1881 · Tiroteio no OK Corral", "J. Levine Auction, abr 2014"],
+    blues2000: ["Blues Brothers 2000 (PAL)", "Nintendo 64, 2000 · Completo na caixa", "PriceCharting, set 2026"],
+    photopi: ["Mario no Photopi", "Nintendo 64, 1998 · Japonês, completo na caixa", "PriceCharting, set 2026"],
+    winks40: ["40 Winks, Edição Especial", "Nintendo 64, 2019 · Completo na caixa", "PriceCharting, set 2026"],
+    gauntlet: ["Gauntlet Legends com Boneco", "Nintendo 64, 1999 · Completo com o boneco", "PriceCharting, set 2026"],
+    daikatana: ["Daikatana", "Nintendo 64, 2000 · Completo na caixa", "PriceCharting, set 2026"],
+    chameleon2: ["Chameleon Twist 2 (PAL)", "Nintendo 64, 1998 · Completo na caixa", "PriceCharting, set 2026"],
+    kirby64: ["Kirby 64: The Crystal Shards (PAL)", "Nintendo 64, 2001 · Completo na caixa", "PriceCharting, set 2026"],
+    xenosaga3: ["Xenosaga Episode III, Capa Lenticular", "PlayStation 2, 2006 · Completo na caixa", "PriceCharting, jan 2026"],
+    bullyce: ["Bully, Edição de Colecionador", "PlayStation 2, 2006 · Completo na caixa", "PriceCharting, jan 2026"],
+    haunting: ["Haunting Ground", "PlayStation 2, 2005 · Completo na caixa", "PriceCharting, jan 2026"],
+    obscure: ["Obscure", "PlayStation 2, 2005 · Completo na caixa", "PriceCharting, jan 2026"],
+    shsm: ["Silent Hill: Shattered Memories", "PlayStation 2, 2010 · Completo na caixa", "PriceCharting, jan 2026"],
+    gow2kit: ["God of War II, Kit para Lojistas", "PlayStation 2, 2007 · Kit promocional de loja", "PriceCharting, jan 2026"],
+    child: ["Criar uma Criança dos 0 aos 18", "Estados Unidos, do nascimento aos 18 · Sem faculdade", "Estimativa da LendingTree, 2026"],
+    n64set: ["Todos os Jogos de N64, EUA + Japão", "296 jogos americanos + 208 japoneses · Coleções completas", "Estimativa: anúncio de coleção completa no eBay (EUA) + preços médios (Japão)"],
+    vss: ["Uma Passagem para o Espaço", "Virgin Galactic · Voo suborbital", "Virgin Galactic, mar 2026"],
   };
   if (PT) Object.entries(LOTS_PT).forEach(([id, [name, detail, sold]]) => Object.assign(LOTS[id], { name, detail, sold }));
 
@@ -955,6 +1040,9 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     mPacks: "Pacotes Temáticos", mPacksSub: "Jogos, cartas e mais",
     packsHead: "Escolha um pacote", packsIntro: "Dez lotes aleatórios de uma prateleira do catálogo.",
     packs: { games: ["Jogos", n => `${n} lotes · lacrados, raros e completos`], cards: ["Cartas", n => `${n} lotes · Pokémon, Magic, Yu-Gi-Oh! e esportes`] },
+    bonusLot: "⭐ Pergunta extra", bonusQuestion: "O que custa <em>MAIS</em>?",
+    bonusResult: ok => ok ? "⭐ Pergunta extra: acertou!" : "⭐ Pergunta extra: errou. Fica para a próxima!",
+    estimated: "Custo estimado", listPrice: "Preço de tabela",
     back: "Voltar", menu: "Menu", again: "Jogar de novo", newLots: "Lotes novos todos os dias!", graded: "Graduação", gradedBy: org => `Graduação (${org})`, sealed: "Lacrado",
     randomSale: "Leilão Aleatório · Jogo livre", randomTitle: "Leilão Aleatório",
     packSale: name => `Pacote Temático · ${name}`, packTitle: name => `Pacote ${name}`,
@@ -997,6 +1085,9 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     mPacks: "Theme Packs", mPacksSub: "Games, cards and more",
     packsHead: "Choose a pack", packsIntro: "Ten random lots from one shelf of the catalogue.",
     packs: { games: ["Games", n => `${n} lots · sealed, rare and complete`], cards: ["Cards", n => `${n} lots · Pokémon, Magic, Yu-Gi-Oh! and sports`] },
+    bonusLot: "⭐ Extra question", bonusQuestion: "Which costs <em>MORE</em>?",
+    bonusResult: ok => ok ? "⭐ Extra question: correct!" : "⭐ Extra question: missed. Next time!",
+    estimated: "Estimated cost", listPrice: "List price",
     back: "Back", menu: "Menu", again: "Play again", newLots: "New lots every day!", graded: "Graded", gradedBy: org => `Graded (${org})`, sealed: "Sealed",
     randomSale: "Random Sale · Free play", randomTitle: "Random Sale",
     packSale: name => `Theme Pack · ${name}`, packTitle: name => `${name} Pack`,
@@ -1023,7 +1114,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     ],
   };
 
-  const PNG = new Set(["batman1", "sm64", "smb", "zelda", "xmen1", "detective27", "cobain", "lion", "smb3", "blowin", "goku", "sassoon", "madden", "smw", "smb2", "residentevil"]);
+  const PNG = new Set(["batman1", "sm64", "smb", "zelda", "xmen1", "detective27", "cobain", "lion", "smb3", "blowin", "goku", "sassoon", "madden", "smw", "smb2", "residentevil", "pleaseplease", "stockholmreel", "jaggertape", "earp", "blues2000", "gauntlet"]);
   const imgSrc = id => `img/${id}.${PNG.has(id) ? "png" : "jpg"}`;
 
   // Every lot asks which sold for more.
@@ -1046,7 +1137,9 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   // Pairs lots off without repeats. Rivals come from the same shelf (comics, cards, games, art, memorabilia)
   // and within 8x of each other where possible; at most MAX_MIXED pairs a day mix two shelves.
   const MAX_MIXED = 3;
-  function buildRounds(rnd, from = Object.keys(LOTS)) {
+  // Lots the random draw may use: everything except the extra-question shelf.
+  const drawable = () => Object.keys(LOTS).filter(id => LOTS[id].cat !== "bonus");
+  function buildRounds(rnd, from = drawable()) {
     const ids = from.slice().sort();
     for (let k = ids.length - 1; k > 0; k--) { const j = Math.floor(rnd() * (k + 1)); [ids[k], ids[j]] = [ids[j], ids[k]]; }
     const rounds = [];
@@ -1124,7 +1217,23 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       ["butcher", "sgtpepper", "more"], ["superman", "action1", "more"], ["bigmaple", "watermelon", "more"], ["lederer", "salvator", "more"], ["grimoire", "jumpop", "more"],
       ["smb", "zelda", "more"], ["captainam1", "af15", "more"], ["onering", "charizard", "more"], ["femmesalger", "marilyn", "more"], ["umbreon", "greyfelt", "more"],
     ],
+    // Rare records and tapes, film reels, historic weapons, rare ungraded games: each shown once
+    "2026-11-02": [
+      ["marengo", "tipu", "more"], ["jaggertape", "aphex", "more"], ["photopi", "blues2000", "more"], ["garrett", "napoleon25", "more"], ["kansasreel", "stockholmreel", "more"],
+      ["winks40", "gauntlet", "more"], ["mybonnie", "tommyjohnson", "more"], ["daikatana", "chameleon2", "more"], ["bullyce", "xenosaga3", "more"], ["kuon", "pds", "more"],
+    ],
+    "2026-11-03": [
+      ["walker", "millikin", "more"], ["tillthere", "elvisfilm", "more"], ["haunting", "obscure", "more"], ["bonnie38", "whippet", "more"], ["freewheelin", "lennon73", "more"],
+      ["shsm", "kirby64", "more"], ["clyde1911", "earp", "more"], ["cantbuy", "pleaseplease", "more"], ["conker", "gow2kit", "more"], ["valkyrie", "suikoden2", "more"],
+    ],
   };
+  // Extra question (No. 11) on some days: an everyday cost against a collection. It doesn't count toward the score.
+  const BONUS = {
+    "2026-11-02": ["n64set", "child"],
+    "2026-11-03": ["vss", "sm64"],
+  };
+  const isBonus = r => !!r && r[3] === "bonus";
+  const regular = rounds => rounds.filter(r => !isBonus(r)).length;
   // After the hand-picked days, each day leaves out the lots shown in the previous REST_DAYS days.
   // Days are built in order from the first hand-picked one, so every visitor still gets the same set.
   const REST_DAYS = 3;
@@ -1136,6 +1245,11 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     return `${t.getUTCFullYear()}-${pad2(t.getUTCMonth() + 1)}-${pad2(t.getUTCDate())}`;
   };
   function dailyCatalogue(key) {
+    const rounds = baseCatalogue(key);
+    if (BONUS[key]) rounds.push([...BONUS[key], "more", "bonus"]);
+    return rounds;
+  }
+  function baseCatalogue(key) {
     if (CURATED[key]) return CURATED[key].map(r => r.slice());
     if (key < FIRST_CURATED) return buildRounds(seededRandom("howmuch:v3:" + key), FIRST_POOL);
     if (!catalogueCache[key]) {
@@ -1146,12 +1260,12 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
           // try to rest the last 3 days' lots; if the shelves can't fill 10 rounds, rest fewer days
           for (let rest = REST_DAYS; !rounds; rest--) {
             const skip = new Set(rest ? recent.slice(-rest).flat(2) : []);
-            const r = buildRounds(seededRandom("howmuch:v3:" + k), Object.keys(LOTS).filter(id => !skip.has(id)));
+            const r = buildRounds(seededRandom("howmuch:v3:" + k), drawable().filter(id => !skip.has(id)));
             if (r.length === 10 || rest === 0) rounds = r;
           }
           catalogueCache[k] = rounds;
         }
-        recent.push(catalogueCache[k].map(([a, b]) => [a, b]));
+        recent.push(catalogueCache[k].map(([a, b]) => [a, b]).concat(BONUS[k] ? [BONUS[k].slice(0, 2)] : [])); // extra-question lots rest too
       }
     }
     return catalogueCache[key].map(r => r.slice());
@@ -1209,7 +1323,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   const full = PT ? fullBRL : fullUSD;
   const short = PT ? shortBRL : shortUSD;
   const num = (n, d = 0) => n.toLocaleString(T.locale, { maximumFractionDigits: d, minimumFractionDigits: d });
-  const valueLabel = L => L.kind === "market" ? T.marketValue : T.soldFor;
+  const valueLabel = L => L.kind === "market" ? T.marketValue : L.kind === "estimate" ? T.estimated : L.kind === "list" ? T.listPrice : T.soldFor;
   // A banknote with an up arrow: "more money".
   const moneyIcon = () => `
     <svg class="qicon more" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="${T.iconMore}">
@@ -1287,7 +1401,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     $("pips").innerHTML = S.rounds.map((_, k) => {
       const r = S.results[k];
       const cls = r === undefined ? (k === S.i ? "now" : "") : (r.ok ? "ok" : "no");
-      return `<span class="pip ${cls}"></span>`;
+      return `<span class="pip ${cls}${isBonus(S.rounds[k]) ? " bonus" : ""}"></span>`; // the extra question is a star
     }).join("");
   }
 
@@ -1358,8 +1472,10 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     S.revealed = false;
     const [a, b] = S.rounds[S.i];
     updateChrome();
-    $("lotNo").textContent = T.lotOf(S.i + 1, S.rounds.length);
-    $("question").innerHTML = `${moneyIcon()}<span class="qtext">${T.question}</span>`;
+    const extra = isBonus(S.rounds[S.i]);
+    $("lotNo").textContent = extra ? T.bonusLot : T.lotOf(S.i + 1, regular(S.rounds));
+    $("question").innerHTML = `${moneyIcon()}<span class="qtext">${extra ? T.bonusQuestion : T.question}</span>`;
+    $("game").classList.toggle("extra", extra);
     [a, b].forEach((id, n) => {
       const el = $("lot" + n);
       el.className = "lot";
@@ -1564,10 +1680,22 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
 
   const RANKS = T.ranks;
 
+  // Score counts the regular lots only; the extra question shows apart as a star.
+  function tally(rounds, results) {
+    const reg = results.filter((r, k) => r && !isBonus(rounds[k]));
+    const k = rounds.findIndex(isBonus);
+    const extra = k >= 0 && results[k] ? results[k].ok : null;
+    return {
+      score: reg.filter(r => r.ok).length, total: regular(rounds),
+      squares: reg.map(r => r.ok ? "🟩" : "🟥").join("") + (extra === null ? "" : ` ⭐${extra ? "🟩" : "🟥"}`),
+      extra,
+    };
+  }
+
   function shareText() {
-    const score = S.results.filter(r => r.ok).length;
+    const t = tally(S.rounds, S.results);
     const streak = S.mode === "daily" ? T.shareStreak(currentStreak(loadStore())) : "";
-    return `${T.docTitle} · ${saleTitle()}\n${S.results.map(r => r.ok ? "🟩" : "🟥").join("")}\n${score}/${S.rounds.length}${streak}`;
+    return `${T.docTitle} · ${saleTitle()}\n${t.squares}\n${t.score}/${t.total}${streak}`;
   }
 
   function untilMidnight() {
@@ -1578,7 +1706,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   }
 
   function showResults() {
-    const score = S.results.filter(r => r.ok).length;
+    const t = tally(S.rounds, S.results), score = t.score;
     const [, rank, line] = RANKS.find(r => score >= r[0]);
     const st = S.mode === "daily" ? recordDaily() : null;
     if (S.mode === "past") recordPast();
@@ -1595,10 +1723,11 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       </div>` : "";
     R.innerHTML = `
       <div class="lotno">${saleTitle()} · ${T.closed}</div>
-      <div class="score">${score}<small>/${S.rounds.length}</small></div>
+      <div class="score">${score}<small>/${t.total}</small></div>
       <h2 class="rank">${rank}</h2>
       <p class="rankline">${line}</p>
-      <div class="grid" aria-label="${T.gridLabel(score, S.rounds.length)}">${S.results.map(r => r.ok ? "🟩" : "🟥").join("")}</div>
+      <div class="grid" aria-label="${T.gridLabel(score, t.total)}">${t.squares}</div>
+      ${t.extra === null ? "" : `<p class="extraline ${t.extra ? "ok" : "no"}">${T.bonusResult(t.extra)}</p>`}
       ${dailyBox}
       <div class="actions">
         ${free ? `<button class="cta" id="againBtn" type="button">${T.again}</button>` : ""}
@@ -1610,11 +1739,11 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       <div class="toast" id="toast" aria-live="polite"></div>
       <div class="ledger">
         <h2>${T.ledger}</h2>
-        ${S.rounds.map(([a, b, q], k) => {
+        ${S.rounds.map(([a, b, q, tag], k) => {
           const r = S.results[k];
           const w = LOTS[[a, b][r.answer]], l = LOTS[[a, b][1 - r.answer]];
           return `<div class="row">
-            <span class="mk ${r.ok ? "ok" : "no"}">${r.ok ? "✓" : "✕"}</span>
+            <span class="mk ${r.ok ? "ok" : "no"}">${tag === "bonus" ? "⭐" : ""}${r.ok ? "✓" : "✕"}</span>
             <span class="pair"><b>${w.name}</b> <span>${q === "more" ? T.beat : T.under} ${l.name}</span>
               <span class="s">${w.sold} · ${l.sold}</span></span>
             <span class="amt">${short(w.price)}<br><span style="color:var(--muted)">${short(l.price)}</span></span>
@@ -1776,10 +1905,10 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
       <p class="intro">${keys.length ? T.pastIntro : T.pastNone}</p>
       ${keys.length ? `<div class="salelist">${keys.map(key => {
         const r = pastRecord(st, key);
-        const score = r ? r.results.filter(x => x.ok).length : null;
+        const t = r ? tally(r.rounds || dailyCatalogue(key), r.results) : null;
         return `<div class="salerow">
           <span class="no">${T.pastNo(dayNumber(key))}</span>
-          <span class="when">${prettyDay(key)}${r ? `<small>${T.pastScore(score, (r.rounds || r.results).length)} · ${r.results.map(x => x.ok ? "🟩" : "🟥").join("")}</small>` : ""}</span>
+          <span class="when">${prettyDay(key)}${t ? `<small>${T.pastScore(t.score, t.total)} · ${t.squares}</small>` : ""}</span>
           <button class="ghost" type="button" data-day="${key}">${r ? T.pastReview : T.pastPlay}</button>
         </div>`;
       }).join("")}</div>` : ""}
