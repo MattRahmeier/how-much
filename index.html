@@ -770,6 +770,66 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     child: { name: "Raising a Child, 0 to 18", detail: "United States, birth to 18 · Without college", price: 303418, sold: "LendingTree estimate, 2026", kind: "estimate", cat: "bonus" },
     n64set: { name: "Every N64 Game, US + Japan", detail: "296 US games + 208 Japanese · Complete sets", price: 45000, sold: "Estimate: eBay full-set listing (US) + typical prices (Japan)", kind: "estimate", cat: "bonus" },
     vss: { name: "A Seat to Space", detail: "Virgin Galactic · Suborbital flight", price: 750000, sold: "Virgin Galactic, Mar 2026", kind: "list", cat: "bonus" },
+    // Art records, Hollywood props, record cars, celebrity homes, jewels and coins, extra-question costs (added Nov 2026)
+    nucouche: { name: "Nu couché (Red Nude)", detail: "Amedeo Modigliani, 1917–18 · Oil on canvas", price: 170405000, sold: "Christie's New York, Nov 2015", kind: "sale", cat: "art" },
+    seurat: { name: "Les Poseuses, Ensemble (Petite version)", detail: "Georges Seurat, 1888 · Oil on canvas", price: 149240000, sold: "Christie's New York, Nov 2022", kind: "sale", cat: "art" },
+    cezanne: { name: "La Montagne Sainte-Victoire", detail: "Paul Cézanne, 1888–90 · Oil on canvas", price: 137790000, sold: "Christie's New York, Nov 2022", kind: "sale", cat: "art" },
+    vangogh: { name: "Verger avec cyprès (Orchard with Cypresses)", detail: "Vincent van Gogh, 1888 · Oil on canvas", price: 117180000, sold: "Christie's New York, Nov 2022", kind: "sale", cat: "art" },
+    gauguin: { name: "Maternité II", detail: "Paul Gauguin, 1899 · Oil on canvas", price: 105730000, sold: "Christie's New York, Nov 2022", kind: "sale", cat: "art" },
+    klimtbirch: { name: "Birch Forest", detail: "Gustav Klimt, 1903 · Oil on canvas", price: 104585000, sold: "Christie's New York, Nov 2022", kind: "sale", cat: "art" },
+    garcon: { name: "Garçon à la pipe (Boy with a Pipe)", detail: "Pablo Picasso, 1905 · Oil on canvas", price: 104168000, sold: "Sotheby's New York, May 2004", kind: "sale", cat: "art" },
+    rothko: { name: "Orange, Red, Yellow", detail: "Mark Rothko, 1961 · Oil on canvas", price: 86882500, sold: "Christie's New York, May 2012", kind: "sale", cat: "art" },
+    nympheas: { name: "Nymphéas en fleur (Water Lilies in Bloom)", detail: "Claude Monet, c. 1914–17 · Oil on canvas", price: 84687500, sold: "Christie's New York, May 2018", kind: "sale", cat: "art" },
+    renoir: { name: "Bal du moulin de la Galette (smaller version)", detail: "Pierre-Auguste Renoir, 1876 · Oil on canvas", price: 78100000, sold: "Sotheby's New York, May 1990", kind: "sale", cat: "art" },
+    marvel1: { name: "Marvel Comics #1", detail: "Timely Comics, 1939 · CGC 9.4, the Pay copy", price: 2427777, sold: "ComicConnect, Mar 2022", kind: "sale", cat: "comics" },
+    zeck: { name: "Secret Wars #8, Page 25 Original Art", detail: "Mike Zeck, 1984 · Spider-Man's black suit debut", price: 3360000, sold: "Heritage Auctions, Jan 2022", kind: "sale", cat: "comics" },
+    herge: { name: "The Blue Lotus Cover Art", detail: "Hergé, 1936 · Original gouache, unused cover", price: 3900000, sold: "Artcurial, Jan 2021 (€3.2M)", kind: "sale", cat: "comics" },
+    trout: { name: "Mike Trout Superfractor", detail: "Bowman Chrome, 2009 · 1 of 1 rookie autograph, BGS 9", price: 3936000, sold: "Goldin, Aug 2020", kind: "sale", cat: "cards" },
+    gengar: { name: "Gengar VMAX Alt Art", detail: "Pokémon Fusion Strike, 2021 · Near mint", price: 1014.52, sold: "TCGplayer market", kind: "market", cat: "cards" },
+    sylveon: { name: "Sylveon VMAX Alt Art", detail: "Pokémon Evolving Skies, 2021 · Near mint", price: 361.5, sold: "TCGplayer market", kind: "market", cat: "cards" },
+    robby: { name: "Robby the Robot", detail: "Forbidden Planet, 1956 · Original robot suit", price: 5375000, sold: "Bonhams New York, Nov 2017", kind: "sale", cat: "film" },
+    etmodel: { name: "E.T. Animatronic Model", detail: "E.T. the Extra-Terrestrial, 1982 · Filming model by Carlo Rambaldi", price: 2560000, sold: "Julien's Auctions, Dec 2022", kind: "sale", cat: "film" },
+    dorothydress: { name: "Dorothy's Gingham Dress", detail: "The Wizard of Oz, 1939 · Worn by Judy Garland", price: 1565000, sold: "Bonhams Los Angeles, May 2022", kind: "sale", cat: "film" },
+    indywhip: { name: "Indiana Jones's Bullwhip", detail: "Indiana Jones and the Temple of Doom, 1984 · Used on screen", price: 525000, sold: "Heritage Auctions, Mar 2024", kind: "sale", cat: "film" },
+    kobe: { name: "Kobe Bryant's MVP-Season Jersey", detail: "Los Angeles Lakers, 2007–08 · Game-worn", price: 5849700, sold: "Sotheby's, Feb 2023", kind: "sale", cat: "memorabilia" },
+    messi: { name: "Messi's World Cup Shirts", detail: "Argentina, 2022 · Six shirts worn in Qatar", price: 7800000, sold: "Sotheby's, Dec 2023", kind: "sale", cat: "memorabilia" },
+    lennongtr: { name: "John Lennon's Gibson J-160E", detail: "Gibson, 1962 · Lost for 50 years", price: 2410000, sold: "Julien's Auctions, Nov 2015", kind: "sale", cat: "memorabilia" },
+    wolf: { name: "Jerry Garcia's \"Wolf\" Guitar", detail: "Doug Irwin, 1973 · Grateful Dead", price: 1900000, sold: "Guernsey's, May 2017", kind: "sale", cat: "memorabilia" },
+    ohtani: { name: "Shohei Ohtani's 50/50 Home Run Ball", detail: "Los Angeles Dodgers, 2024 · First 50-50 season", price: 4392000, sold: "Goldin, Oct 2024", kind: "sale", cat: "memorabilia" },
+    mcgwire: { name: "Mark McGwire's 70th Home Run Ball", detail: "St. Louis Cardinals, 1998 · Season record ball", price: 3005000, sold: "Guernsey's, Jan 1999", kind: "sale", cat: "memorabilia" },
+    blackie: { name: "Eric Clapton's \"Blackie\"", detail: "Fender Stratocaster, 1956–57 · His main guitar for 15 years", price: 959500, sold: "Christie's New York, Jun 2004", kind: "sale", cat: "memorabilia" },
+    alfa8c: { name: "Alfa Romeo 8C 2900B Lungo Spider", detail: "Alfa Romeo, 1939 · Touring body", price: 19800000, sold: "RM Sotheby's Monterey, Aug 2016", kind: "sale", cat: "cars" },
+    california: { name: "Ferrari 250 GT SWB California Spider", detail: "Ferrari, 1961 · Alain Delon's car, a barn find", price: 18454000, sold: "Artcurial, Feb 2015", kind: "sale", cat: "cars" },
+    f250lm: { name: "Ferrari 250 LM", detail: "Ferrari, 1964 · One of 32 built", price: 17600000, sold: "RM Sotheby's Monterey, Aug 2015", kind: "sale", cat: "cars" },
+    testarossa: { name: "Ferrari 250 Testa Rossa Prototype", detail: "Ferrari, 1957 · Works race car", price: 16390000, sold: "Gooding & Company, Aug 2011", kind: "sale", cat: "cars" },
+    merc540k: { name: "Mercedes-Benz 540K Special Roadster", detail: "Mercedes-Benz, 1936 · Pre-war icon", price: 11770000, sold: "Gooding & Company, Aug 2012", kind: "sale", cat: "cars" },
+    gt40: { name: "Ford GT40 Gulf/Mirage", detail: "Ford, 1968 · Camera car for Le Mans", price: 11000000, sold: "RM Auctions Monterey, Aug 2012", kind: "sale", cat: "cars" },
+    chartwell: { name: "Chartwell", detail: "Bel Air, 1933 · The Beverly Hillbillies mansion", price: 150000000, sold: "Lachlan Murdoch, Oct 2019", kind: "sale", cat: "homes" },
+    taylor: { name: "Taylor Swift's Holiday House", detail: "Watch Hill, Rhode Island, 1930 · Paid in cash", price: 17750000, sold: "Private sale, Apr 2013", kind: "sale", cat: "homes" },
+    gmbuilding: { name: "General Motors Building", detail: "New York, 1968 · 50 floors on Fifth Avenue", price: 2800000000, sold: "Boston Properties, 2008", kind: "sale", cat: "places" },
+    metlife: { name: "MetLife Building", detail: "New York, 1963 · Above Grand Central", price: 1720000000, sold: "Tishman Speyer, 2005", kind: "sale", cat: "places" },
+    gherkin: { name: "The Gherkin", detail: "London, 2003 · 30 St Mary Axe", price: 1150000000, sold: "Safra Group, Nov 2014 (£726M)", kind: "sale", cat: "places" },
+    lanai: { name: "The Island of Lānaʻi", detail: "Hawaii · 98% of a whole island", price: 300000000, sold: "Larry Ellison, 2012", kind: "sale", cat: "places" },
+    flatiron: { name: "Flatiron Building", detail: "New York, 1902 · 22-story landmark", price: 161000000, sold: "Private sale, May 2023", kind: "sale", cat: "places" },
+    chickencup: { name: "Chenghua Chicken Cup", detail: "Ming dynasty, 1465–87 · Doucai porcelain", price: 36050000, sold: "Sotheby's Hong Kong, Apr 2014", kind: "sale", cat: "objects" },
+    ruwasher: { name: "Ru Ware Brush Washer", detail: "Song dynasty, c. 1100 · Celadon porcelain", price: 37700000, sold: "Sotheby's Hong Kong, Oct 2017", kind: "sale", cat: "objects" },
+    bigjohn: { name: "Big John the Triceratops", detail: "Triceratops, 66 million years · Largest one ever found", price: 7740000, sold: "Drouot, Paris, Oct 2021 (€6.6M)", kind: "sale", cat: "objects" },
+    principia: { name: "Newton's Principia", detail: "Isaac Newton, 1687 · First edition", price: 3719500, sold: "Christie's New York, Dec 2016", kind: "sale", cat: "books" },
+    einsteinletter: { name: "Einstein's \"God Letter\"", detail: "Albert Einstein, 1954 · Handwritten letter", price: 2892500, sold: "Christie's New York, Dec 2018", kind: "sale", cat: "books" },
+    prayerbook: { name: "The Rothschild Prayerbook", detail: "Flanders, c. 1505 · Illuminated manuscript", price: 13605000, sold: "Christie's New York, Jul 2014", kind: "sale", cat: "books" },
+    caxton: { name: "The Canterbury Tales, Caxton Edition", detail: "Geoffrey Chaucer, 1477 · Printed by William Caxton", price: 7600000, sold: "Christie's London, Jul 1998 (£4.6M)", kind: "sale", cat: "books" },
+    likearolling: { name: "Like a Rolling Stone, Handwritten Lyrics", detail: "Bob Dylan, 1965 · Draft on hotel stationery", price: 2045000, sold: "Sotheby's New York, Jun 2014", kind: "sale", cat: "music" },
+    heyjude: { name: "Hey Jude, Handwritten Lyrics", detail: "Paul McCartney, 1968 · Studio notes", price: 910000, sold: "Julien's Auctions, Apr 2020", kind: "sale", cat: "music" },
+    patek: { name: "Patek Philippe Grandmaster Chime 6300A", detail: "Patek Philippe, 2019 · Unique steel watch", price: 31194000, sold: "Christie's Geneva, Nov 2019", kind: "sale", cat: "fashion" },
+    mapearl: { name: "Marie Antoinette's Pearl Pendant", detail: "Bourbon-Parma jewels, 1700s · Natural pearl and diamonds", price: 36160000, sold: "Sotheby's Geneva, Nov 2018", kind: "sale", cat: "fashion" },
+    dianasweater: { name: "Princess Diana's Black Sheep Sweater", detail: "Warm & Wonderful, 1981 · Worn in public", price: 1143000, sold: "Sotheby's New York, Sep 2023", kind: "sale", cat: "fashion" },
+    yeezy: { name: "Nike Air Yeezy Prototype", detail: "Nike, 2008 · Worn by Kanye West at the Grammys", price: 1800000, sold: "Sotheby's private sale, Apr 2021", kind: "sale", cat: "fashion" },
+    halfeagle: { name: "1822 Half Eagle", detail: "United States, 1822 · $5 gold, one of three known", price: 8400000, sold: "Stack's Bowers, Mar 2021", kind: "sale", cat: "coins" },
+    eidmar: { name: "EID MAR Gold Aureus", detail: "Brutus, 42 BC · Celebrates Caesar's murder", price: 4200000, sold: "Roma Numismatics, Oct 2020 (£3.24M)", kind: "sale", cat: "coins" },
+    iphone: { name: "A New iPhone 17 Pro Max", detail: "Apple, 2025 · 256 GB", price: 1199, sold: "Apple list price, Sep 2025", kind: "list", cat: "bonus" },
+    ps5pro: { name: "A New PlayStation 5 Pro", detail: "Sony, 2024 · 2 TB console", price: 749.99, sold: "Sony US list price, 2025", kind: "list", cat: "bonus" },
+    medianhome: { name: "A Typical American Home", detail: "United States · Median existing-home sale price", price: 435300, sold: "National Association of Realtors, Jun 2025", kind: "market", cat: "bonus" },
+    revuelto: { name: "A New Lamborghini Revuelto", detail: "Lamborghini, 2024 · V12 hybrid supercar", price: 608358, sold: "Lamborghini US list price", kind: "list", cat: "bonus" },
   };
   // ---------- Language: Brazilian Portuguese ("QUANTO Custa!?") for Brazilian browsers ----------
   // pt-BR as the browser's first language, or any Portuguese with a Brazilian time zone.
@@ -1016,6 +1076,65 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     child: ["Criar uma Criança dos 0 aos 18", "Estados Unidos, do nascimento aos 18 · Sem faculdade", "Estimativa da LendingTree, 2026"],
     n64set: ["Todos os Jogos de N64, EUA + Japão", "296 jogos americanos + 208 japoneses · Coleções completas", "Estimativa: anúncio de coleção completa no eBay (EUA) + preços médios (Japão)"],
     vss: ["Uma Passagem para o Espaço", "Virgin Galactic · Voo suborbital", "Virgin Galactic, mar 2026"],
+    nucouche: ["Nu couché (Nu Vermelho)", "Amedeo Modigliani, 1917–18 · Óleo sobre tela", "Christie's Nova York, nov 2015"],
+    seurat: ["Les Poseuses, Ensemble (versão pequena)", "Georges Seurat, 1888 · Óleo sobre tela", "Christie's Nova York, nov 2022"],
+    cezanne: ["La Montagne Sainte-Victoire", "Paul Cézanne, 1888–90 · Óleo sobre tela", "Christie's Nova York, nov 2022"],
+    vangogh: ["Verger avec cyprès (Pomar com Ciprestes)", "Vincent van Gogh, 1888 · Óleo sobre tela", "Christie's Nova York, nov 2022"],
+    gauguin: ["Maternité II", "Paul Gauguin, 1899 · Óleo sobre tela", "Christie's Nova York, nov 2022"],
+    klimtbirch: ["Floresta de Bétulas", "Gustav Klimt, 1903 · Óleo sobre tela", "Christie's Nova York, nov 2022"],
+    garcon: ["Garçon à la pipe (Menino com Cachimbo)", "Pablo Picasso, 1905 · Óleo sobre tela", "Sotheby's Nova York, mai 2004"],
+    rothko: ["Orange, Red, Yellow", "Mark Rothko, 1961 · Óleo sobre tela", "Christie's Nova York, mai 2012"],
+    nympheas: ["Nymphéas en fleur (Ninfeias em Flor)", "Claude Monet, c. 1914–17 · Óleo sobre tela", "Christie's Nova York, mai 2018"],
+    renoir: ["Bal du moulin de la Galette (versão menor)", "Pierre-Auguste Renoir, 1876 · Óleo sobre tela", "Sotheby's Nova York, mai 1990"],
+    marvel1: ["Marvel Comics #1", "Timely Comics, 1939 · CGC 9.4, a cópia \"Pay\"", "ComicConnect, mar 2022"],
+    zeck: ["Arte Original de Secret Wars #8, Página 25", "Mike Zeck, 1984 · Estreia do uniforme preto do Homem-Aranha", "Heritage Auctions, jan 2022"],
+    herge: ["Arte da Capa de O Lótus Azul", "Hergé, 1936 · Guache original, capa não usada", "Artcurial, jan 2021 (€ 3,2 mi)"],
+    trout: ["Mike Trout Superfractor", "Bowman Chrome, 2009 · Autógrafo de novato, 1 de 1, BGS 9", "Goldin, ago 2020"],
+    gengar: ["Gengar VMAX Arte Alternativa", "Pokémon Fusion Strike, 2021 · Quase nova", "TCGplayer, mercado"],
+    sylveon: ["Sylveon VMAX Arte Alternativa", "Pokémon Evolving Skies, 2021 · Quase nova", "TCGplayer, mercado"],
+    robby: ["Robby, o Robô", "O Planeta Proibido, 1956 · Traje original do robô", "Bonhams Nova York, nov 2017"],
+    etmodel: ["Modelo Animatrônico do E.T.", "E.T. – O Extraterrestre, 1982 · Modelo de filmagem de Carlo Rambaldi", "Julien's Auctions, dez 2022"],
+    dorothydress: ["Vestido Xadrez da Dorothy", "O Mágico de Oz, 1939 · Usado por Judy Garland", "Bonhams Los Angeles, mai 2022"],
+    indywhip: ["O Chicote do Indiana Jones", "Indiana Jones e o Templo da Perdição, 1984 · Usado em cena", "Heritage Auctions, mar 2024"],
+    kobe: ["Camisa da Temporada de MVP de Kobe Bryant", "Los Angeles Lakers, 2007–08 · Usada em jogo", "Sotheby's, fev 2023"],
+    messi: ["Camisas de Messi na Copa do Mundo", "Argentina, 2022 · Seis camisas usadas no Catar", "Sotheby's, dez 2023"],
+    lennongtr: ["Gibson J-160E de John Lennon", "Gibson, 1962 · Sumida por 50 anos", "Julien's Auctions, nov 2015"],
+    wolf: ["Guitarra \"Wolf\" de Jerry Garcia", "Doug Irwin, 1973 · Grateful Dead", "Guernsey's, mai 2017"],
+    ohtani: ["Bola do Home Run 50/50 de Shohei Ohtani", "Los Angeles Dodgers, 2024 · Primeira temporada 50-50", "Goldin, out 2024"],
+    mcgwire: ["Bola do 70º Home Run de Mark McGwire", "St. Louis Cardinals, 1998 · Bola do recorde da temporada", "Guernsey's, jan 1999"],
+    blackie: ["\"Blackie\" de Eric Clapton", "Fender Stratocaster, 1956–57 · Sua guitarra principal por 15 anos", "Christie's Nova York, jun 2004"],
+    alfa8c: ["Alfa Romeo 8C 2900B Lungo Spider", "Alfa Romeo, 1939 · Carroceria Touring", "RM Sotheby's Monterey, ago 2016"],
+    california: ["Ferrari 250 GT SWB California Spider", "Ferrari, 1961 · O carro de Alain Delon, achado num celeiro", "Artcurial, fev 2015"],
+    f250lm: ["Ferrari 250 LM", "Ferrari, 1964 · Um dos 32 fabricados", "RM Sotheby's Monterey, ago 2015"],
+    testarossa: ["Protótipo da Ferrari 250 Testa Rossa", "Ferrari, 1957 · Carro de corrida de fábrica", "Gooding & Company, ago 2011"],
+    merc540k: ["Mercedes-Benz 540K Special Roadster", "Mercedes-Benz, 1936 · Ícone pré-guerra", "Gooding & Company, ago 2012"],
+    gt40: ["Ford GT40 Gulf/Mirage", "Ford, 1968 · Carro-câmera do filme Le Mans", "RM Auctions Monterey, ago 2012"],
+    chartwell: ["Chartwell", "Bel Air, 1933 · A mansão de A Família Buscapé", "Lachlan Murdoch, out 2019"],
+    taylor: ["Holiday House de Taylor Swift", "Watch Hill, Rhode Island, 1930 · Pago à vista", "Venda particular, abr 2013"],
+    gmbuilding: ["General Motors Building", "Nova York, 1968 · 50 andares na Quinta Avenida", "Boston Properties, 2008"],
+    metlife: ["MetLife Building", "Nova York, 1963 · Sobre a Grand Central", "Tishman Speyer, 2005"],
+    gherkin: ["The Gherkin (O Pepino)", "Londres, 2003 · 30 St Mary Axe", "Grupo Safra, nov 2014 (£ 726 mi)"],
+    lanai: ["A Ilha de Lānaʻi", "Havaí · 98% de uma ilha inteira", "Larry Ellison, 2012"],
+    flatiron: ["Flatiron Building", "Nova York, 1902 · Marco de 22 andares", "Venda particular, mai 2023"],
+    chickencup: ["Taça das Galinhas Chenghua", "Dinastia Ming, 1465–87 · Porcelana doucai", "Sotheby's Hong Kong, abr 2014"],
+    ruwasher: ["Lavador de Pincéis de Porcelana Ru", "Dinastia Song, c. 1100 · Porcelana celadon", "Sotheby's Hong Kong, out 2017"],
+    bigjohn: ["Big John, o Tricerátops", "Tricerátops, 66 milhões de anos · O maior já encontrado", "Drouot, Paris, out 2021 (€ 6,6 mi)"],
+    principia: ["Principia de Newton", "Isaac Newton, 1687 · Primeira edição", "Christie's Nova York, dez 2016"],
+    einsteinletter: ["A \"Carta de Deus\" de Einstein", "Albert Einstein, 1954 · Carta manuscrita", "Christie's Nova York, dez 2018"],
+    prayerbook: ["O Livro de Orações Rothschild", "Flandres, c. 1505 · Manuscrito iluminado", "Christie's Nova York, jul 2014"],
+    caxton: ["Os Contos da Cantuária, Edição de Caxton", "Geoffrey Chaucer, 1477 · Impresso por William Caxton", "Christie's Londres, jul 1998 (£ 4,6 mi)"],
+    likearolling: ["Like a Rolling Stone, Letra Manuscrita", "Bob Dylan, 1965 · Rascunho em papel de hotel", "Sotheby's Nova York, jun 2014"],
+    heyjude: ["Hey Jude, Letra Manuscrita", "Paul McCartney, 1968 · Anotações de estúdio", "Julien's Auctions, abr 2020"],
+    patek: ["Patek Philippe Grandmaster Chime 6300A", "Patek Philippe, 2019 · Relógio único de aço", "Christie's Genebra, nov 2019"],
+    mapearl: ["Pingente de Pérola de Maria Antonieta", "Joias Bourbon-Parma, século XVIII · Pérola natural e diamantes", "Sotheby's Genebra, nov 2018"],
+    dianasweater: ["Suéter da Ovelha Negra da Princesa Diana", "Warm & Wonderful, 1981 · Usado em público", "Sotheby's Nova York, set 2023"],
+    yeezy: ["Protótipo do Nike Air Yeezy", "Nike, 2008 · Usado por Kanye West no Grammy", "Venda particular via Sotheby's, abr 2021"],
+    halfeagle: ["Half Eagle de 1822", "Estados Unidos, 1822 · Ouro de US$ 5, uma de três conhecidas", "Stack's Bowers, mar 2021"],
+    eidmar: ["Áureo de Ouro EID MAR", "Brutus, 42 a.C. · Celebra o assassinato de César", "Roma Numismatics, out 2020 (£ 3,24 mi)"],
+    iphone: ["Um iPhone 17 Pro Max Novo", "Apple, 2025 · 256 GB", "Preço de tabela da Apple (EUA), set 2025"],
+    ps5pro: ["Um PlayStation 5 Pro Novo", "Sony, 2024 · Console de 2 TB", "Preço de tabela da Sony (EUA), 2025"],
+    medianhome: ["Uma Casa Típica Americana", "Estados Unidos · Preço mediano de venda de imóveis usados", "National Association of Realtors, jun 2025"],
+    revuelto: ["Uma Lamborghini Revuelto Nova", "Lamborghini, 2024 · Superesportivo híbrido V12", "Preço de tabela da Lamborghini (EUA)"],
   };
   if (PT) Object.entries(LOTS_PT).forEach(([id, [name, detail, sold]]) => Object.assign(LOTS[id], { name, detail, sold }));
 
@@ -1114,7 +1233,7 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     ],
   };
 
-  const PNG = new Set(["batman1", "sm64", "smb", "zelda", "xmen1", "detective27", "cobain", "lion", "smb3", "blowin", "goku", "sassoon", "madden", "smw", "smb2", "residentevil", "pleaseplease", "stockholmreel", "jaggertape", "earp", "blues2000", "gauntlet"]);
+  const PNG = new Set(["batman1", "sm64", "smb", "zelda", "xmen1", "detective27", "cobain", "lion", "smb3", "blowin", "goku", "sassoon", "madden", "smw", "smb2", "residentevil", "pleaseplease", "stockholmreel", "jaggertape", "earp", "blues2000", "gauntlet", "likearolling", "heyjude", "robby", "iphone"]);
   const imgSrc = id => `img/${id}.${PNG.has(id) ? "png" : "jpg"}`;
 
   // Every lot asks which sold for more.
@@ -1220,25 +1339,50 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
     // Rare records and tapes, film reels, historic weapons, rare ungraded games: each shown once
     "2026-11-02": [
       ["marengo", "tipu", "more"], ["jaggertape", "aphex", "more"], ["photopi", "blues2000", "more"], ["garrett", "napoleon25", "more"], ["kansasreel", "stockholmreel", "more"],
-      ["winks40", "gauntlet", "more"], ["mybonnie", "tommyjohnson", "more"], ["daikatana", "chameleon2", "more"], ["bullyce", "xenosaga3", "more"], ["kuon", "pds", "more"],
+      ["winks40", "gauntlet", "more"], ["mybonnie", "tommyjohnson", "more"], ["daikatana", "chameleon2", "more"], ["bullyce", "xenosaga3", "more"], ["kuon", "earthbound", "more"],
     ],
     "2026-11-03": [
       ["walker", "millikin", "more"], ["tillthere", "elvisfilm", "more"], ["haunting", "obscure", "more"], ["bonnie38", "whippet", "more"], ["freewheelin", "lennon73", "more"],
-      ["shsm", "kirby64", "more"], ["clyde1911", "earp", "more"], ["cantbuy", "pleaseplease", "more"], ["conker", "gow2kit", "more"], ["valkyrie", "suikoden2", "more"],
+      ["shsm", "kirby64", "more"], ["clyde1911", "earp", "more"], ["cantbuy", "pleaseplease", "more"], ["conker", "gow2kit", "more"], ["chrono", "suikoden2", "more"],
+    ],
+    // Art records, Hollywood props, record cars, homes and towers, jewels and coins, plus the cards and games never shown yet
+    "2026-11-04": [
+      ["nucouche", "seurat", "more"], ["alfa8c", "california", "more"], ["jordankobe", "lebron", "more"], ["smw", "smb2", "more"], ["kobe", "messi", "more"],
+      ["robby", "etmodel", "more"], ["flatiron", "chartwell", "more"], ["principia", "einsteinletter", "more"], ["gaeascradle", "moxdiamond", "more"], ["halfeagle", "eidmar", "more"],
+    ],
+    "2026-11-05": [
+      ["cezanne", "vangogh", "more"], ["testarossa", "f250lm", "more"], ["luka", "gretzky", "more"], ["sonic", "punchout", "more"], ["lennongtr", "wolf", "more"],
+      ["dorothydress", "indywhip", "more"], ["gmbuilding", "metlife", "more"], ["chickencup", "ruwasher", "more"], ["patek", "mapearl", "more"], ["blueeyes", "dmg", "more"],
+    ],
+    "2026-11-06": [
+      ["gauguin", "rothko", "more"], ["gt40", "merc540k", "more"], ["tombrady", "trout", "more"], ["residentevil", "ocarina", "more"], ["ohtani", "mcgwire", "more"],
+      ["taylor", "bigjohn", "more"], ["prayerbook", "caxton", "more"], ["batman1", "marvel1", "more"], ["dianasweater", "yeezy", "more"], ["gengar", "sylveon", "more"],
+    ],
+    "2026-11-07": [
+      ["garcon", "nympheas", "more"], ["klimtbirch", "renoir", "more"], ["zeck", "herge", "more"], ["giratina", "venusaur", "more"], ["exodia", "darkmagician", "more"],
+      ["finalfantasy", "goldeneye", "more"], ["stadium", "airraid", "more"], ["blackie", "casablanca", "more"], ["gherkin", "lanai", "more"], ["likearolling", "heyjude", "more"],
     ],
   };
-  // Extra question (No. 11) on some days: an everyday cost against a collection. It doesn't count toward the score.
+  // Extra question (No. 11), every day from 2026-11-02: an everyday cost against a collectible. It doesn't count toward the score.
+  // Hand-picked here; later days pair two unshown lots from different shelves (see drawBonus).
   const BONUS = {
     "2026-11-02": ["n64set", "child"],
-    "2026-11-03": ["vss", "sm64"],
+    "2026-11-03": ["vss", "madden"],
+    "2026-11-04": ["iphone", "rayquazavmax"],
+    "2026-11-05": ["ps5pro", "hagane"],
+    "2026-11-06": ["medianhome", "blastoise"],
+    "2026-11-07": ["revuelto", "bobafett"],
   };
   const isBonus = r => !!r && r[3] === "bonus";
   const regular = rounds => rounds.filter(r => !isBonus(r)).length;
-  // After the hand-picked days, each day leaves out the lots shown in the previous REST_DAYS days.
-  // Days are built in order from the first hand-picked one, so every visitor still gets the same set.
-  const REST_DAYS = 3;
+  // From BONUS_FROM on, no day repeats a lot (or its near-twin) that any earlier day showed: after the hand-picked days,
+  // each day draws only unshown lots. When fewer than 10 rounds' worth are left, the lots shown longest ago come back,
+  // oldest first, until new lots are added. Days are built in order from launch, so every visitor still gets the same set.
   const FIRST_CURATED = "2026-10-27";
-  const catalogueCache = {};
+  const BONUS_FROM = "2026-11-02";
+  const TWINS = [["charizard", "charbase"], ["pikachu", "greyfelt"], ["onering", "ringposter"], ["birkin", "himalaya"]];
+  const twinsOf = id => TWINS.filter(g => g.includes(id)).flat();
+  const catalogueCache = {}, bonusCache = {};
   const nextKey = key => {
     const [y, m, d] = key.split("-").map(Number);
     const t = new Date(Date.UTC(y, m - 1, d + 1));
@@ -1246,26 +1390,48 @@ button:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; 
   };
   function dailyCatalogue(key) {
     const rounds = baseCatalogue(key);
-    if (BONUS[key]) rounds.push([...BONUS[key], "more", "bonus"]);
+    const extra = BONUS[key] || bonusCache[key];
+    if (extra) rounds.push([...extra, "more", "bonus"]);
     return rounds;
+  }
+  // unshown lots first (in id order), then shown ones from the longest-rested
+  function byRest(ids, lastShown) {
+    return ids.slice().sort((a, b) => (lastShown[a] || "") < (lastShown[b] || "") ? -1 : (lastShown[a] || "") > (lastShown[b] || "") ? 1 : a < b ? -1 : 1);
+  }
+  function drawDay(key, lastShown) {
+    const ids = drawable();
+    const fresh = ids.filter(id => !lastShown[id]);
+    const old = byRest(ids.filter(id => lastShown[id]), lastShown);
+    for (let n = 0; ; n += 10) {
+      const rounds = buildRounds(seededRandom("howmuch:v3:" + key), fresh.concat(old.slice(0, n)));
+      if (rounds.length === 10 || n >= old.length) return rounds;
+    }
+  }
+  function drawBonus(key, rounds, lastShown) {
+    const today = new Set(rounds.flatMap(([a, b]) => [a, b]));
+    const pool = byRest(drawable().filter(id => !today.has(id)), lastShown).slice(0, 30);
+    const rnd = seededRandom("howmuch:bonus:" + key);
+    for (let k = pool.length - 1; k > 0; k--) { const j = Math.floor(rnd() * (k + 1)); [pool[k], pool[j]] = [pool[j], pool[k]]; }
+    for (const a of pool) {
+      const b = pool.find(b => LOTS[b].cat !== LOTS[a].cat && gapOk(a, b) && ratio(a, b) <= 4);
+      if (b) return rnd() < 0.5 ? [a, b] : [b, a];
+    }
+    return null;
   }
   function baseCatalogue(key) {
     if (CURATED[key]) return CURATED[key].map(r => r.slice());
     if (key < FIRST_CURATED) return buildRounds(seededRandom("howmuch:v3:" + key), FIRST_POOL);
     if (!catalogueCache[key]) {
-      const recent = [];
-      for (let k = FIRST_CURATED; k <= key; k = nextKey(k)) {
-        if (!catalogueCache[k]) {
-          let rounds = CURATED[k];
-          // try to rest the last 3 days' lots; if the shelves can't fill 10 rounds, rest fewer days
-          for (let rest = REST_DAYS; !rounds; rest--) {
-            const skip = new Set(rest ? recent.slice(-rest).flat(2) : []);
-            const r = buildRounds(seededRandom("howmuch:v3:" + k), drawable().filter(id => !skip.has(id)));
-            if (r.length === 10 || rest === 0) rounds = r;
-          }
-          catalogueCache[k] = rounds;
+      const lastShown = {};
+      const show = (k, pairs) => pairs.forEach(([a, b]) => [a, b].forEach(id => [id, ...twinsOf(id)].forEach(t => { lastShown[t] = k; })));
+      for (let k = "2026-10-25"; k <= key; k = nextKey(k)) {
+        if (k >= FIRST_CURATED && !catalogueCache[k]) {
+          catalogueCache[k] = CURATED[k] || drawDay(k, lastShown);
+          if (k >= BONUS_FROM && !BONUS[k]) bonusCache[k] = drawBonus(k, catalogueCache[k], lastShown);
         }
-        recent.push(catalogueCache[k].map(([a, b]) => [a, b]).concat(BONUS[k] ? [BONUS[k].slice(0, 2)] : [])); // extra-question lots rest too
+        show(k, k < FIRST_CURATED ? baseCatalogue(k) : catalogueCache[k]);
+        const extra = BONUS[k] || bonusCache[k];
+        if (extra) show(k, [extra]);
       }
     }
     return catalogueCache[key].map(r => r.slice());
